@@ -1,2 +1,12 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Binary files
+*.glb binary
+*.gltf text
+*.png binary
+*.jpg binary
+*.webp binary
+*.res binary
+*.tres text
+
