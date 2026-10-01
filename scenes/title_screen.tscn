@@ -1,48 +1,326 @@
 [gd_scene format=3 uid="uid://yv267dbktknq"]
 
-[ext_resource type="Script" uid="uid://dqrcaptfa2ibn" path="res://scripts/title_screen.gd" id="1_fgkus"]
+[ext_resource type="Script" uid="uid://dqrcaptfa2ibn" path="res://scripts/title_screen.gd" id="1_title"]
+[ext_resource type="Shader" uid="uid://cuxo1wryyw4ck" path="res://assets/lava_topdown.gdshader" id="2_shader"]
+[ext_resource type="PackedScene" uid="uid://cvoej1wbldbd7" path="res://scenes/bean_visual.tscn" id="3_bean"]
 
-[node name="TitleScreen" type="Node2D" unique_id=1619540909]
-script = ExtResource("1_fgkus")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lava_bg"]
+shader = ExtResource("2_shader")
+shader_parameter/rock_color = Color(0.04, 0.035, 0.04, 1)
+shader_parameter/lava_hot = Color(1, 0.72, 0.15, 1)
+shader_parameter/lava_deep = Color(0.85, 0.16, 0.02, 1)
+shader_parameter/speed = 0.18
+shader_parameter/scale = 4.0
 
-[node name="Label" type="Label" parent="." unique_id=911859544]
-offset_right = 1151.0
-offset_bottom = 188.0
-theme_override_font_sizes/font_size = 65
-text = "PEAK PANIC"
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_preview"]
+sky_top_color = Color(0.2, 0.1, 0.08, 1)
+sky_horizon_color = Color(0.5, 0.2, 0.05, 1)
+ground_bottom_color = Color(0.1, 0.05, 0.02, 1)
+ground_horizon_color = Color(0.3, 0.1, 0.05, 1)
+
+[sub_resource type="Sky" id="Sky_preview"]
+sky_material = SubResource("ProceduralSkyMaterial_preview")
+
+[sub_resource type="Environment" id="Environment_preview"]
+background_mode = 1
+background_color = Color(0, 0, 0, 0)
+sky = SubResource("Sky_preview")
+ambient_light_source = 2
+ambient_light_color = Color(0.7, 0.6, 0.55, 1)
+ambient_light_energy = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pedestal"]
+albedo_color = Color(0.12, 0.11, 0.12, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pedestal"]
+material = SubResource("StandardMaterial3D_pedestal")
+top_radius = 0.65
+bottom_radius = 0.75
+height = 0.12
+radial_segments = 32
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_menu_btn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu_btn_hover"]
+bg_color = Color(1, 0.4, 0.1, 0.15)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.1, 0.08, 0.09, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.25, 0.22, 0.5)
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill_row"]
+bg_color = Color(0.06, 0.05, 0.06, 0.85)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_btn_normal"]
+bg_color = Color(0.2, 0.16, 0.18, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_btn_hover"]
+bg_color = Color(0.85, 0.35, 0.1, 1)
+
+[node name="TitleScreen" type="Control" unique_id=1072900102]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_title")
+
+[node name="LavaBackground" type="ColorRect" parent="." unique_id=1660403535]
+material = SubResource("ShaderMaterial_lava_bg")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="." unique_id=1387363661]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="ViewportContainer" unique_id=2031888740]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="ViewportContainer/SubViewport" unique_id=148114866]
+environment = SubResource("Environment_preview")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="ViewportContainer/SubViewport" unique_id=2062997866]
+transform = Transform3D(0.819152, -0.40558, 0.40558, 0, 0.707107, 0.707107, -0.573576, -0.579228, 0.579228, 2, 3, 2)
+light_color = Color(1, 0.96, 0.9, 1)
+light_energy = 1.4
+
+[node name="FillLight" type="DirectionalLight3D" parent="ViewportContainer/SubViewport" unique_id=1191789235]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -2, 1.5, -2)
+light_color = Color(0.75, 0.85, 1, 1)
+light_energy = 0.8
+
+[node name="LavaGlow" type="OmniLight3D" parent="ViewportContainer/SubViewport" unique_id=1341968066]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.5)
+light_color = Color(1, 0.45, 0.1, 1)
+light_energy = 1.8
+omni_range = 3.5
+
+[node name="PreviewCamera" type="Camera3D" parent="ViewportContainer/SubViewport" unique_id=938550721]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.999742, 0.0227214, 0, -0.0227214, 0.999742, 0, 1.05, 4.4)
+current = true
+fov = 44.0
+
+[node name="Pedestal" type="MeshInstance3D" parent="ViewportContainer/SubViewport" unique_id=776225300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+mesh = SubResource("CylinderMesh_pedestal")
+
+[node name="BeanRoot" type="Node3D" parent="ViewportContainer/SubViewport" unique_id=422738313]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="PreviewBean" parent="ViewportContainer/SubViewport/BeanRoot" unique_id=575795375 instance=ExtResource("3_bean")]
+unique_name_in_owner = true
+
+[node name="UIOverlay" type="MarginContainer" parent="." unique_id=529260381]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 45
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 45
+
+[node name="HBox" type="HBoxContainer" parent="UIOverlay" unique_id=1418426963]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="LeftColumn" type="VBoxContainer" parent="UIOverlay/HBox" unique_id=1731121861]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 24
+
+[node name="TitleLabel" type="RichTextLabel" parent="UIOverlay/HBox/LeftColumn" unique_id=1428644551]
+custom_minimum_size = Vector2(340, 110)
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+text = "[b][font_size=46][wave amp=25 freq=2.0][color=#ff3700]LAVA IS[/color]
+[color=#ff2200]THE [/color][color=#ffa500]FLOOR[/color][/wave][/font_size][/b]"
+fit_content = true
+scroll_active = false
+
+[node name="Spacer" type="Control" parent="UIOverlay/HBox/LeftColumn" unique_id=31708407]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MenuButtons" type="VBoxContainer" parent="UIOverlay/HBox/LeftColumn" unique_id=929295871]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PlayButton" type="Button" parent="UIOverlay/HBox/LeftColumn/MenuButtons" unique_id=1748716517]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 48)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.95, 0.9, 0.85, 0.95)
+theme_override_colors/font_pressed_color = Color(1, 0.5, 0.1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7, 0.2, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_menu_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_menu_btn_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_menu_btn_hover")
+text = "Play"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="UIOverlay/HBox/LeftColumn/MenuButtons" unique_id=1245925556]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 44)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.7, 0.65, 0.6, 0.85)
+theme_override_colors/font_pressed_color = Color(1, 0.5, 0.1, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7, 0.2, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxEmpty_menu_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_menu_btn_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_menu_btn_hover")
+text = "Quit"
+alignment = 0
+
+[node name="CenterSpacer" type="Control" parent="UIOverlay/HBox" unique_id=1763113648]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="RightColumn" type="VBoxContainer" parent="UIOverlay/HBox" unique_id=1944693605]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="CustomizeHeader" type="Label" parent="UIOverlay/HBox/RightColumn" unique_id=2004866429]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.9, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6)
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 28
+text = "CUSTOMIZE"
+horizontal_alignment = 1
+
+[node name="CustomizeCard" type="PanelContainer" parent="UIOverlay/HBox/RightColumn" unique_id=491712843]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="UIOverlay/HBox/RightColumn/CustomizeCard" unique_id=1556823677]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 18
+
+[node name="ControlsVBox" type="VBoxContainer" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin" unique_id=1079196199]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ColorPill" type="PanelContainer" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox" unique_id=83394159]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pill_row")
+
+[node name="HBox" type="HBoxContainer" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox/ColorPill" unique_id=1628190136]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PrevColorButton" type="Button" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox/ColorPill/HBox" unique_id=1169785929]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_arrow_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_arrow_btn_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_arrow_btn_hover")
+text = "◀"
+
+[node name="ColorLabel" type="Label" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox/ColorPill/HBox" unique_id=1456473933]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.95, 0.9, 1)
+theme_override_font_sizes/font_size = 15
+text = "Color: Magma Orange"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="1st Container" type="VBoxContainer" parent="." unique_id=78630125]
-offset_left = 390.0
-offset_top = 260.0
-offset_right = 749.0
-offset_bottom = 334.0
-
-[node name="Singleplayer" type="Button" parent="1st Container" unique_id=1069703388]
+[node name="NextColorButton" type="Button" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox/ColorPill/HBox" unique_id=771743646]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(38, 38)
 layout_mode = 2
-text = "Singleplayer"
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_arrow_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_arrow_btn_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_arrow_btn_hover")
+text = "▶"
 
-[node name="Multiplayer" type="Button" parent="1st Container" unique_id=583964896]
+[node name="EyePill" type="PanelContainer" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox" unique_id=140481923]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "Multiplayer"
+theme_override_styles/panel = SubResource("StyleBoxFlat_pill_row")
 
-[node name="2nd Screen Multiplayer (NOT USED IN testMAIN)" type="Node2D" parent="." unique_id=1213294067]
-visible = false
+[node name="HBox" type="HBoxContainer" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox/EyePill" unique_id=244974236]
+layout_mode = 2
+theme_override_constants/separation = 8
 
-[node name="HOST" type="Button" parent="2nd Screen Multiplayer (NOT USED IN testMAIN)" unique_id=776052761]
-offset_left = 390.0
-offset_top = 295.0
-offset_right = 562.0
-offset_bottom = 326.0
-text = "HOST"
+[node name="PrevEyeButton" type="Button" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox/EyePill/HBox" unique_id=723471017]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_arrow_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_arrow_btn_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_arrow_btn_hover")
+text = "◀"
 
-[node name="JOIN" type="Button" parent="2nd Screen Multiplayer (NOT USED IN testMAIN)" unique_id=208814499]
-offset_left = 570.0
-offset_top = 295.0
-offset_right = 748.0
-offset_bottom = 326.0
-text = "JOIN"
+[node name="EyeLabel" type="Label" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox/EyePill/HBox" unique_id=1540262587]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.95, 0.9, 1)
+theme_override_font_sizes/font_size = 15
+text = "Eyes: Classic"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[connection signal="pressed" from="1st Container/Singleplayer" to="." method="_on_singleplayer_button_pressed"]
-[connection signal="pressed" from="1st Container/Multiplayer" to="." method="_on_multiplayer_button_pressed"]
+[node name="NextEyeButton" type="Button" parent="UIOverlay/HBox/RightColumn/CustomizeCard/Margin/ControlsVBox/EyePill/HBox" unique_id=1116643546]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_arrow_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_arrow_btn_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_arrow_btn_hover")
+text = "▶"
