@@ -9,7 +9,15 @@ extends CharacterBody3D
 @onready var gamertag: Label3D = $Gamertag
 
 const ragdoll_scene = preload("res://scenes/bean_ragdoll.tscn")
+signal player_eliminated(peer_id: int)
+
 var is_dead: bool = false
+@export var is_spectator: bool = false
+@export var spectator_speed: float = 14.0
+
+@onready var collision_shape_3d: CollisionShape3D = $CollisionShape3D
+@onready var hands: Node3D = $hands
+@onready var spectator_hud: CanvasLayer = get_node_or_null("SpectatorHUD") as CanvasLayer
 
 @onready var bean_visual: BeanVisual = get_node_or_null("BeanVisual") as BeanVisual
 
@@ -41,6 +49,11 @@ var ledges_left := 1
 var legding_rn = false
 
 func _ready() -> void:
+	add_to_group("player")
+	add_to_group("alive_players")
+	if spectator_hud:
+		spectator_hud.hide()
+
 	if is_multiplayer_authority():
 		bean_visual.hide()
 		if has_node("/root/PlayerCustomization"):
@@ -59,31 +72,49 @@ func _ready() -> void:
 	camera.make_current()
 
 
-func _unhandled_input(event: InputEvent) -> void: #unhandled inputs heist eif nur, wenn niemand anders bisher sich das hier geholt hat dann hol ich es mir halt
-	if not is_multiplayer_authority() or is_dead: return
-	if event is InputEventMouseMotion: #ohne input map auf shit zugreifen/is dieses event eine a
-		rotate_y(-event.relative.x * mouse_sensitivity) #event.relative.x ist: Wie weit die Maus seit dem letzten Frame horizontal bewegt wurde.
+func _unhandled_input(event: InputEvent) -> void:
+	if not is_multiplayer_authority(): return
+	if event is InputEventMouseMotion:
+		rotate_y(-event.relative.x * mouse_sensitivity)
 		camera.rotate_x(-event.relative.y * mouse_sensitivity)
-		#it makes sense but it doesnt i guess please just with the rotate x and y thingies its annoying fr
-		#because in this cruel world rotate y means looking left/right we dont have the camera before that bc its fine if the whole player turns that fine its even wanted for nice fps movement
-		#but on the next x = y  and no we dont actually want to change the y rotation of the player then we'd fly thats not so cool
-		# also warum auch immer: s
-		#Maus X-Bewegung → Rotation um Y-Achse
-		#Maus Y-Bewegung → Rotation um X-Achse
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
-		#PI ist anschei9nend immer 180 grad einmal die untere hälfte der blase und die obere hälfte der blase wundewrbar in der mitte auf der x der realen x achse durchgeschnitten (pi lol schneiden)
-	if Input.is_action_just_pressed("left_click") and ray_cast_3d.is_colliding():
-		ledge_boost()
+	if not is_dead and not is_spectator:
+		if Input.is_action_just_pressed("left_click") and ray_cast_3d.is_colliding():
+			ledge_boost()
 
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority(): return
+
+	# --- Spectator Mode (Minecraft Freiflug / Noclip) ---
+	if is_spectator:
+		var fly_dir := Vector3.ZERO
+		if Input.is_action_pressed("w"):
+			fly_dir -= camera.global_transform.basis.z
+		if Input.is_action_pressed("s"):
+			fly_dir += camera.global_transform.basis.z
+		if Input.is_action_pressed("d"):
+			fly_dir += camera.global_transform.basis.x
+		if Input.is_action_pressed("a"):
+			fly_dir -= camera.global_transform.basis.x
+		if Input.is_action_pressed("space"):
+			fly_dir.y += 1.0
+		if Input.is_key_pressed(KEY_SHIFT):
+			fly_dir.y -= 1.0
+
+		if fly_dir != Vector3.ZERO:
+			var current_speed = spectator_speed
+			if Input.is_key_pressed(KEY_CTRL):
+				current_speed *= 2.0
+			global_position += fly_dir.normalized() * current_speed * delta
+		return
+
 	if is_dead:
 		velocity = Vector3.ZERO
 		return
 
 	# Fall-Out / Lava-Tod als Absicherung
-	if global_position.y < -15.0 and not is_dead:
+	if global_position.y < -15.0 and not is_dead and not is_spectator:
 		die()
 		return
 
@@ -157,10 +188,13 @@ func _enter_tree() -> void:
 	if id != 0:
 		set_multiplayer_authority(id)
 
+func is_alive() -> bool:
+	return not is_dead and not is_spectator
+
 func die() -> void:
-	if is_dead: return
+	if is_dead or is_spectator: return
 	is_dead = true
-	if multiplayer.has_multiplayer_peer() and is_multiplayer_authority():
+	if multiplayer != null and multiplayer.has_multiplayer_peer() and is_multiplayer_authority():
 		die_rpc.rpc()
 	else:
 		_handle_death()
@@ -171,7 +205,16 @@ func die_rpc() -> void:
 
 func _handle_death() -> void:
 	is_dead = true
+	is_spectator = true
 	velocity = Vector3.ZERO
+
+	# Spieler aus den Lebenden austragen, zu Zuschauern eintragen
+	remove_from_group("alive_players")
+	add_to_group("spectators")
+
+	# Kollision deaktivieren (Noclip: Fliegen durch Wände & keine neuen Lava-Treffer)
+	if collision_shape_3d:
+		collision_shape_3d.set_deferred("disabled", true)
 
 	# 1. Glühende Lava-Explosions-Partikel abfeuern
 	var particles = get_node_or_null("GPUParticles3D") as GPUParticles3D
@@ -187,25 +230,42 @@ func _handle_death() -> void:
 		rag.global_rotation = global_rotation
 		rag.setup(player_color, eye_style, velocity)
 
-	# 3. Eigene visuelle Bohne und Gamertag während des Todes ausblenden
+	# 3. Visuelle Bohne, Gamertag und Hände ausblenden
 	if bean_visual:
 		bean_visual.hide()
 	if gamertag:
 		gamertag.hide()
-
-	# 4. Nach 3 Sekunden respawnen
 	if is_multiplayer_authority():
-		await get_tree().create_timer(3.0).timeout
-		respawn()
+		if hands:
+			hands.hide()
+		if spectator_hud:
+			spectator_hud.show()
+
+	# 4. Eliminierungs-Signal feuern (Hook für Win-Condition / Runden-Logik)
+	var peer_id = 1
+	if multiplayer != null and multiplayer.has_multiplayer_peer():
+		peer_id = multiplayer.get_unique_id()
+	player_eliminated.emit(peer_id)
 
 func respawn() -> void:
 	is_dead = false
+	is_spectator = false
 	global_position = Vector3(0, 5.0, 0)
 	velocity = Vector3.ZERO
-	if not is_multiplayer_authority() and bean_visual:
-		bean_visual.show()
+	if collision_shape_3d:
+		collision_shape_3d.set_deferred("disabled", false)
+	if is_multiplayer_authority():
+		if hands:
+			hands.show()
+		if spectator_hud:
+			spectator_hud.hide()
+	else:
+		if bean_visual:
+			bean_visual.show()
 	if gamertag:
 		gamertag.show()
+	remove_from_group("spectators")
+	add_to_group("alive_players")
 	var particles = get_node_or_null("GPUParticles3D") as GPUParticles3D
 	if particles:
 		particles.emitting = false

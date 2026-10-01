@@ -234,6 +234,7 @@ replication_config = SubResource("SceneReplicationConfig_qhqgy")
 [node name="Gamertag" type="Label3D" parent="." unique_id=849333884]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2152917, 0)
 billboard = 2
+text = "test"
 font_size = 50
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=104666551]
@@ -245,3 +246,19 @@ one_shot = true
 explosiveness = 0.95
 process_material = SubResource("ParticleProcessMaterial_death_lava")
 draw_pass_1 = SubResource("SphereMesh_sdhn1")
+
+[node name="SpectatorHUD" type="CanvasLayer" parent="." unique_id=748291034]
+
+[node name="SpectatorLabel" type="Label" parent="SpectatorHUD" unique_id=748291035]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 54.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.35, 0.95)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 18
+text = "ded you skill issue fr, i mean i guess you can fly aorund now if you want"
+horizontal_alignment = 1
