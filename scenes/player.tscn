@@ -8,6 +8,19 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_k7hc8"]
 
+[sub_resource type="CapsuleMesh" id="BeanMesh"]
+radius = 0.72
+height = 1.85
+
+[sub_resource type="SphereMesh" id="EyeMesh"]
+radius = 0.18
+height = 0.36
+
+[sub_resource type="StandardMaterial3D" id="EyeMaterial"]
+albedo_color = Color(0.015, 0.008, 0.025, 1)
+metallic = 0.15
+roughness = 0.25
+
 [sub_resource type="Animation" id="Animation_dqkch"]
 length = 1.7
 tracks/0/type = "value"
@@ -152,6 +165,24 @@ SPEED = 8.0
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1654876221]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_k7hc8")
+visible = false
+
+[node name="BeanBody" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1, 0)
+mesh = SubResource("BeanMesh")
+
+[node name="Eyes" type="Node3D" parent="."]
+position = Vector3(0, 1.2, -0.67)
+
+[node name="LeftEye" type="MeshInstance3D" parent="Eyes"]
+position = Vector3(-0.27, 0.08, 0)
+mesh = SubResource("EyeMesh")
+material_override = SubResource("EyeMaterial")
+
+[node name="RightEye" type="MeshInstance3D" parent="Eyes"]
+position = Vector3(0.27, 0.08, 0)
+mesh = SubResource("EyeMesh")
+material_override = SubResource("EyeMaterial")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=602939805]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

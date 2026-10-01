@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Noray="*uid://gu4bv4tgms3x"
 PacketHandshake="*uid://tt3j25a05n7c"
+GameSettings="*res://scripts/game_settings.gd"
 
 [display]
 

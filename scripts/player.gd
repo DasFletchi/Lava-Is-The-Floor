@@ -5,6 +5,9 @@ extends CharacterBody3D
 @onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
 @onready var ray_cast_3d: RayCast3D = $RayCast3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var bean_body: MeshInstance3D = $BeanBody
+@onready var left_eye: MeshInstance3D = $Eyes/LeftEye
+@onready var right_eye: MeshInstance3D = $Eyes/RightEye
 
 
 @export var SPEED = 5.0
@@ -22,10 +25,13 @@ var coyote_timer := 0.0 #das zeit dem program das es sich hier um ne float hande
 var jump_buffer_timer := 0.0
 var ledges_left := 1
 var legding_rn = false
+var eliminated := false
+const LAVA_RAGDOLL_SCENE := preload("res://scenes/lava_ragdoll.tscn")
 
 func _ready() -> void:
+	_apply_bean_look()
 	if not is_multiplayer_authority(): return
-	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	#animation_player.playback_default_blend_time = anim_transition_time #geiles godot feature damit man nicht so snappy von animation zu animation wechselts
 	animation_player.animation_finished.connect(_on_animation_finished)
 	animation_player.play("RESET")
@@ -51,6 +57,8 @@ func _unhandled_input(event: InputEvent) -> void: #unhandled inputs heist eif nu
 
 
 func _physics_process(delta: float) -> void:
+	if eliminated:
+		return
 	if not is_multiplayer_authority(): return
 
 	# --- Gravity: brutal while falling, fair while rising ---
@@ -117,3 +125,33 @@ func _on_animation_finished(anim_name: StringName) -> void:
 
 func _enter_tree() -> void: #Diese Funktion wird ganz früh aufgerufen, noch bevor die Node komplett in der Szene geladen ist (also vor _ready). Das ist wichtig, damit die "Machtverhältnisse" geklärt sind, bevor das Spiel richtig losgeht.
 	set_multiplayer_authority(str(name).to_int()) #grabbt sich den namen von der node die wir als peer id gesetzt haben und macht zu int damit er es essen kann und der node authority geben kann
+
+func eliminate() -> void:
+	if eliminated:
+		return
+	eliminated = true
+	_spawn_lava_ragdoll()
+	velocity = Vector3.ZERO
+	visible = false
+	$CollisionShape3D.set_deferred("disabled", true)
+
+func _spawn_lava_ragdoll() -> void:
+	var ragdoll := LAVA_RAGDOLL_SCENE.instantiate()
+	ragdoll.global_transform = global_transform
+	ragdoll.set_appearance(GameSettings.bean_color, GameSettings.eye_style)
+	# The torque makes every elimination look like a dramatic, silly tumble.
+	ragdoll.angular_velocity = Vector3(randf_range(-7.0, 7.0), randf_range(-7.0, 7.0), randf_range(-7.0, 7.0))
+	get_parent().call_deferred("add_child", ragdoll)
+
+func _apply_bean_look() -> void:
+	var body_material := StandardMaterial3D.new()
+	body_material.albedo_color = GameSettings.bean_color
+	body_material.metallic = 0.08
+	body_material.roughness = 0.36
+	bean_body.material_override = body_material
+	if GameSettings.eye_style == 1:
+		left_eye.scale = Vector3(1.35, 1.35, 1.0)
+		right_eye.scale = Vector3(1.35, 1.35, 1.0)
+	elif GameSettings.eye_style == 2:
+		left_eye.rotation.z = 0.38
+		right_eye.rotation.z = -0.38

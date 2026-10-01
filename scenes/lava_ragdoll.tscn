@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/lava_ragdoll.gd" id="1"]
+
+[sub_resource type="CapsuleMesh" id="BeanMesh"]
+radius = 0.72
+height = 1.85
+
+[sub_resource type="CapsuleShape3D" id="BeanShape"]
+radius = 0.72
+height = 1.85
+
+[sub_resource type="SphereMesh" id="EyeMesh"]
+radius = 0.18
+height = 0.36
+
+[sub_resource type="StandardMaterial3D" id="EyeMaterial"]
+albedo_color = Color(0.015, 0.008, 0.025, 1)
+metallic = 0.15
+roughness = 0.25
+
+[node name="LavaRagdoll" type="RigidBody3D"]
+mass = 0.7
+gravity_scale = 1.35
+linear_damp = 0.2
+angular_damp = 0.15
+script = ExtResource("1")
+
+[node name="BeanBody" type="MeshInstance3D" parent="."]
+mesh = SubResource("BeanMesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BeanShape")
+
+[node name="Eyes" type="Node3D" parent="."]
+position = Vector3(0, 0.2, -0.67)
+
+[node name="LeftEye" type="MeshInstance3D" parent="Eyes"]
+position = Vector3(-0.27, 0.08, 0)
+mesh = SubResource("EyeMesh")
+material_override = SubResource("EyeMaterial")
+
+[node name="RightEye" type="MeshInstance3D" parent="Eyes"]
+position = Vector3(0.27, 0.08, 0)
+mesh = SubResource("EyeMesh")
+material_override = SubResource("EyeMaterial")
