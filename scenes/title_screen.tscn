@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dqrcaptfa2ibn" path="res://scripts/title_screen.gd" id="1_title"]
 [ext_resource type="Shader" uid="uid://cuxo1wryyw4ck" path="res://assets/lava_topdown.gdshader" id="2_shader"]
 [ext_resource type="PackedScene" uid="uid://cvoej1wbldbd7" path="res://scenes/bean_visual.tscn" id="3_bean"]
+[ext_resource type="PackedScene" uid="uid://cxg4ojnhul1jt" path="res://assets/hands/Hand_003.glb" id="4_hands"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lava_bg"]
 shader = ExtResource("2_shader")
@@ -63,6 +64,52 @@ bg_color = Color(0.2, 0.16, 0.18, 0.9)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_btn_hover"]
 bg_color = Color(0.85, 0.35, 0.1, 1)
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("hands/Sketchfab_Scene:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.001, 1, 1.001, 2, 2.001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.10821, 0, 0), Vector3(-0.10821, 0, 0), Vector3(-0.240855, 0, 0), Vector3(-0.240855, 0, 0), Vector3(-0.10821, 0, 0), Vector3(-0.10821, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("hands:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.522, 0), Vector3(0, -0.401224, 0), Vector3(0, -0.522, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("hands/Sketchfab_Scene2:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(-0.0333333, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.10821, 0.001745, -3.14159), Vector3(0.240855, 0.001745, -3.14159), Vector3(0.10821, 0.001745, -3.14159)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hands"]
+_data = {
+&"idle": SubResource("Animation_idle")
+}
 
 [node name="TitleScreen" type="Control" unique_id=1072900102]
 layout_mode = 3
@@ -134,6 +181,19 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 
 [node name="PreviewBean" parent="ViewportContainer/SubViewport/BeanRoot" unique_id=575795375 instance=ExtResource("3_bean")]
 unique_name_in_owner = true
+
+[node name="hands" type="Node3D" parent="ViewportContainer/SubViewport/BeanRoot" unique_id=1045537678]
+transform = Transform3D(0.06758405, 0, 0.99771357, 0, 1, 0, -0.99771357, 0, 0.06758405, 0, -0.4012242, 0)
+
+[node name="Sketchfab_Scene" parent="ViewportContainer/SubViewport/BeanRoot/hands" unique_id=958428168 instance=ExtResource("4_hands")]
+transform = Transform3D(-0.003999995, 6.6814867e-25, 2.9205733e-32, 0, 1.7484528e-10, -0.0039999974, 6.681489e-25, 0.0039999937, 1.7484544e-10, 0.010049485, 1.5999999, 0.9871196)
+
+[node name="Sketchfab_Scene2" parent="ViewportContainer/SubViewport/BeanRoot/hands" unique_id=394199783 instance=ExtResource("4_hands")]
+transform = Transform3D(-0.0039999946, -6.9816615e-06, -3.0516288e-13, -1.5285485e-17, 1.7484553e-10, -0.0039999997, 6.9816642e-06, -0.003999993, -1.7484528e-10, -0.032000065, 1.5999999, -0.876)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ViewportContainer/SubViewport/BeanRoot" unique_id=2050154353]
+libraries/ = SubResource("AnimationLibrary_hands")
+autoplay = "idle"
 
 [node name="UIOverlay" type="MarginContainer" parent="." unique_id=529260381]
 layout_mode = 1
