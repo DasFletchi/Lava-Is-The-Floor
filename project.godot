@@ -10,13 +10,14 @@ config_version=5
 
 [application]
 
-config/name="Peak Panic"
+config/name="Lava is the Floor"
 run/main_scene="uid://yv267dbktknq"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
+PlayerCustomization="*uid://cj5vm55hnayfm"
 Noray="*uid://gu4bv4tgms3x"
 PacketHandshake="*uid://tt3j25a05n7c"
 
