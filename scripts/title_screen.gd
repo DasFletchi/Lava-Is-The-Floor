@@ -4,6 +4,10 @@ extends Control
 @onready var play_button: Button = %PlayButton
 @onready var quit_button: Button = %QuitButton
 
+@onready var level_1_button: Button = $"UIOverlay/HBox/LeftColumn/LevelSelect Button/Level1Button"
+@onready var back_button: Button = $"UIOverlay/HBox/LeftColumn/LevelSelect Button/BackButton"
+
+
 # Customizer controls (Grapples Galore carousel style)
 @onready var prev_color_button: Button = %PrevColorButton
 @onready var next_color_button: Button = %NextColorButton
@@ -25,6 +29,10 @@ extends Control
 # Music Players
 @onready var title_track_1: AudioStreamPlayer2D = $TitleTrack1
 @onready var title_track_2: AudioStreamPlayer2D = $TitleTrack2
+
+# VBoxContainers
+@onready var menu_buttons: VBoxContainer = $UIOverlay/HBox/LeftColumn/MenuButtons
+@onready var level_select_buttons: VBoxContainer = $"UIOverlay/HBox/LeftColumn/LevelSelect Button"
 
 
 var customizer: Node = null
@@ -117,10 +125,8 @@ func _on_viewport_gui_input(event: InputEvent) -> void:
 		current_yaw += dx * 0.015
 
 func _on_play_pressed() -> void:
-	if gamertag != null and not gamertag.text.strip_edges().is_empty():
-		PlayerCustomization.player_name = gamertag.text.strip_edges()
-		PlayerCustomization.save_data()
-	get_tree().change_scene_to_file("res://scenes/testMain.tscn")
+	menu_buttons.hide()
+	level_select_buttons.show()
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
@@ -160,3 +166,14 @@ func _apply_to_preview(col: Color, eye_id: int, bounce: bool = true) -> void:
 		tween.tween_property(bean_root, "scale", Vector3(1.1, 0.9, 1.1), 0.08)
 		tween.tween_property(bean_root, "scale", Vector3(0.95, 1.05, 0.95), 0.10)
 		tween.tween_property(bean_root, "scale", Vector3(1.0, 1.0, 1.0), 0.08)
+
+
+func _on_level_1_button_pressed() -> void:
+	if gamertag != null and not gamertag.text.strip_edges().is_empty():
+		PlayerCustomization.player_name = gamertag.text.strip_edges()
+		PlayerCustomization.save_data()
+		get_tree().change_scene_to_file("res://scenes/Level1.tscn")
+
+func _on_back_button_pressed() -> void:
+	level_select_buttons.hide()
+	menu_buttons.show()

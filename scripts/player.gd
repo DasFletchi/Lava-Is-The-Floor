@@ -23,12 +23,6 @@ var is_dead: bool = false
 		eye_style = val
 		_apply_visuals()
 
-@export var player_name_sync: String = "":
-	set(val):
-		player_name_sync = val
-		if gamertag:
-			gamertag.text = val
-
 
 @export var SPEED = 5.0
 const JUMP_VELOCITY = 4.8
@@ -53,28 +47,16 @@ func _ready() -> void:
 			var cust = get_node("/root/PlayerCustomization")
 			player_color = cust.selected_color
 			eye_style = cust.selected_eye_style
-			player_name_sync = cust.player_name
+			if gamertag:
+				gamertag.text = cust.player_name
 		_apply_visuals()
-		if gamertag:
-			gamertag.text = player_name_sync
-		if multiplayer.has_multiplayer_peer():
-			sync_customization.rpc(player_color, eye_style, player_name_sync)
-			multiplayer.peer_connected.connect(_on_peer_connected)
 	else:
 		_apply_visuals()
-		if gamertag and not player_name_sync.is_empty():
-			gamertag.text = player_name_sync
 
 	if not is_multiplayer_authority(): return
-	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	#animation_player.playback_default_blend_time = anim_transition_time #geiles godot feature damit man nicht so snappy von animation zu animation wechselts
 	animation_player.animation_finished.connect(_on_animation_finished)
 	animation_player.play("RESET")
-	camera.make_current()# der code wird eh nicht ausgefüll wenn wir nicht big server authority haben
-
-	if gamertag and has_node("/root/PlayerCustomization"):
-		var cust = get_node("/root/PlayerCustomization")
-		gamertag.text = cust.player_name
+	camera.make_current()
 
 
 func _unhandled_input(event: InputEvent) -> void: #unhandled inputs heist eif nur, wenn niemand anders bisher sich das hier geholt hat dann hol ich es mir halt
@@ -175,20 +157,6 @@ func _enter_tree() -> void:
 	if id != 0:
 		set_multiplayer_authority(id)
 
-func _on_peer_connected(peer_id: int) -> void:
-	if is_multiplayer_authority() and multiplayer.has_multiplayer_peer():
-		sync_customization.rpc_id(peer_id, player_color, eye_style, player_name_sync)
-
-@rpc("any_peer", "call_local", "reliable")
-func sync_customization(col: Color, eyes: int, p_name: String = "") -> void:
-	player_color = col
-	eye_style = eyes
-	if not p_name.is_empty():
-		player_name_sync = p_name
-		if gamertag:
-			gamertag.text = p_name
-	_apply_visuals()
-
 func die() -> void:
 	if is_dead: return
 	is_dead = true
@@ -205,7 +173,13 @@ func _handle_death() -> void:
 	is_dead = true
 	velocity = Vector3.ZERO
 
-	# Ragdoll spawnen
+	# 1. Glühende Lava-Explosions-Partikel abfeuern
+	var particles = get_node_or_null("GPUParticles3D") as GPUParticles3D
+	if particles:
+		particles.restart()
+		particles.emitting = true
+
+	# 2. Physikalisches Bohnen-Ragdoll spawnen
 	if ragdoll_scene:
 		var rag = ragdoll_scene.instantiate()
 		get_parent().add_child(rag)
@@ -213,13 +187,13 @@ func _handle_death() -> void:
 		rag.global_rotation = global_rotation
 		rag.setup(player_color, eye_style, velocity)
 
-	# Eigene visuelle Bohne und Gamertag während des Todes ausblenden
+	# 3. Eigene visuelle Bohne und Gamertag während des Todes ausblenden
 	if bean_visual:
 		bean_visual.hide()
 	if gamertag:
 		gamertag.hide()
 
-	# Nach kurzer Zeit respawnen
+	# 4. Nach 3 Sekunden respawnen
 	if is_multiplayer_authority():
 		await get_tree().create_timer(3.0).timeout
 		respawn()
@@ -232,6 +206,9 @@ func respawn() -> void:
 		bean_visual.show()
 	if gamertag:
 		gamertag.show()
+	var particles = get_node_or_null("GPUParticles3D") as GPUParticles3D
+	if particles:
+		particles.emitting = false
 
 func _apply_visuals() -> void:
 	if bean_visual == null:

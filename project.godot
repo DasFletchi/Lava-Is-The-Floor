@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 PlayerCustomization="*uid://cj5vm55hnayfm"
 Noray="*uid://gu4bv4tgms3x"
 PacketHandshake="*uid://tt3j25a05n7c"
+UISound="*res://globals/ui_sound.gd"
 
 [display]
 
@@ -34,7 +35,15 @@ enabled=PackedStringArray("res://addons/go_placer/plugin.cfg", "res://addons/net
 
 folder_colors={
 "res://Archive/": "purple",
-"res://addons/": "gray"
+"res://addons/": "gray",
+"res://assets/": "yellow",
+"res://globals/": "blue",
+"res://music/": "pink",
+"res://palettes/": "teal",
+"res://scenes/": "orange",
+"res://scripts/": "green",
+"res://sfx/": "red",
+"res://shaders/": "purple"
 }
 
 [input]
