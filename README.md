@@ -47,3 +47,9 @@ Official releases of Lava is the Floor may be distributed through platforms such
 For commercial usage, strict no.
 
 alr bye have fun :)
+
+
+
+
+
+everything but grinding flux and devlogs fr 😔
