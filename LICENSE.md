@@ -1,10 +1,10 @@
-# Peak Panic Source Available License
+# Lava is the Floor Source Available License
 
 Copyright (c) 2026 DasFletchi
 
 ## 1. Overview
 
-Peak Panic is source-available software.
+Lava is the Floor is source-available software.
 
 The source code is publicly available to allow learning, contribution, experimentation, and community modifications. This license defines what users are and are not allowed to do with the project.
 
@@ -21,16 +21,16 @@ You are allowed to:
 
 You are not allowed to:
 
-- Sell Peak Panic or modified versions of Peak Panic.
+- Sell Lava is the Floor or modified versions of Lava is the Floor.
 - Distribute modified or unmodified versions of the project as your own work without explicit permission from the creator.
-- Rebrand, rename, or present Peak Panic or its contents as an official project, your own project, or a project unrelated to the original creator.
+- Rebrand, rename, or present Lava is the Floor or its contents as an official project, your own project, or a project unrelated to the original creator.
 - Use the game's assets, code, or content in unrelated projects or projects intended for public distribution without explicit permission from the creator.
-- Claim ownership or authorship of Peak Panic or its original content.
+- Claim ownership or authorship of Lava is the Floor or its original content.
 - Attempt to bypass these restrictions through rebranding, repackaging, redistribution, or any other method intended to avoid the terms of this license.
 
 ## 4. Contributions
 
-Contributions submitted to this project may be used, modified, and distributed as part of Peak Panic by the creator.
+Contributions submitted to this project may be used, modified, and distributed as part of Lava is the Floor by the creator.
 
 Contributors retain credit for their work but do not gain ownership rights over the project or any revenue generated from it.
 
@@ -54,7 +54,7 @@ The creator is not responsible for any damages, issues, or consequences caused b
 
 ## 7. Creator Rights
 
-The creator retains all rights to Peak Panic, including but not limited to the rights to:
+The creator retains all rights to Lava is the Floor, including but not limited to the rights to:
 
 - Monetize the project.
 - Archive the project.
@@ -62,13 +62,13 @@ The creator retains all rights to Peak Panic, including but not limited to the r
 - Discontinue development.
 - Remove the project from public availability.
 
-Official releases of Peak Panic may be distributed through platforms such as Steam or itch.io.
+Official releases of Lava is the Floor may be distributed through platforms such as Steam or itch.io.
 
 Compiling the source code for personal use is allowed, but purchasing official releases supports the creator.
 
 ## 8. Commercial Use
 
-Commercial use of Peak Panic or any part of the project is strictly prohibited.
+Commercial use of Lava is the Floor or any part of the project is strictly prohibited.
 
 ## 9. Credits
 
