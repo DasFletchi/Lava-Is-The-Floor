@@ -4,6 +4,8 @@
 [ext_resource type="Shader" uid="uid://cuxo1wryyw4ck" path="res://assets/lava_topdown.gdshader" id="2_shader"]
 [ext_resource type="PackedScene" uid="uid://cvoej1wbldbd7" path="res://scenes/bean_visual.tscn" id="3_bean"]
 [ext_resource type="PackedScene" uid="uid://cxg4ojnhul1jt" path="res://assets/hands/Hand_003.glb" id="4_hands"]
+[ext_resource type="AudioStream" uid="uid://itkgfaj7ek8w" path="res://music/chosic/Rafael_Archangel_-_07_-_Machine_-_174bpm(chosic.com).mp3" id="5_e54dn"]
+[ext_resource type="AudioStream" uid="uid://t6ga1h1reojd" path="res://music/chosic/Rafael_Archangel_-_08_-_Two_Heads_-_174bpm(chosic.com).mp3" id="6_3yumr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lava_bg"]
 shader = ExtResource("2_shader")
@@ -388,3 +390,13 @@ text = "▶"
 [node name="Gamertag" type="LineEdit" parent="UIOverlay/HBox/RightColumn" unique_id=599737009]
 layout_mode = 2
 placeholder_text = "Gamertag:"
+
+[node name="TitleTrack1" type="AudioStreamPlayer2D" parent="." unique_id=1975685387]
+stream = ExtResource("5_e54dn")
+volume_db = -15.0
+parameters/looping = true
+
+[node name="TitleTrack2" type="AudioStreamPlayer2D" parent="." unique_id=1141702503]
+stream = ExtResource("6_3yumr")
+volume_db = -15.0
+parameters/looping = true

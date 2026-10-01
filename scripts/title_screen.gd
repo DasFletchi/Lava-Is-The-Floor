@@ -22,6 +22,10 @@ extends Control
 # Line Edit
 @onready var gamertag: LineEdit = $UIOverlay/HBox/RightColumn/Gamertag
 
+# Music Players
+@onready var title_track_1: AudioStreamPlayer2D = $TitleTrack1
+@onready var title_track_2: AudioStreamPlayer2D = $TitleTrack2
+
 
 var customizer: Node = null
 var is_dragging: bool = false
@@ -75,10 +79,23 @@ func _ready() -> void:
 		gamertag.text = PlayerCustomization.player_name
 		gamertag.text_changed.connect(_on_gamertag_changed)
 
+
+
+	var music_player_title = randi() % 2
+	print("used title track:", music_player_title)
+	if music_player_title == 1:
+		title_track_1.play()
+	else:
+		title_track_2.play()
+
+
+
 func _on_gamertag_changed(new_text: String) -> void:
 	if not new_text.strip_edges().is_empty():
 		PlayerCustomization.player_name = new_text.strip_edges()
 		PlayerCustomization.save_data()
+
+
 
 func _process(delta: float) -> void:
 	if bean_root == null: return
