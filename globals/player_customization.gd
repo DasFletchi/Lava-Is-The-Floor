@@ -10,7 +10,7 @@ const EYE_STYLES: Array[Dictionary] = [
 	{"id": 1, "name": "Derp", "icon": "🤪"},
 	{"id": 2, "name": "Angry", "icon": "😠"},
 	{"id": 3, "name": "Happy", "icon": "^^"},
-	{"id": 4, "name": "Shades", "icon": "🕶️"},
+	{"id": 4, "name": "Henrik", "icon": "🕶️"},
 	{"id": 5, "name": "Cyclops", "icon": "👁️"},
 	{"id": 6, "name": "Shocked", "icon": "😲"},
 	{"id": 7, "name": "Sleepy", "icon": "😴"},
