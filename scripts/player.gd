@@ -5,6 +5,7 @@ extends CharacterBody3D
 @onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
 @onready var ray_cast_3d: RayCast3D = $RayCast3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var temp_player: CharacterBody3D = $"."
 
 
 @onready var bean_visual: BeanVisual = get_node_or_null("BeanVisual") as BeanVisual
@@ -38,6 +39,7 @@ var legding_rn = false
 
 func _ready() -> void:
 	if is_multiplayer_authority():
+		bean_visual.hide()
 		if has_node("/root/PlayerCustomization"):
 			var cust = get_node("/root/PlayerCustomization")
 			player_color = cust.selected_color
@@ -163,4 +165,3 @@ func _apply_visuals() -> void:
 		bean_visual = get_node_or_null("BeanVisual") as BeanVisual
 	if is_instance_valid(bean_visual):
 		bean_visual.apply_customization(player_color, eye_style)
-
