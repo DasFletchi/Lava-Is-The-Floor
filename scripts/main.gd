@@ -107,6 +107,10 @@ func _on_join_pressed() -> void:
 	#enet_peer.create_client("localhost", PORT) #das ist erstmal die ip whohin wir uns verbinden sollen, wir sind hier local also ist das fine
 	#multiplayer.multiplayer_peer = enet_peer
 
+func _on_back_pressed() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
+
 func join(address: String, port: int) -> void: #ich nehme an das wir hier weil da einfach code anfällig ist für nochmal genau spezifizieren was das überhaupt für ein filetpy eist mit dem adress und port mit string und int
 	enet_peer.create_client(address, port, 0, 0, 0, Noray.local_port)
 	multiplayer.multiplayer_peer = enet_peer

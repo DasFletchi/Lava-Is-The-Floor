@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cv1ril2ejq4e0" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://cqxr6fvowpx4q" path="res://scripts/crosshair.gd" id="3_crosshair"]
 [ext_resource type="PackedScene" uid="uid://cxg4ojnhul1jt" path="res://assets/hands/Hand_003.glb" id="3_qhqgy"]
+[ext_resource type="PackedScene" uid="uid://dbea0visual123" path="res://scenes/bean_visual.tscn" id="4_bean"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_k7hc8"]
 
@@ -144,6 +145,12 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath("AnimationPlayer:current_animation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath(".:player_color")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:eye_style")
+properties/4/spawn = true
+properties/4/replication_mode = 2
 
 [node name="tempPlayer" type="CharacterBody3D" unique_id=1070925469]
 script = ExtResource("1_3vyb7")
@@ -151,7 +158,10 @@ SPEED = 8.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1654876221]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_k7hc8")
+
+[node name="BeanVisual" parent="." instance=ExtResource("4_bean")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=602939805]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

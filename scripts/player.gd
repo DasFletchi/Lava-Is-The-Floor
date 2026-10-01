@@ -7,6 +7,19 @@ extends CharacterBody3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
+@onready var bean_visual: BeanVisual = get_node_or_null("BeanVisual") as BeanVisual
+
+@export var player_color: Color = Color("ff4500"):
+	set(val):
+		player_color = val
+		_apply_visuals()
+
+@export var eye_style: int = 0:
+	set(val):
+		eye_style = val
+		_apply_visuals()
+
+
 @export var SPEED = 5.0
 const JUMP_VELOCITY = 4.8
 
@@ -24,6 +37,18 @@ var ledges_left := 1
 var legding_rn = false
 
 func _ready() -> void:
+	if is_multiplayer_authority():
+		if has_node("/root/PlayerCustomization"):
+			var cust = get_node("/root/PlayerCustomization")
+			player_color = cust.selected_color
+			eye_style = cust.selected_eye_style
+		_apply_visuals()
+		if multiplayer.has_multiplayer_peer():
+			sync_customization.rpc(player_color, eye_style)
+			multiplayer.peer_connected.connect(_on_peer_connected)
+	else:
+		_apply_visuals()
+
 	if not is_multiplayer_authority(): return
 	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	#animation_player.playback_default_blend_time = anim_transition_time #geiles godot feature damit man nicht so snappy von animation zu animation wechselts
@@ -94,6 +119,9 @@ func _physics_process(delta: float) -> void:
 	
 	if is_on_floor():
 		ledges_left = 1
+		# Lava floor check: the floor is lava!
+		if global_position.y <= 0.6:
+			velocity.y = JUMP_VELOCITY * 1.8 # Big fiery lava bounce!
 
 
 	if legding_rn:
@@ -115,5 +143,24 @@ func _on_animation_finished(anim_name: StringName) -> void:
 		legding_rn = false
 
 
-func _enter_tree() -> void: #Diese Funktion wird ganz früh aufgerufen, noch bevor die Node komplett in der Szene geladen ist (also vor _ready). Das ist wichtig, damit die "Machtverhältnisse" geklärt sind, bevor das Spiel richtig losgeht.
-	set_multiplayer_authority(str(name).to_int()) #grabbt sich den namen von der node die wir als peer id gesetzt haben und macht zu int damit er es essen kann und der node authority geben kann
+func _enter_tree() -> void:
+	var id = str(name).to_int()
+	if id != 0:
+		set_multiplayer_authority(id)
+
+func _on_peer_connected(peer_id: int) -> void:
+	if is_multiplayer_authority() and multiplayer.has_multiplayer_peer():
+		sync_customization.rpc_id(peer_id, player_color, eye_style)
+
+@rpc("any_peer", "call_local", "reliable")
+func sync_customization(col: Color, eyes: int) -> void:
+	player_color = col
+	eye_style = eyes
+	_apply_visuals()
+
+func _apply_visuals() -> void:
+	if bean_visual == null:
+		bean_visual = get_node_or_null("BeanVisual") as BeanVisual
+	if is_instance_valid(bean_visual):
+		bean_visual.apply_customization(player_color, eye_style)
+

@@ -16,6 +16,13 @@ background_mode = 2
 sky = SubResource("Sky_o5qli")
 volumetric_fog_density = 0.0308
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lava_floor"]
+albedo_color = Color(0.95, 0.22, 0.05, 1)
+emission_enabled = true
+emission = Color(1, 0.35, 0.05, 1)
+emission_energy_multiplier = 2.5
+roughness = 0.7
+
 [node name="testMain" type="Node3D" unique_id=1884375871]
 script = ExtResource("1_nllki")
 
@@ -30,6 +37,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.62865, -0.23424911, 12.108612)
 use_collision = true
 size = Vector3(62.57727, 1, 55.6792)
+material = SubResource("StandardMaterial3D_lava_floor")
 
 [node name="env" type="Node" parent="." unique_id=746808923]
 
@@ -68,7 +76,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=690953676]
 layout_mode = 2
-text = "==MULTIPLAYER=="
+text = "== LAVA IS THE FLOOR - MULTIPLAYER LOBBY =="
 horizontal_alignment = 1
 
 [node name="Host" type="Button" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=473521978]
@@ -84,6 +92,10 @@ layout_mode = 2
 placeholder_text = "Enter Addres to join"
 alignment = 1
 
+[node name="Back" type="Button" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=987654321]
+layout_mode = 2
+text = "◀ Back to Title Screen"
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1430016727]
 _spawnable_scenes = PackedStringArray("uid://dranyd23io7tw")
 spawn_path = NodePath("..")
@@ -96,3 +108,4 @@ spawn_path = NodePath("../PlattformSpawnerManager")
 
 [connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Back" to="." method="_on_back_pressed"]
