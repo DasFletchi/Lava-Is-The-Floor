@@ -5,6 +5,8 @@ signal customization_changed(color: Color, eye_style: int)
 
 const SAVE_PATH = "user://bean_customization.cfg"
 
+var player_name: String = "Player"
+
 const EYE_STYLES: Array[Dictionary] = [
 	{"id": 0, "name": "Classic", "icon": "👀"},
 	{"id": 1, "name": "Derp", "icon": "🤪"},

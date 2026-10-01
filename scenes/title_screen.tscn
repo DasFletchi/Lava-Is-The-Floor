@@ -384,3 +384,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_arrow_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_arrow_btn_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_arrow_btn_hover")
 text = "▶"
+
+[node name="Gamertag" type="LineEdit" parent="UIOverlay/HBox/RightColumn" unique_id=599737009]
+layout_mode = 2
+placeholder_text = "Gamertag:"

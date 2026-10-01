@@ -6,6 +6,7 @@ extends CharacterBody3D
 @onready var ray_cast_3d: RayCast3D = $RayCast3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var temp_player: CharacterBody3D = $"."
+@onready var gamertag: Label3D = $Gamertag
 
 
 @onready var bean_visual: BeanVisual = get_node_or_null("BeanVisual") as BeanVisual
@@ -58,6 +59,8 @@ func _ready() -> void:
 	animation_player.play("RESET")
 	camera.make_current()# der code wird eh nicht ausgefüll wenn wir nicht big server authority haben
 
+
+	gamertag.text = PlayerCustomization.player_name
 
 
 func _unhandled_input(event: InputEvent) -> void: #unhandled inputs heist eif nur, wenn niemand anders bisher sich das hier geholt hat dann hol ich es mir halt

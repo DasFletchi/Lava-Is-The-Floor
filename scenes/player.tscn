@@ -205,3 +205,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1895323557]
 replication_config = SubResource("SceneReplicationConfig_qhqgy")
+
+[node name="Gamertag" type="Label3D" parent="." unique_id=849333884]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2152917, 0)
+billboard = 2
+text = "test"
+font_size = 50

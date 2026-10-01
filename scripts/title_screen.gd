@@ -19,6 +19,10 @@ extends Control
 @onready var preview_bean: BeanVisual = %PreviewBean
 @onready var preview_camera: Camera3D = %PreviewCamera
 
+# Line Edit
+@onready var gamertag: LineEdit = $UIOverlay/HBox/RightColumn/Gamertag
+
+
 var customizer: Node = null
 var is_dragging: bool = false
 var last_mouse_x: float = 0.0
@@ -65,6 +69,9 @@ func _ready() -> void:
 		cust.customization_changed.connect(_on_customization_changed)
 		_update_ui()
 		_apply_to_preview(cust.selected_color, cust.selected_eye_style, false)
+	
+	
+	PlayerCustomization.player_name = gamertag.text
 
 func _process(delta: float) -> void:
 	if bean_root == null: return
