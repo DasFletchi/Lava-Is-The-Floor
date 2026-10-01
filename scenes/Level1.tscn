@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://61b4bctuy3yq" path="res://assets/Modular Blueprint Kit/glTF/WL_CROSS.gltf" id="2_op21l"]
 [ext_resource type="PackedScene" uid="uid://wxauruiuc8qd" path="res://assets/Modular Blueprint Kit/glTF/WL_WINDOW.gltf" id="3_b3nqb"]
 [ext_resource type="PackedScene" uid="uid://ddu6uylpn572k" path="res://scenes/lava.tscn" id="4_lava"]
+[ext_resource type="AudioStream" uid="uid://bk6v4jqj7ot83" path="res://music/chosic/Loyalty_Freak_Music_-_04_-_Cant_Stop_My_Feet_(chosic.com).mp3" id="5_lrl65"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sgp6g"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -96,6 +97,11 @@ _spawnable_scenes = PackedStringArray("uid://sit562i22d73", "uid://bqndtmbe42vyi
 spawn_path = NodePath("../PlattformSpawnerManager")
 
 [node name="PlattformSpawnerManager" type="Node" parent="." unique_id=841895833]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=419141648]
+stream = ExtResource("5_lrl65")
+volume_db = -30.0
+autoplay = true
 
 [connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Join" to="." method="_on_join_pressed"]
