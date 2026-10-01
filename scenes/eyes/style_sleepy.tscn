@@ -1,0 +1,74 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eynei"]
+roughness = 0.25
+
+[sub_resource type="SphereMesh" id="SphereMesh_d06fg"]
+radius = 0.15
+height = 0.3
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yfosj"]
+albedo_color = Color(0.06666667, 0.06666667, 0.06666667, 1)
+roughness = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_itxqg"]
+radius = 0.08
+height = 0.16
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_satag"]
+albedo_color = Color(1, 0.27058825, 0, 1)
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_pehhl"]
+size = Vector3(0.28, 0.12, 0.08)
+
+[sub_resource type="SphereMesh" id="SphereMesh_fhnai"]
+radius = 0.15
+height = 0.3
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_x4w71"]
+radius = 0.08
+height = 0.16
+radial_segments = 16
+rings = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_kykrw"]
+size = Vector3(0.28, 0.12, 0.08)
+
+[node name="Style_Sleepy" type="Node3D" unique_id=18048599]
+
+[node name="ScleraLeft" type="MeshInstance3D" parent="." unique_id=25344999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, -0.18, 0, -0.45)
+material_override = SubResource("StandardMaterial3D_eynei")
+mesh = SubResource("SphereMesh_d06fg")
+
+[node name="PupilLeft" type="MeshInstance3D" parent="." unique_id=1320313776]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, -0.04, -0.505)
+material_override = SubResource("StandardMaterial3D_yfosj")
+mesh = SubResource("SphereMesh_itxqg")
+
+[node name="EyelidLeft" type="MeshInstance3D" parent="." unique_id=264666311]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18, 0.055, -0.495)
+material_override = SubResource("StandardMaterial3D_satag")
+mesh = SubResource("BoxMesh_pehhl")
+
+[node name="ScleraRight" type="MeshInstance3D" parent="." unique_id=1115762671]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, 0.18, 0, -0.45)
+material_override = SubResource("StandardMaterial3D_eynei")
+mesh = SubResource("SphereMesh_fhnai")
+
+[node name="PupilRight" type="MeshInstance3D" parent="." unique_id=1702270109]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.04, -0.505)
+material_override = SubResource("StandardMaterial3D_yfosj")
+mesh = SubResource("SphereMesh_x4w71")
+
+[node name="EyelidRight" type="MeshInstance3D" parent="." unique_id=842460045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, 0.055, -0.495)
+material_override = SubResource("StandardMaterial3D_satag")
+mesh = SubResource("BoxMesh_kykrw")

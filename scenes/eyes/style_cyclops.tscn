@@ -1,0 +1,60 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eynei"]
+roughness = 0.25
+
+[sub_resource type="SphereMesh" id="SphereMesh_wpbdg"]
+radius = 0.25
+height = 0.5
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yfosj"]
+albedo_color = Color(0.06666667, 0.06666667, 0.06666667, 1)
+roughness = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_jvrxa"]
+radius = 0.13
+height = 0.26
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2lc0i"]
+roughness = 0.05
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_m036d"]
+radius = 0.045
+height = 0.09
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_x00cw"]
+radius = 0.025
+height = 0.05
+radial_segments = 16
+rings = 8
+
+[node name="Style_Cyclops" type="Node3D" unique_id=1936179236]
+
+[node name="EyeballCenter" type="MeshInstance3D" parent="." unique_id=1799784463]
+transform = Transform3D(1.05, 0, 0, 0, 1.15, 0, 0, 0, 0.35, 0, 0.03, -0.44)
+material_override = SubResource("StandardMaterial3D_eynei")
+mesh = SubResource("SphereMesh_wpbdg")
+
+[node name="PupilCenter" type="MeshInstance3D" parent="." unique_id=598129768]
+transform = Transform3D(1, 0, 0, 0, 1.05, 0, 0, 0, 0.3, 0, 0.02, -0.525)
+material_override = SubResource("StandardMaterial3D_yfosj")
+mesh = SubResource("SphereMesh_jvrxa")
+
+[node name="ShineTop" type="MeshInstance3D" parent="." unique_id=864711195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.045, 0.075, -0.555)
+material_override = SubResource("StandardMaterial3D_2lc0i")
+mesh = SubResource("SphereMesh_m036d")
+
+[node name="ShineBottom" type="MeshInstance3D" parent="." unique_id=580009364]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, -0.035, -0.555)
+material_override = SubResource("StandardMaterial3D_2lc0i")
+mesh = SubResource("SphereMesh_x00cw")

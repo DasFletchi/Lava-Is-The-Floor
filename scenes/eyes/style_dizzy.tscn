@@ -1,0 +1,47 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6by2"]
+albedo_color = Color(0.06666667, 0.06666667, 0.06666667, 1)
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_uffci"]
+size = Vector3(0.18, 0.045, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vgowb"]
+size = Vector3(0.18, 0.045, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hu05y"]
+size = Vector3(0.18, 0.045, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pxh81"]
+size = Vector3(0.18, 0.045, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hy1bk"]
+size = Vector3(0.16, 0.04, 0.04)
+
+[node name="Style_Dizzy" type="Node3D" unique_id=1196069118]
+
+[node name="Cross1Left" type="MeshInstance3D" parent="." unique_id=1361047108]
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0, 0, 1, -0.18, 0.01, -0.49)
+material_override = SubResource("StandardMaterial3D_h6by2")
+mesh = SubResource("BoxMesh_uffci")
+
+[node name="Cross2Left" type="MeshInstance3D" parent="." unique_id=1562078128]
+transform = Transform3D(0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0, 0, 1, -0.18, 0.01, -0.49)
+material_override = SubResource("StandardMaterial3D_h6by2")
+mesh = SubResource("BoxMesh_vgowb")
+
+[node name="Cross1Right" type="MeshInstance3D" parent="." unique_id=653908070]
+transform = Transform3D(0.70710677, -0.70710677, 0, 0.70710677, 0.70710677, 0, 0, 0, 1, 0.18, 0.01, -0.49)
+material_override = SubResource("StandardMaterial3D_h6by2")
+mesh = SubResource("BoxMesh_hu05y")
+
+[node name="Cross2Right" type="MeshInstance3D" parent="." unique_id=1229202321]
+transform = Transform3D(0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0, 0, 1, 0.18, 0.01, -0.49)
+material_override = SubResource("StandardMaterial3D_h6by2")
+mesh = SubResource("BoxMesh_pxh81")
+
+[node name="WobblyMouth" type="MeshInstance3D" parent="." unique_id=411839432]
+transform = Transform3D(0.9848077, -0.17364818, 0, 0.17364818, 0.9848077, 0, 0, 0, 1, 0, -0.15, -0.49)
+material_override = SubResource("StandardMaterial3D_h6by2")
+mesh = SubResource("BoxMesh_hy1bk")

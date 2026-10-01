@@ -1,0 +1,65 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6by2"]
+albedo_color = Color(0.06666667, 0.06666667, 0.06666667, 1)
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_xbvg3"]
+size = Vector3(0.13, 0.045, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1apf6"]
+size = Vector3(0.13, 0.045, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_atwxx"]
+albedo_color = Color(1, 0.4, 0.5, 0.8)
+roughness = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_a7iib"]
+radius = 0.07
+height = 0.04
+radial_segments = 16
+rings = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_5mnfy"]
+size = Vector3(0.13, 0.045, 0.04)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tnuct"]
+size = Vector3(0.13, 0.045, 0.04)
+
+[sub_resource type="SphereMesh" id="SphereMesh_hcivj"]
+radius = 0.07
+height = 0.04
+radial_segments = 16
+rings = 8
+
+[node name="Style_Happy" type="Node3D" unique_id=625731907]
+
+[node name="ArcBar1Left" type="MeshInstance3D" parent="." unique_id=963212686]
+transform = Transform3D(0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0, 0, 1, -0.14, 0.02, -0.49)
+material_override = SubResource("StandardMaterial3D_h6by2")
+mesh = SubResource("BoxMesh_xbvg3")
+
+[node name="ArcBar2Left" type="MeshInstance3D" parent="." unique_id=937142720]
+transform = Transform3D(0.8660254, -0.5, 0, 0.5, 0.8660254, 0, 0, 0, 1, -0.22, 0.02, -0.49)
+material_override = SubResource("StandardMaterial3D_h6by2")
+mesh = SubResource("BoxMesh_1apf6")
+
+[node name="BlushLeft" type="MeshInstance3D" parent="." unique_id=855028405]
+transform = Transform3D(1.2, 0, 0, 0, 0.5, 0, 0, 0, 0.4, -0.27, -0.11, -0.44)
+material_override = SubResource("StandardMaterial3D_atwxx")
+mesh = SubResource("SphereMesh_a7iib")
+
+[node name="ArcBar1Right" type="MeshInstance3D" parent="." unique_id=773576385]
+transform = Transform3D(0.8660254, -0.5, 0, 0.5, 0.8660254, 0, 0, 0, 1, 0.14, 0.02, -0.49)
+material_override = SubResource("StandardMaterial3D_h6by2")
+mesh = SubResource("BoxMesh_5mnfy")
+
+[node name="ArcBar2Right" type="MeshInstance3D" parent="." unique_id=1419649568]
+transform = Transform3D(0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0, 0, 1, 0.22, 0.02, -0.49)
+material_override = SubResource("StandardMaterial3D_h6by2")
+mesh = SubResource("BoxMesh_tnuct")
+
+[node name="BlushRight" type="MeshInstance3D" parent="." unique_id=729313151]
+transform = Transform3D(1.2, 0, 0, 0, 0.5, 0, 0, 0, 0.4, 0.27, -0.11, -0.44)
+material_override = SubResource("StandardMaterial3D_atwxx")
+mesh = SubResource("SphereMesh_hcivj")

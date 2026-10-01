@@ -1,0 +1,65 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eynei"]
+roughness = 0.25
+
+[sub_resource type="SphereMesh" id="SphereMesh_7ccjw"]
+radius = 0.17
+height = 0.34
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yfosj"]
+albedo_color = Color(0.06666667, 0.06666667, 0.06666667, 1)
+roughness = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_yyupk"]
+radius = 0.045
+height = 0.09
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_xqax1"]
+radius = 0.17
+height = 0.34
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_7kqy3"]
+radius = 0.045
+height = 0.09
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_3xksr"]
+radius = 0.06
+height = 0.12
+radial_segments = 16
+rings = 8
+
+[node name="Style_Shocked" type="Node3D" unique_id=444941704]
+
+[node name="ScleraLeft" type="MeshInstance3D" parent="." unique_id=808435905]
+transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 0.45, -0.19, 0.02, -0.45)
+material_override = SubResource("StandardMaterial3D_eynei")
+mesh = SubResource("SphereMesh_7ccjw")
+
+[node name="PupilLeft" type="MeshInstance3D" parent="." unique_id=222916317]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 0.02, -0.52)
+material_override = SubResource("StandardMaterial3D_yfosj")
+mesh = SubResource("SphereMesh_yyupk")
+
+[node name="ScleraRight" type="MeshInstance3D" parent="." unique_id=1960831915]
+transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 0.45, 0.19, 0.02, -0.45)
+material_override = SubResource("StandardMaterial3D_eynei")
+mesh = SubResource("SphereMesh_xqax1")
+
+[node name="PupilRight" type="MeshInstance3D" parent="." unique_id=87317453]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 0.02, -0.52)
+material_override = SubResource("StandardMaterial3D_yfosj")
+mesh = SubResource("SphereMesh_7kqy3")
+
+[node name="ShockedMouth" type="MeshInstance3D" parent="." unique_id=1889961394]
+transform = Transform3D(0.8, 0, 0, 0, 1.25, 0, 0, 0, 0.35, 0, -0.16, -0.495)
+material_override = SubResource("StandardMaterial3D_yfosj")
+mesh = SubResource("SphereMesh_3xksr")

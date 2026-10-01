@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eynei"]
+roughness = 0.25
+
+[sub_resource type="SphereMesh" id="SphereMesh_5jrbe"]
+radius = 0.18
+height = 0.36
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yfosj"]
+albedo_color = Color(0.06666667, 0.06666667, 0.06666667, 1)
+roughness = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_i6lrk"]
+radius = 0.08
+height = 0.16
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_drefv"]
+radius = 0.13
+height = 0.26
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_jmk7a"]
+radius = 0.065
+height = 0.13
+radial_segments = 16
+rings = 8
+
+[node name="Style_Derp" type="Node3D" unique_id=544598103]
+
+[node name="ScleraLeft" type="MeshInstance3D" parent="." unique_id=877783348]
+transform = Transform3D(1, 0, 0, 0, 1.1, 0, 0, 0, 0.45, -0.19, 0.04, -0.44)
+material_override = SubResource("StandardMaterial3D_eynei")
+mesh = SubResource("SphereMesh_5jrbe")
+
+[node name="PupilLeft" type="MeshInstance3D" parent="." unique_id=1285961135]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.35, -0.24, 0.09, -0.505)
+material_override = SubResource("StandardMaterial3D_yfosj")
+mesh = SubResource("SphereMesh_i6lrk")
+
+[node name="ScleraRight" type="MeshInstance3D" parent="." unique_id=1062760963]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.45, 0.18, -0.03, -0.45)
+material_override = SubResource("StandardMaterial3D_eynei")
+mesh = SubResource("SphereMesh_drefv")
+
+[node name="PupilRight" type="MeshInstance3D" parent="." unique_id=170909270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.35, 0.2, -0.08, -0.505)
+material_override = SubResource("StandardMaterial3D_yfosj")
+mesh = SubResource("SphereMesh_jmk7a")
