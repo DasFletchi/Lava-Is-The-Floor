@@ -87,6 +87,7 @@ func set_eye_style(idx: int) -> void:
 
 func save_data() -> void:
 	var config = ConfigFile.new()
+	config.set_value("bean", "player_name", player_name)
 	config.set_value("bean", "color", selected_color)
 	config.set_value("bean", "color_index", selected_color_index)
 	config.set_value("bean", "eye_style", selected_eye_style)
@@ -96,6 +97,7 @@ func load_data() -> void:
 	var config = ConfigFile.new()
 	var err = config.load(SAVE_PATH)
 	if err == OK:
+		player_name = config.get_value("bean", "player_name", "Player")
 		selected_color = config.get_value("bean", "color", Color("ff4500"))
 		selected_color_index = config.get_value("bean", "color_index", 0)
 		selected_eye_style = config.get_value("bean", "eye_style", 0)

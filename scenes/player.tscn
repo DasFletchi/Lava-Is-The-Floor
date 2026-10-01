@@ -151,6 +151,9 @@ properties/3/replication_mode = 2
 properties/4/path = NodePath(".:eye_style")
 properties/4/spawn = true
 properties/4/replication_mode = 2
+properties/5/path = NodePath("Gamertag:text")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [node name="tempPlayer" type="CharacterBody3D" unique_id=1070925469]
 script = ExtResource("1_3vyb7")

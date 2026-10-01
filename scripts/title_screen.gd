@@ -71,7 +71,14 @@ func _ready() -> void:
 		_apply_to_preview(cust.selected_color, cust.selected_eye_style, false)
 	
 	
-	PlayerCustomization.player_name = gamertag.text
+	if gamertag != null:
+		gamertag.text = PlayerCustomization.player_name
+		gamertag.text_changed.connect(_on_gamertag_changed)
+
+func _on_gamertag_changed(new_text: String) -> void:
+	if not new_text.strip_edges().is_empty():
+		PlayerCustomization.player_name = new_text.strip_edges()
+		PlayerCustomization.save_data()
 
 func _process(delta: float) -> void:
 	if bean_root == null: return
@@ -93,6 +100,9 @@ func _on_viewport_gui_input(event: InputEvent) -> void:
 		current_yaw += dx * 0.015
 
 func _on_play_pressed() -> void:
+	if gamertag != null and not gamertag.text.strip_edges().is_empty():
+		PlayerCustomization.player_name = gamertag.text.strip_edges()
+		PlayerCustomization.save_data()
 	get_tree().change_scene_to_file("res://scenes/testMain.tscn")
 
 func _on_quit_pressed() -> void:
