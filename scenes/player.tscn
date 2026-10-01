@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cv1ril2ejq4e0" path="res://scripts/player.gd" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://cqxr6fvowpx4q" path="res://scripts/crosshair.gd" id="3_crosshair"]
 [ext_resource type="PackedScene" uid="uid://cxg4ojnhul1jt" path="res://assets/hands/Hand_003.glb" id="3_qhqgy"]
-[ext_resource type="PackedScene" uid="uid://dbea0visual123" path="res://scenes/bean_visual.tscn" id="4_bean"]
+[ext_resource type="PackedScene" uid="uid://cvoej1wbldbd7" path="res://scenes/bean_visual.tscn" id="4_bean"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_k7hc8"]
 
@@ -161,17 +161,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
 mesh = SubResource("CapsuleMesh_k7hc8")
 
-[node name="BeanVisual" parent="." instance=ExtResource("4_bean")]
+[node name="BeanVisual" parent="." unique_id=1285689791 instance=ExtResource("4_bean")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=602939805]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_k7hc8")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=407803958]
-transform = Transform3D(1, 0, 0, 0, 0.96228236, 0.2720526, 0, -0.2720526, 0.96228236, 0, 8.094509, 6.70895)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3321865, -0.48630026)
+fov = 90.94969
 
 [node name="Crosshair" type="Node2D" parent="Camera3D" unique_id=1918591149]
-visible = false
 script = ExtResource("3_crosshair")
 
 [node name="CrossV" type="Line2D" parent="Camera3D/Crosshair" unique_id=1868357934]

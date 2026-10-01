@@ -41,30 +41,6 @@ bottom_radius = 0.75
 height = 0.12
 radial_segments = 32
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_menu_btn"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu_btn_hover"]
-bg_color = Color(1, 0.4, 0.1, 0.15)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
-bg_color = Color(0.1, 0.08, 0.09, 0.75)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.35, 0.25, 0.22, 0.5)
-shadow_color = Color(0, 0, 0, 0.4)
-shadow_size = 12
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill_row"]
-bg_color = Color(0.06, 0.05, 0.06, 0.85)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_btn_normal"]
-bg_color = Color(0.2, 0.16, 0.18, 0.9)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_btn_hover"]
-bg_color = Color(0.85, 0.35, 0.1, 1)
-
 [sub_resource type="Animation" id="Animation_idle"]
 resource_name = "idle"
 length = 2.0
@@ -110,6 +86,30 @@ tracks/2/keys = {
 _data = {
 &"idle": SubResource("Animation_idle")
 }
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_menu_btn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu_btn_hover"]
+bg_color = Color(1, 0.4, 0.1, 0.15)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.1, 0.08, 0.09, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.25, 0.22, 0.5)
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pill_row"]
+bg_color = Color(0.06, 0.05, 0.06, 0.85)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_btn_normal"]
+bg_color = Color(0.2, 0.16, 0.18, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arrow_btn_hover"]
+bg_color = Color(0.85, 0.35, 0.1, 1)
 
 [node name="TitleScreen" type="Control" unique_id=1072900102]
 layout_mode = 3
@@ -193,7 +193,7 @@ transform = Transform3D(-0.0039999946, -6.9816615e-06, -3.0516288e-13, -1.528548
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ViewportContainer/SubViewport/BeanRoot" unique_id=2050154353]
 libraries/ = SubResource("AnimationLibrary_hands")
-autoplay = "idle"
+autoplay = &"idle"
 
 [node name="UIOverlay" type="MarginContainer" parent="." unique_id=529260381]
 layout_mode = 1
