@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://c5vxxt0ryg3ax"]
+
+[ext_resource type="Script" uid="uid://b0350gi31rkk4" path="res://scripts/main.gd" id="1_nllki"]
+[ext_resource type="PackedScene" uid="uid://61b4bctuy3yq" path="res://assets/Modular Blueprint Kit/glTF/WL_CROSS.gltf" id="2_op21l"]
+[ext_resource type="PackedScene" uid="uid://wxauruiuc8qd" path="res://assets/Modular Blueprint Kit/glTF/WL_WINDOW.gltf" id="3_b3nqb"]
+[ext_resource type="PackedScene" uid="uid://ddu6uylpn572k" path="res://scenes/lava.tscn" id="4_lava"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sgp6g"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_o5qli"]
+sky_material = SubResource("ProceduralSkyMaterial_sgp6g")
+
+[sub_resource type="Environment" id="Environment_0wfyh"]
+background_mode = 2
+sky = SubResource("Sky_o5qli")
+volumetric_fog_density = 0.0308
+
+[node name="Level1" type="Node3D" unique_id=1884375871]
+script = ExtResource("1_nllki")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2012963988]
+environment = SubResource("Environment_0wfyh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1217690658]
+transform = Transform3D(-0.08521406, -0.5401807, -0.8372237, -0.86182284, -0.38171312, 0.33400095, -0.50000006, 0.75, -0.43301266, 0, 0.6212295, 0)
+shadow_enabled = true
+
+[node name="Lava" parent="." unique_id=496558326 instance=ExtResource("4_lava")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.62865, -3, 12.108612)
+
+[node name="env" type="Node" parent="." unique_id=746808923]
+
+[node name="WL_CROSS2" parent="env" unique_id=855150017 instance=ExtResource("2_op21l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.265734, 0, 5.8247423)
+
+[node name="WL_CROSS3" parent="env" unique_id=1107288483 instance=ExtResource("2_op21l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.92021, 0, -3.5683975)
+
+[node name="WL_CROSS4" parent="env" unique_id=281595018 instance=ExtResource("2_op21l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.559684, 0, 7.053362)
+
+[node name="WL_CROSS5" parent="env" unique_id=333832926 instance=ExtResource("2_op21l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.851365, 0, -4.588993)
+
+[node name="WL_CROSS6" parent="env" unique_id=1912824363 instance=ExtResource("2_op21l")]
+transform = Transform3D(2.63, 0, 0, 0, 2.63, 0, 0, 0, 2.63, 2.6708283, 0, 11.338118)
+
+[node name="WL_WINDOW2" parent="env" unique_id=1612015397 instance=ExtResource("3_b3nqb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.08751, 0, -1.3004456)
+
+[node name="WL_WINDOW3" parent="env" unique_id=1153921192 instance=ExtResource("3_b3nqb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1991777, 0, -0.81898403)
+
+[node name="Mutliplayer temp menu" type="CanvasLayer" parent="." unique_id=1576663919]
+
+[node name="tempMPMenu" type="PanelContainer" parent="Mutliplayer temp menu" unique_id=1535822173]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Mutliplayer temp menu/tempMPMenu" unique_id=1737456149]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=690953676]
+layout_mode = 2
+text = "== LAVA IS THE FLOOR - MULTIPLAYER LOBBY =="
+horizontal_alignment = 1
+
+[node name="Host" type="Button" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=473521978]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=984306378]
+layout_mode = 2
+text = "Join 	"
+
+[node name="AdressEntry" type="LineEdit" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=324528107]
+layout_mode = 2
+placeholder_text = "Enter Addres to join"
+alignment = 1
+
+[node name="Back" type="Button" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=987654321]
+layout_mode = 2
+text = "◀ Back to Title Screen"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1430016727]
+_spawnable_scenes = PackedStringArray("uid://dranyd23io7tw")
+spawn_path = NodePath("..")
+
+[node name="MultiplayerPlattformSpawner" type="MultiplayerSpawner" parent="." unique_id=1052918489]
+_spawnable_scenes = PackedStringArray("uid://sit562i22d73", "uid://bqndtmbe42vyi", "uid://d133bcdxmyhx", "uid://hmk3pfxm0grh", "uid://c6afmbkuge0hf", "uid://bhduy1ibt1vcq")
+spawn_path = NodePath("../PlattformSpawnerManager")
+
+[node name="PlattformSpawnerManager" type="Node" parent="." unique_id=841895833]
+
+[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Back" to="." method="_on_back_pressed"]
