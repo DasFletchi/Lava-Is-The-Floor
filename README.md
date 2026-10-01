@@ -2,6 +2,8 @@
 
 A fast-paced, competitive multiplayer "the floor is lava" party game built with the Godot 4 engine in GDScript.
 
+![Lava is the Floor Title Screen](assets/title_screen.png)
+
 ## Overview
 
 **Lava is the Floor** turns childhood floor-is-lava games into chaotic 3D multiplayer action. Jump, climb, and mantle between moving and spinning platforms while avoiding the molten lava below!
