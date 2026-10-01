@@ -1,48 +1,135 @@
-[gd_scene format=3 uid="uid://yv267dbktknq"]
+[gd_scene format=3]
 
-[ext_resource type="Script" uid="uid://dqrcaptfa2ibn" path="res://scripts/title_screen.gd" id="1_fgkus"]
+[ext_resource type="Script" path="res://scripts/title_screen.gd" id="1"]
 
-[node name="TitleScreen" type="Node2D" unique_id=1619540909]
-script = ExtResource("1_fgkus")
+[sub_resource type="StyleBoxFlat" id="panel"]
+bg_color = Color(0.055, 0.07, 0.12, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.3, 0.06, 0.8)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
 
-[node name="Label" type="Label" parent="." unique_id=911859544]
-offset_right = 1151.0
-offset_bottom = 188.0
-theme_override_font_sizes/font_size = 65
-text = "PEAK PANIC"
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.035, 0.025, 0.065, 1)
+mouse_filter = 2
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(570, 620)
+layout_mode = 2
+theme_override_styles/panel = SubResource("panel")
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 30
+
+[node name="Content" type="VBoxContainer" parent="Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.34, 0.08, 1)
+theme_override_font_sizes/font_size = 48
+text = "THE FLOOR IS LAVA"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.54, 1)
+text = "RUN HIGH. STAY COOL. DON'T GET TOASTED."
+horizontal_alignment = 1
+
+[node name="BeanPreview" type="Panel" parent="Center/Panel/Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+modulate = Color(0.435, 0.894, 1, 1)
+
+[node name="Eyes" type="Label" parent="Center/Panel/Margin/Content/BeanPreview"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.04, 0.04, 0.08, 1)
+theme_override_font_sizes/font_size = 42
+text = "◉   ◉"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="1st Container" type="VBoxContainer" parent="." unique_id=78630125]
-offset_left = 390.0
-offset_top = 260.0
-offset_right = 749.0
-offset_bottom = 334.0
-
-[node name="Singleplayer" type="Button" parent="1st Container" unique_id=1069703388]
+[node name="ColourLabel" type="Label" parent="Center/Panel/Margin/Content"]
 layout_mode = 2
-text = "Singleplayer"
+text = "BEAN COLOUR"
 
-[node name="Multiplayer" type="Button" parent="1st Container" unique_id=583964896]
+[node name="ColorRow" type="HBoxContainer" parent="Center/Panel/Margin/Content"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Multiplayer"
+theme_override_constants/separation = 14
 
-[node name="2nd Screen Multiplayer (NOT USED IN testMAIN)" type="Node2D" parent="." unique_id=1213294067]
-visible = false
+[node name="EyeLabel" type="Label" parent="Center/Panel/Margin/Content"]
+layout_mode = 2
+text = "FUNNY EYES"
 
-[node name="HOST" type="Button" parent="2nd Screen Multiplayer (NOT USED IN testMAIN)" unique_id=776052761]
-offset_left = 390.0
-offset_top = 295.0
-offset_right = 562.0
-offset_bottom = 326.0
-text = "HOST"
+[node name="EyeOption" type="OptionButton" parent="Center/Panel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
 
-[node name="JOIN" type="Button" parent="2nd Screen Multiplayer (NOT USED IN testMAIN)" unique_id=208814499]
-offset_left = 570.0
-offset_top = 295.0
-offset_right = 748.0
-offset_bottom = 326.0
-text = "JOIN"
+[node name="Host" type="Button" parent="Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "HOST A LAVA RUN"
 
-[connection signal="pressed" from="1st Container/Singleplayer" to="." method="_on_singleplayer_button_pressed"]
-[connection signal="pressed" from="1st Container/Multiplayer" to="." method="_on_multiplayer_button_pressed"]
+[node name="Join" type="Button" parent="Center/Panel/Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "JOIN A FRIEND"
+
+[node name="JoinPanel" type="VBoxContainer" parent="Center/Panel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="JoinCode" type="LineEdit" parent="Center/Panel/Margin/Content/JoinPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Peak Code"
+
+[node name="StartJoin" type="Button" parent="Center/Panel/Margin/Content/JoinPanel"]
+layout_mode = 2
+text = "DIVE IN"
+
+[node name="Status" type="Label" parent="Center/Panel/Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 2
+horizontal_alignment = 1
+
+[connection signal="item_selected" from="Center/Panel/Margin/Content/EyeOption" to="." method="_on_eye_option_item_selected"]
+[connection signal="pressed" from="Center/Panel/Margin/Content/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/Content/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/Content/JoinPanel/StartJoin" to="." method="_on_start_join_pressed"]
