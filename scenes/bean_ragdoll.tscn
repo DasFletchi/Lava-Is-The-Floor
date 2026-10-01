@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/bean_ragdoll.gd" id="1_4ylmx"]
+[ext_resource type="PackedScene" path="res://scenes/bean_visual.tscn" id="2_5rsfk"]
+[ext_resource type="Script" path="res://scripts/bean_visual.gd" id="3_bae1i"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7pqsj"]
+
+[node name="BeanRagdoll" type="RigidBody3D" unique_id=558147045]
+mass = 12.0
+continuous_cd = true
+script = ExtResource("1_4ylmx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2066680028]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_7pqsj")
+
+[node name="BeanVisual" type="Node3D" parent="." unique_id=372889293 instance=ExtResource("2_5rsfk")]
+script = ExtResource("3_bae1i")

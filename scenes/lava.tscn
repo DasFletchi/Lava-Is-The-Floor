@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://ddu6uylpn572k"]
+
+[ext_resource type="Script" uid="uid://xk827mnciaf5" path="res://scripts/lava.gd" id="1_dw3wf"]
+[ext_resource type="Shader" uid="uid://dnneh27sy053c" path="res://shaders/lava.gdshader" id="2_snnrc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f10td"]
+render_priority = 0
+shader = ExtResource("2_snnrc")
+shader_parameter/color_crust_dark = Color(0.05, 0.03, 0.03, 1)
+shader_parameter/color_crust_warm = Color(0.18, 0.06, 0.03, 1)
+shader_parameter/color_lava_deep = Color(0.92, 0.18, 0.02, 1)
+shader_parameter/color_lava_bright = Color(1, 0.55, 0.04, 1)
+shader_parameter/color_lava_core = Color(1, 0.95, 0.65, 1)
+shader_parameter/uv_scale = 0.25
+shader_parameter/flow_speed_1 = Vector2(0.01, 0.015)
+shader_parameter/flow_speed_2 = Vector2(-0.012, 0.011)
+shader_parameter/crack_spread = 0.22
+shader_parameter/emission_boost = 1.8
+shader_parameter/wave_height = 0.12
+shader_parameter/wave_speed = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3w25c"]
+size = Vector2(150, 150)
+subdivide_width = 80
+subdivide_depth = 80
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sxvwp"]
+size = Vector3(150, 4, 150)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pgx88"]
+emission_shape = 3
+emission_box_extents = Vector3(50, 0.5, 50)
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 1.5
+initial_velocity_max = 3.5
+gravity = Vector3(0, 0.5, 0)
+scale_min = 0.04
+scale_max = 0.12
+color = Color(1, 0.65, 0.15, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w488u"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.7, 0.2, 0.9)
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_c1ovw"]
+material = SubResource("StandardMaterial3D_w488u")
+size = Vector2(0.12, 0.12)
+
+[node name="Lava" type="Node3D" unique_id=35621266]
+script = ExtResource("1_dw3wf")
+
+[node name="LavaMesh" type="MeshInstance3D" parent="." unique_id=2096136368]
+material_override = SubResource("ShaderMaterial_f10td")
+mesh = SubResource("PlaneMesh_3w25c")
+
+[node name="KillArea" type="Area3D" parent="." unique_id=80243035]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KillArea" unique_id=160617650]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)
+shape = SubResource("BoxShape3D_sxvwp")
+
+[node name="LavaLight" type="OmniLight3D" parent="." unique_id=1632653166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+light_color = Color(1, 0.45, 0.1, 1)
+light_energy = 16.0
+omni_range = 74.76802
+omni_attenuation = 1.5
+
+[node name="Embers" type="GPUParticles3D" parent="." unique_id=586422612]
+amount = 600
+lifetime = 3.0
+preprocess = 1.5
+visibility_aabb = AABB(-75, 0, -75, 150, 30, 150)
+process_material = SubResource("ParticleProcessMaterial_pgx88")
+draw_pass_1 = SubResource("QuadMesh_c1ovw")

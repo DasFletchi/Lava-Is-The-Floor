@@ -8,6 +8,8 @@ extends CharacterBody3D
 @onready var temp_player: CharacterBody3D = $"."
 @onready var gamertag: Label3D = $Gamertag
 
+const ragdoll_scene = preload("res://scenes/bean_ragdoll.tscn")
+var is_dead: bool = false
 
 @onready var bean_visual: BeanVisual = get_node_or_null("BeanVisual") as BeanVisual
 
@@ -20,6 +22,12 @@ extends CharacterBody3D
 	set(val):
 		eye_style = val
 		_apply_visuals()
+
+@export var player_name_sync: String = "":
+	set(val):
+		player_name_sync = val
+		if gamertag:
+			gamertag.text = val
 
 
 @export var SPEED = 5.0
@@ -45,12 +53,17 @@ func _ready() -> void:
 			var cust = get_node("/root/PlayerCustomization")
 			player_color = cust.selected_color
 			eye_style = cust.selected_eye_style
+			player_name_sync = cust.player_name
 		_apply_visuals()
+		if gamertag:
+			gamertag.text = player_name_sync
 		if multiplayer.has_multiplayer_peer():
-			sync_customization.rpc(player_color, eye_style)
+			sync_customization.rpc(player_color, eye_style, player_name_sync)
 			multiplayer.peer_connected.connect(_on_peer_connected)
 	else:
 		_apply_visuals()
+		if gamertag and not player_name_sync.is_empty():
+			gamertag.text = player_name_sync
 
 	if not is_multiplayer_authority(): return
 	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -59,12 +72,13 @@ func _ready() -> void:
 	animation_player.play("RESET")
 	camera.make_current()# der code wird eh nicht ausgefüll wenn wir nicht big server authority haben
 
-
-	gamertag.text = PlayerCustomization.player_name
+	if gamertag and has_node("/root/PlayerCustomization"):
+		var cust = get_node("/root/PlayerCustomization")
+		gamertag.text = cust.player_name
 
 
 func _unhandled_input(event: InputEvent) -> void: #unhandled inputs heist eif nur, wenn niemand anders bisher sich das hier geholt hat dann hol ich es mir halt
-	if not is_multiplayer_authority(): return
+	if not is_multiplayer_authority() or is_dead: return
 	if event is InputEventMouseMotion: #ohne input map auf shit zugreifen/is dieses event eine a
 		rotate_y(-event.relative.x * mouse_sensitivity) #event.relative.x ist: Wie weit die Maus seit dem letzten Frame horizontal bewegt wurde.
 		camera.rotate_x(-event.relative.y * mouse_sensitivity)
@@ -82,6 +96,14 @@ func _unhandled_input(event: InputEvent) -> void: #unhandled inputs heist eif nu
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority(): return
+	if is_dead:
+		velocity = Vector3.ZERO
+		return
+
+	# Fall-Out / Lava-Tod als Absicherung
+	if global_position.y < -15.0 and not is_dead:
+		die()
+		return
 
 	# --- Gravity: brutal while falling, fair while rising ---
 	if not is_on_floor():
@@ -155,13 +177,61 @@ func _enter_tree() -> void:
 
 func _on_peer_connected(peer_id: int) -> void:
 	if is_multiplayer_authority() and multiplayer.has_multiplayer_peer():
-		sync_customization.rpc_id(peer_id, player_color, eye_style)
+		sync_customization.rpc_id(peer_id, player_color, eye_style, player_name_sync)
 
 @rpc("any_peer", "call_local", "reliable")
-func sync_customization(col: Color, eyes: int) -> void:
+func sync_customization(col: Color, eyes: int, p_name: String = "") -> void:
 	player_color = col
 	eye_style = eyes
+	if not p_name.is_empty():
+		player_name_sync = p_name
+		if gamertag:
+			gamertag.text = p_name
 	_apply_visuals()
+
+func die() -> void:
+	if is_dead: return
+	is_dead = true
+	if multiplayer.has_multiplayer_peer() and is_multiplayer_authority():
+		die_rpc.rpc()
+	else:
+		_handle_death()
+
+@rpc("any_peer", "call_local", "reliable")
+func die_rpc() -> void:
+	_handle_death()
+
+func _handle_death() -> void:
+	is_dead = true
+	velocity = Vector3.ZERO
+
+	# Ragdoll spawnen
+	if ragdoll_scene:
+		var rag = ragdoll_scene.instantiate()
+		get_parent().add_child(rag)
+		rag.global_position = global_position
+		rag.global_rotation = global_rotation
+		rag.setup(player_color, eye_style, velocity)
+
+	# Eigene visuelle Bohne und Gamertag während des Todes ausblenden
+	if bean_visual:
+		bean_visual.hide()
+	if gamertag:
+		gamertag.hide()
+
+	# Nach kurzer Zeit respawnen
+	if is_multiplayer_authority():
+		await get_tree().create_timer(3.0).timeout
+		respawn()
+
+func respawn() -> void:
+	is_dead = false
+	global_position = Vector3(0, 5.0, 0)
+	velocity = Vector3.ZERO
+	if not is_multiplayer_authority() and bean_visual:
+		bean_visual.show()
+	if gamertag:
+		gamertag.show()
 
 func _apply_visuals() -> void:
 	if bean_visual == null:
