@@ -5,7 +5,7 @@ class_name LavaFloor
 @export var rise_speed: float = 0.35
 
 ## Ob die Lava aktuell steigt oder pausiert ist.
-@export var is_rising: bool = true
+@export var is_rising: bool = false
 
 ## Maximale Höhe, bis zu der die Lava steigen soll.
 @export var max_height: float = 65.0
@@ -44,6 +44,14 @@ func _on_kill_area_body_entered(body: Node3D) -> void:
 		if body.has_method("die"):
 			body.die()
 
+func start_rising() -> void:
+	delay_timer = 0.0
+	is_rising = true
+
+func stop_rising() -> void:
+	is_rising = false
+
 func reset_lava() -> void:
 	global_position.y = start_height
 	delay_timer = start_delay
+	is_rising = false

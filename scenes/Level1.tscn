@@ -435,6 +435,64 @@ alignment = 1
 layout_mode = 2
 text = "◀ Back to Title Screen"
 
+[node name="LobbyBox" type="VBoxContainer" parent="Mutliplayer temp menu/tempMPMenu" unique_id=238947239]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LobbyTitle" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947240]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.6, 0.1, 1)
+theme_override_font_sizes/font_size = 22
+text = "== MULTIPLAYER LOBBY =="
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947241]
+layout_mode = 2
+text = "Warte auf Mitspieler..."
+horizontal_alignment = 1
+
+[node name="CodeContainer" type="HBoxContainer" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947242]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="CodeTitle" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox/CodeContainer" unique_id=238947243]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.2, 1)
+text = "🎮 RAUM-CODE:"
+
+[node name="CodeLabel" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox/CodeContainer" unique_id=238947244]
+layout_mode = 2
+text = "..."
+
+[node name="CopyButton" type="Button" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox/CodeContainer" unique_id=238947245]
+layout_mode = 2
+text = "📋 Kopieren"
+
+[node name="PlayerCountLabel" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947246]
+layout_mode = 2
+text = "👥 Verbundene Spieler: 1"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947247]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "🚀 Runde starten"
+
+[node name="ClientWaitLabel" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947248]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.8, 0.3, 1)
+text = "⏳ Warte darauf, dass der Host die Runde startet..."
+horizontal_alignment = 1
+
+[node name="LeaveButton" type="Button" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947249]
+layout_mode = 2
+text = "◀ Lobby verlassen"
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1430016727]
 _spawnable_scenes = PackedStringArray("uid://dranyd23io7tw")
 spawn_path = NodePath("..")
@@ -453,3 +511,6 @@ autoplay = true
 [connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Join" to="." method="_on_join_pressed"]
 [connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/LobbyBox/CodeContainer/CopyButton" to="." method="_on_copy_code_pressed"]
+[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/LobbyBox/StartButton" to="." method="_on_start_round_pressed"]
+[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/LobbyBox/LeaveButton" to="." method="_on_leave_lobby_pressed"]

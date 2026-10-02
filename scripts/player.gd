@@ -50,6 +50,16 @@ var jump_buffer_timer := 0.0
 var ledges_left := 1
 var legding_rn = false
 
+## Steuert, ob sich der Spieler bewegen und umsehen kann (wird bei Rundenstart aktiviert)
+@export var can_move: bool = false:
+	set(val):
+		can_move = val
+		if is_inside_tree() and is_multiplayer_authority():
+			if can_move:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			else:
+				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
 func _ready() -> void:
 	add_to_group("player")
 	add_to_group("alive_players")
@@ -69,7 +79,10 @@ func _ready() -> void:
 		_apply_visuals()
 
 	if not is_multiplayer_authority(): return
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if can_move:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	animation_player.animation_finished.connect(_on_animation_finished)
 	animation_player.play("RESET")
 	camera.make_current()
@@ -77,6 +90,7 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority(): return
+	if not can_move: return
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
@@ -85,8 +99,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("quit"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			get_viewport().set_input_as_handled()
-			return
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		get_viewport().set_input_as_handled()
+		return
 
 	if event is InputEventMouseMotion:
 		if DisplayServer.get_name() != "headless" and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
@@ -101,6 +117,15 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority(): return
+
+	# Vor Rundenstart: Bewegung einfrieren
+	if not can_move and not is_spectator:
+		if not is_on_floor():
+			velocity += get_gravity() * delta
+			move_and_slide()
+		else:
+			velocity = Vector3.ZERO
+		return
 
 	# --- Spectator Mode (Minecraft Freiflug / Noclip) ---
 	if is_spectator:
