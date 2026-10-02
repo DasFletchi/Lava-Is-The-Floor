@@ -14,7 +14,7 @@ class_name LavaFloor
 @export var start_height: float = -3.5
 
 ## Verzögerung in Sekunden, bevor die Lava anfängt zu steigen (Spawn-Schutz).
-@export var start_delay: float = 3.5
+@export var start_delay: float = 5
 var delay_timer: float = 0.0
 
 @onready var kill_area: Area3D = $KillArea
