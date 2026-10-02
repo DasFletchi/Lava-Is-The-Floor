@@ -556,7 +556,7 @@ transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -2.2487173, 22.235283, 
 script = ExtResource("res_ceiling_fan")
 
 [node name="Ceiling_Fan21" parent="env" unique_id=3679316 instance=ExtResource("res_26")]
-transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -2.2487173, 22.235283, -7.103581)
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -2.2487173, 22.235283, -4.981204)
 script = ExtResource("res_ceiling_fan")
 
 [node name="Ceiling_Fan22" parent="env" unique_id=78379896 instance=ExtResource("res_26")]
