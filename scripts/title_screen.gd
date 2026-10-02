@@ -83,8 +83,8 @@ func _ready() -> void:
 		_apply_to_preview(cust.selected_color, cust.selected_eye_style, false)
 	
 	
-	if gamertag != null:
-		gamertag.text = PlayerCustomization.player_name
+	if gamertag != null and cust != null:
+		gamertag.text = cust.player_name
 		gamertag.text_changed.connect(_on_gamertag_changed)
 
 
@@ -100,8 +100,10 @@ func _ready() -> void:
 
 func _on_gamertag_changed(new_text: String) -> void:
 	if not new_text.strip_edges().is_empty():
-		PlayerCustomization.player_name = new_text.strip_edges()
-		PlayerCustomization.save_data()
+		var cust = _get_customizer()
+		if cust:
+			cust.player_name = new_text.strip_edges()
+			cust.save_data()
 
 
 
@@ -170,8 +172,10 @@ func _apply_to_preview(col: Color, eye_id: int, bounce: bool = true) -> void:
 
 func _on_level_1_button_pressed() -> void:
 	if gamertag != null and not gamertag.text.strip_edges().is_empty():
-		PlayerCustomization.player_name = gamertag.text.strip_edges()
-		PlayerCustomization.save_data()
+		var cust = _get_customizer()
+		if cust:
+			cust.player_name = gamertag.text.strip_edges()
+			cust.save_data()
 		get_tree().change_scene_to_file("res://scenes/Level1.tscn")
 
 func _on_back_button_pressed() -> void:

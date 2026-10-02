@@ -13,7 +13,9 @@ config_version=5
 config/name="Lava is the Floor"
 run/main_scene="uid://yv267dbktknq"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/stretch_mode=4
+boot_splash/image="uid://c78dv6tbt4jlq"
+config/icon="uid://c78dv6tbt4jlq"
 
 [autoload]
 

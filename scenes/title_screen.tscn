@@ -435,5 +435,13 @@ stream = ExtResource("6_3yumr")
 volume_db = -15.0
 parameters/looping = true
 
+[node name="Label" type="Label" parent="." unique_id=1506718971]
+layout_mode = 0
+offset_left = 1013.0
+offset_top = 624.0
+offset_right = 1149.0
+offset_bottom = 647.0
+text = "A game by Fletchi"
+
 [connection signal="pressed" from="UIOverlay/HBox/LeftColumn/LevelSelect Button/Level1Button" to="." method="_on_level_1_button_pressed"]
 [connection signal="pressed" from="UIOverlay/HBox/LeftColumn/LevelSelect Button/BackButton" to="." method="_on_back_button_pressed"]
