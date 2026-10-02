@@ -259,6 +259,14 @@ mesh = SubResource("Mesh_Rafter_EW")
 transform = Transform3D(0.7408324, 0, 0.6716899, 0, 1, 0, -0.6716899, 0, 0.7408324, 2.711971, 9.729359, -4.074123)
 mesh = SubResource("Mesh_Rafter_EW")
 
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="env/Rafter_EW_Center" unique_id=1990329819]
+transform = Transform3D(0.9475863, 0, -0.31950006, 0, 1, 0, 0.31950006, 0, 0.9475863, 2.711971, 17.372953, 8.150326)
+mesh = SubResource("Mesh_Rafter_EW")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="env/Rafter_EW_Center" unique_id=648962536]
+transform = Transform3D(0.074112326, 0, -0.99724996, -0.5099059, 0.85939515, -0.03789452, 0.85703176, 0.511312, 0.06369177, 2.711971, 17.372953, -1.6101027)
+mesh = SubResource("Mesh_Rafter_EW")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Rafter_EW_Center" unique_id=1135]
 shape = SubResource("Shape_Rafter_EW")
 
@@ -587,6 +595,10 @@ script = ExtResource("res_ceiling_fan")
 transform = Transform3D(-0.13222346, -3.4975016, 0, 3.4975016, -0.13222346, 0, 0, 0, 3.5, 11.417713, 25.839724, 8.003704)
 script = ExtResource("res_ceiling_fan")
 
+[node name="Ceiling_Fan32" parent="env" unique_id=2079670397 instance=ExtResource("res_26")]
+transform = Transform3D(0.011708083, 0.30969566, -3.4862516, 3.4975019, -0.13222349, 2.6585723e-10, -0.1317041, -3.4837632, -0.30991682, 9.985918, 25.839724, 11.5049305)
+script = ExtResource("res_ceiling_fan")
+
 [node name="Ceiling_Fan30" parent="env" unique_id=1826210213 instance=ExtResource("res_26")]
 transform = Transform3D(-0.13222346, -3.4975016, 0, 3.4975016, -0.13222346, 0, 0, 0, 3.5, 11.417713, 25.839724, 8.003704)
 script = ExtResource("res_ceiling_fan")
@@ -735,6 +747,19 @@ transform = Transform3D(4.07, 0, 0, 0, 4.07, 0, 0, 0, 4.07, -5.5309334, 20.67817
 [node name="speaker5" parent="env" unique_id=108932968 instance=ExtResource("35_ncr2o")]
 transform = Transform3D(4.07, 0, 0, 0, 4.07, 0, 0, 0, 4.07, -5.5309334, 20.678173, -1.6292273)
 
+[node name="speaker6" parent="env" unique_id=762690973 instance=ExtResource("35_ncr2o")]
+transform = Transform3D(4.07, 0, 0, 0, 4.07, 0, 0, 0, 4.07, 2.3720417, 27.027592, -1.6292273)
+
+[node name="speaker7" parent="env" unique_id=2060315140 instance=ExtResource("35_ncr2o")]
+transform = Transform3D(4.07, 0, 0, 0, 4.07, 0, 0, 0, 4.07, 2.6951694, 25.251783, 1.5602189)
+
+[node name="speaker8" parent="env" unique_id=1391093540 instance=ExtResource("35_ncr2o")]
+transform = Transform3D(4.07, 0, 0, 0, 4.07, 0, 0, 0, 4.07, 2.7908583, 23.967402, 3.8230453)
+
+[node name="Label3D" type="Label3D" parent="env" unique_id=1066803320]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8980932, 33.895573, -11.997015)
+text = "lol you actually did it have fun dying lol"
+
 [node name="MultiplayerManager" parent="." unique_id=262423894 instance=ExtResource("res_mp_mgr")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=419141648]
@@ -766,6 +791,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.769573, 0, -13.753739)
 [node name="toiletSquare" parent="." unique_id=630999073 instance=ExtResource("40_v2rjx")]
 transform = Transform3D(-1.5058141, 0, -2.3665485, 0, 2.8050003, 0, 2.3665485, 0, -1.5058141, -4.2767525, 22.13313, 4.9315186)
 
+[node name="toiletSquare2" parent="." unique_id=630832185 instance=ExtResource("40_v2rjx")]
+transform = Transform3D(-1.5058141, 0, -2.3665485, 0, 2.8050003, 0, 2.3665485, 0, -1.5058141, -3.9291449, 23.299639, 6.4035916)
+
+[node name="toiletSquare3" parent="." unique_id=530103783 instance=ExtResource("40_v2rjx")]
+transform = Transform3D(-1.5058141, 0, -2.3665485, 0, 2.8050003, 0, 2.3665485, 0, -1.5058141, -2.0327988, 23.299639, 7.7142944)
+
 [node name="televisionVintage" parent="." unique_id=1614943536 instance=ExtResource("41_s2ivy")]
 transform = Transform3D(-1.4113582, 0, 1.4170631, 0, 2, 0, -1.4170631, 0, -1.4113582, -1.948405, 22.976465, -2.394631)
 
@@ -783,6 +814,9 @@ transform = Transform3D(5.395, 0, 0, 0, 5.395, 0, 0, 0, 5.395, 1.3360667, 22.477
 
 [node name="plantSmall5" parent="." unique_id=213550024 instance=ExtResource("42_v2rjx")]
 transform = Transform3D(5.395, 0, 0, 0, 5.395, 0, 0, 0, 5.395, 6.099556, 24.075268, 5.7901125)
+
+[node name="plantSmall7" parent="." unique_id=1579118701 instance=ExtResource("42_v2rjx")]
+transform = Transform3D(5.395, 0, 0, 0, 5.395, 0, 0, 0, 5.395, 9.792233, 24.075268, 9.387062)
 
 [node name="plantSmall6" parent="." unique_id=1695998910 instance=ExtResource("42_v2rjx")]
 transform = Transform3D(5.395, 0, 0, 0, 5.395, 0, 0, 0, 5.395, 6.099556, 24.075268, 5.7901125)
