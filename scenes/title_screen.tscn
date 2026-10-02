@@ -443,5 +443,13 @@ offset_right = 1149.0
 offset_bottom = 647.0
 text = "A game by Fletchi"
 
+[node name="Label2" type="Label" parent="." unique_id=692085626]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 624.0
+offset_right = 611.0
+offset_bottom = 647.0
+text = "WASD to move, left click to many on top of things that are in front of your head"
+
 [connection signal="pressed" from="UIOverlay/HBox/LeftColumn/LevelSelect Button/Level1Button" to="." method="_on_level_1_button_pressed"]
 [connection signal="pressed" from="UIOverlay/HBox/LeftColumn/LevelSelect Button/BackButton" to="." method="_on_back_button_pressed"]

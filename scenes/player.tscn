@@ -178,7 +178,8 @@ height = 0.16
 
 [node name="tempPlayer" type="CharacterBody3D" unique_id=1070925469]
 script = ExtResource("1_3vyb7")
-SPEED = 8.0
+spectator_speed = 8.0
+SPEED = 4.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1654876221]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
