@@ -468,7 +468,7 @@ transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 4.2970347, 0.028117396,
 transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 4.2970347, 0.028117396, 4.2208323)
 
 [node name="Bunk_Bed" parent="env" unique_id=2043 instance=ExtResource("res_25")]
-transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -9.373747, 0.1, 11.958822)
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -6.5063744, -1.0643519, -8.731667)
 
 [node name="Bunk_Bed2" parent="env" unique_id=868825225 instance=ExtResource("res_25")]
 transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -6.9463816, 0.1, 11.958822)
@@ -556,9 +556,6 @@ transform = Transform3D(4, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, -7.152913)
 
 [node name="benchCushionLow3" parent="env" unique_id=1187856648 instance=ExtResource("29_qwon6")]
 transform = Transform3D(-1.7484555e-07, 0, 2, 0, 2, 0, -4, 0, -8.742278e-08, -6.2582254, 0, -5.5906663)
-
-[node name="benchCushionLow5" parent="env" unique_id=1815276474 instance=ExtResource("29_qwon6")]
-transform = Transform3D(-3.9953206, 0, 0.096713305, 0, 2, 0, -0.19342661, 0, -1.9976603, -6.9199233, 0, -9.724359)
 
 [node name="benchCushionLow4" parent="env" unique_id=1402464325 instance=ExtResource("29_qwon6")]
 transform = Transform3D(-1.7484555e-07, 0, 2, 0, 2, 0, -4, 0, -8.742278e-08, -5.013795, 0, -5.6592293)
