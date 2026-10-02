@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://b8mpmgrscene1"]
+
+[ext_resource type="Script" path="res://scripts/multiplayer_manager.gd" id="1_script"]
+
+[node name="MultiplayerManager" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Players" type="Node3D" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://dranyd23io7tw")
+spawn_path = NodePath("../Players")
+
+[node name="LobbyUI" type="CanvasLayer" parent="."]
+
+[node name="tempMPMenu" type="PanelContainer" parent="LobbyUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyUI/tempMPMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+layout_mode = 2
+text = "== LAVA IS THE FLOOR - MULTIPLAYER LOBBY =="
+horizontal_alignment = 1
+
+[node name="Host" type="Button" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="AdressEntry" type="LineEdit" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter Addres to join"
+alignment = 1
+
+[node name="Back" type="Button" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+layout_mode = 2
+text = "◀ Back to Title Screen"
+
+[node name="LobbyBox" type="VBoxContainer" parent="LobbyUI/tempMPMenu"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LobbyTitle" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.6, 0.1, 1)
+theme_override_font_sizes/font_size = 22
+text = "== MULTIPLAYER LOBBY =="
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox"]
+layout_mode = 2
+text = "Warte auf Mitspieler..."
+horizontal_alignment = 1
+
+[node name="CodeContainer" type="HBoxContainer" parent="LobbyUI/tempMPMenu/LobbyBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 10
+
+[node name="CodeTitle" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox/CodeContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.2, 1)
+text = "🎮 RAUM-CODE:"
+
+[node name="CodeLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox/CodeContainer"]
+layout_mode = 2
+text = "..."
+
+[node name="CopyButton" type="Button" parent="LobbyUI/tempMPMenu/LobbyBox/CodeContainer"]
+layout_mode = 2
+text = "📋 Kopieren"
+
+[node name="PlayerCountLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox"]
+layout_mode = 2
+text = "👥 Verbundene Spieler: 1"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="LobbyUI/tempMPMenu/LobbyBox"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "🚀 Runde starten"
+
+[node name="ClientWaitLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.8, 0.3, 1)
+text = "⏳ Warte darauf, dass der Host die Runde startet..."
+horizontal_alignment = 1
+
+[node name="LeaveButton" type="Button" parent="LobbyUI/tempMPMenu/LobbyBox"]
+layout_mode = 2
+text = "◀ Lobby verlassen"
+
+[connection signal="pressed" from="LobbyUI/tempMPMenu/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="LobbyUI/tempMPMenu/VBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="LobbyUI/tempMPMenu/VBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="LobbyUI/tempMPMenu/LobbyBox/CodeContainer/CopyButton" to="." method="_on_copy_code_pressed"]
+[connection signal="pressed" from="LobbyUI/tempMPMenu/LobbyBox/StartButton" to="." method="_on_start_round_pressed"]
+[connection signal="pressed" from="LobbyUI/tempMPMenu/LobbyBox/LeaveButton" to="." method="_on_leave_lobby_pressed"]
