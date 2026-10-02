@@ -58,7 +58,7 @@ func _update_lobby_player_count() -> void:
 		if players.size() > 0:
 			count = players.size()
 	if lobby_players_label:
-		lobby_players_label.text = "👥 Verbundene Spieler: " + str(count)
+		lobby_players_label.text = "Connected Players: " + str(count)
 
 func _on_host_pressed() -> void:
 	is_host = true
@@ -66,7 +66,7 @@ func _on_host_pressed() -> void:
 
 	_show_lobby_view(true)
 	if lobby_status_label:
-		lobby_status_label.text = "Erstelle Noray-Sitzung..."
+		lobby_status_label.text = "Creating Noray session..."
 	if lobby_start_button:
 		lobby_start_button.disabled = true
 
@@ -93,7 +93,7 @@ func _on_host_pressed() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
 	if lobby_status_label:
-		lobby_status_label.text = "Lobby aktiv! Code in Zwischenablage kopiert."
+		lobby_status_label.text = "Lobby active! Code copied to clipboard."
 	if lobby_start_button:
 		lobby_start_button.disabled = false
 	_update_lobby_player_count()
@@ -110,7 +110,7 @@ func _on_join_pressed() -> void:
 
 	_show_lobby_view(false)
 	if lobby_status_label:
-		lobby_status_label.text = "Verbinde mit Host..."
+		lobby_status_label.text = "Connecting to host..."
 	if lobby_code_label:
 		lobby_code_label.text = host_oid
 
@@ -129,11 +129,11 @@ func _on_copy_code_pressed() -> void:
 	if not current_room_code.is_empty():
 		DisplayServer.clipboard_set(current_room_code)
 	if lobby_copy_btn:
-		lobby_copy_btn.text = "✓ Kopiert!"
+		lobby_copy_btn.text = "Copied!"
 		var timer = get_tree().create_timer(2.0)
 		timer.timeout.connect(func():
 			if is_instance_valid(lobby_copy_btn):
-				lobby_copy_btn.text = "📋 Kopieren"
+				lobby_copy_btn.text = "COPY"
 		)
 
 func _on_start_round_pressed() -> void:
@@ -172,7 +172,7 @@ func join(address: String, port: int) -> void:
 	enet_peer.create_client(address, port, 0, 0, 0, Noray.local_port)
 	multiplayer.multiplayer_peer = enet_peer
 	if lobby_status_label:
-		lobby_status_label.text = "Verbunden mit Host! Warte auf Start..."
+		lobby_status_label.text = "Connected to host! Waiting for start..."
 	_update_lobby_player_count()
 
 func nat_connect(address: String, port: int) -> void:
@@ -241,7 +241,7 @@ func check_win_condition() -> void:
 		_declare_winner(alive[0])
 
 func _declare_winner(winner: Node) -> void:
-	print("[MultiplayerManager] 🏆 GEWINNER: ", winner.name)
+	print("[MultiplayerManager] Winner: ", winner.name)
 	if winner.has_method("win"):
 		if multiplayer.has_multiplayer_peer():
 			winner.win_rpc.rpc()

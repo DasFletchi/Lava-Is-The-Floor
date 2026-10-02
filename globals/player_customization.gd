@@ -8,16 +8,16 @@ const SAVE_PATH = "user://bean_customization.cfg"
 var player_name: String = "Player"
 
 const EYE_STYLES: Array[Dictionary] = [
-	{"id": 0, "name": "Classic", "icon": "👀"},
-	{"id": 1, "name": "Derp", "icon": "🤪"},
-	{"id": 2, "name": "Angry", "icon": "😠"},
-	{"id": 3, "name": "Happy", "icon": "^^"},
-	{"id": 4, "name": "Henrik", "icon": "🕶️"},
-	{"id": 5, "name": "Cyclops", "icon": "👁️"},
-	{"id": 6, "name": "Shocked", "icon": "😲"},
-	{"id": 7, "name": "Sleepy", "icon": "😴"},
-	{"id": 8, "name": "Inferno", "icon": "🔥"},
-	{"id": 9, "name": "Dizzy", "icon": "😵"},
+	{"id": 0, "name": "Classic", "icon": ""},
+	{"id": 1, "name": "Derp", "icon": ""},
+	{"id": 2, "name": "Angry", "icon": ""},
+	{"id": 3, "name": "Happy", "icon": ""},
+	{"id": 4, "name": "Henrik", "icon": ""},
+	{"id": 5, "name": "Cyclops", "icon": ""},
+	{"id": 6, "name": "Shocked", "icon": ""},
+	{"id": 7, "name": "Sleepy", "icon": ""},
+	{"id": 8, "name": "Inferno", "icon": ""},
+	{"id": 9, "name": "Dizzy", "icon": ""},
 ]
 
 const COLOR_PALETTE: Array[Dictionary] = [

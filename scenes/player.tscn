@@ -323,7 +323,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 18
-text = "ded you skill issue fr, i mean i guess you can fly aorund now if you want"
+text = "ded you skill issue fr, i mean i guess you can fly around now if you want"
 horizontal_alignment = 1
 
 [node name="DeadPopUp" type="RichTextLabel" parent="." unique_id=701871635]
