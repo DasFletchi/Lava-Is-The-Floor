@@ -67,6 +67,7 @@ func _ready() -> void:
 		_apply_visuals()
 
 	if not is_multiplayer_authority(): return
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	animation_player.animation_finished.connect(_on_animation_finished)
 	animation_player.play("RESET")
 	camera.make_current()
@@ -74,7 +75,20 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority(): return
+
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+	if event.is_action_pressed("quit"):
+		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			get_viewport().set_input_as_handled()
+			return
+
 	if event is InputEventMouseMotion:
+		if DisplayServer.get_name() != "headless" and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+			return
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		camera.rotate_x(-event.relative.y * mouse_sensitivity)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
@@ -159,9 +173,6 @@ func _physics_process(delta: float) -> void:
 	
 	if is_on_floor():
 		ledges_left = 1
-		# Lava floor check: the floor is lava!
-		if global_position.y <= 0.6:
-			velocity.y = JUMP_VELOCITY * 1.8 # Big fiery lava bounce!
 
 
 	if legding_rn:
@@ -170,6 +181,9 @@ func _physics_process(delta: float) -> void:
 		animation_player.play("idle")
 	else:
 		animation_player.play("RESET")
+
+
+
 
 func ledge_boost():
 	if ledges_left > 0:
@@ -255,6 +269,7 @@ func respawn() -> void:
 	if collision_shape_3d:
 		collision_shape_3d.set_deferred("disabled", false)
 	if is_multiplayer_authority():
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		if hands:
 			hands.show()
 		if spectator_hud:

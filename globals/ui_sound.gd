@@ -4,6 +4,7 @@ var player = AudioStreamPlayer.new()
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	print("DEBUG WINDOW: ", get_tree().root.size, " content_scale_size: ", get_tree().root.content_scale_size, " mode: ", get_tree().root.content_scale_mode, " aspect: ", get_tree().root.content_scale_aspect)
 	player.stream = preload("res://sfx/chosic/141121__eternitys__interface1.wav")
 	# Lautstärke: 0 dB (oder leicht verstärkt), damit der Sound über der Musik deutlich hörbar ist!
 	player.volume_db = -4.0
@@ -33,3 +34,11 @@ func play() -> void:
 	if player:
 		player.stop()
 		player.play()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_F11 or (event.keycode == KEY_ENTER and event.alt_pressed):
+			var is_full = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+			DisplayServer.window_set_mode(
+				DisplayServer.WINDOW_MODE_WINDOWED if is_full else DisplayServer.WINDOW_MODE_FULLSCREEN
+			)

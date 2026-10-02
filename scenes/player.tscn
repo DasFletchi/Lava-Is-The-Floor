@@ -262,3 +262,29 @@ theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 18
 text = "ded you skill issue fr, i mean i guess you can fly aorund now if you want"
 horizontal_alignment = 1
+
+[node name="DeadPopUp" type="RichTextLabel" parent="." unique_id=701871635]
+visible = false
+offset_left = 458.0
+offset_top = 227.0
+offset_right = 727.0
+offset_bottom = 364.0
+theme_override_font_sizes/normal_font_size = 100
+theme_override_font_sizes/bold_font_size = 100
+theme_override_font_sizes/bold_italics_font_size = 100
+theme_override_font_sizes/italics_font_size = 100
+theme_override_font_sizes/mono_font_size = 100
+text = "DEAD"
+
+[node name="WONPopUP" type="RichTextLabel" parent="." unique_id=1474380921]
+visible = false
+offset_left = 458.0
+offset_top = 227.0
+offset_right = 727.0
+offset_bottom = 364.0
+theme_override_font_sizes/normal_font_size = 100
+theme_override_font_sizes/bold_font_size = 100
+theme_override_font_sizes/bold_italics_font_size = 100
+theme_override_font_sizes/italics_font_size = 100
+theme_override_font_sizes/mono_font_size = 100
+text = "WON"

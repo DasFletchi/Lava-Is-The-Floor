@@ -11,16 +11,25 @@ class_name LavaFloor
 @export var max_height: float = 65.0
 
 ## Start-Y-Höhe zum Zurücksetzen
-@export var start_height: float = -2.0
+@export var start_height: float = -3.5
+
+## Verzögerung in Sekunden, bevor die Lava anfängt zu steigen (Spawn-Schutz).
+@export var start_delay: float = 3.5
+var delay_timer: float = 0.0
 
 @onready var kill_area: Area3D = $KillArea
 
 func _ready() -> void:
 	global_position.y = start_height
+	delay_timer = start_delay
 	if kill_area:
 		kill_area.body_entered.connect(_on_kill_area_body_entered)
 
 func _physics_process(delta: float) -> void:
+	if delay_timer > 0.0:
+		delay_timer -= delta
+		return
+
 	if not is_rising:
 		return
 	
@@ -37,3 +46,4 @@ func _on_kill_area_body_entered(body: Node3D) -> void:
 
 func reset_lava() -> void:
 	global_position.y = start_height
+	delay_timer = start_delay

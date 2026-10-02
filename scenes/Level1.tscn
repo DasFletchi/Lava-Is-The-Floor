@@ -1,62 +1,376 @@
 [gd_scene format=3 uid="uid://c5vxxt0ryg3ax"]
 
-[ext_resource type="Script" uid="uid://b0350gi31rkk4" path="res://scripts/main.gd" id="1_nllki"]
-[ext_resource type="PackedScene" uid="uid://61b4bctuy3yq" path="res://assets/Modular Blueprint Kit/glTF/WL_CROSS.gltf" id="2_op21l"]
-[ext_resource type="PackedScene" uid="uid://wxauruiuc8qd" path="res://assets/Modular Blueprint Kit/glTF/WL_WINDOW.gltf" id="3_b3nqb"]
-[ext_resource type="PackedScene" uid="uid://ddu6uylpn572k" path="res://scenes/lava.tscn" id="4_lava"]
-[ext_resource type="AudioStream" uid="uid://bk6v4jqj7ot83" path="res://music/chosic/Loyalty_Freak_Music_-_04_-_Cant_Stop_My_Feet_(chosic.com).mp3" id="5_lrl65"]
+[ext_resource type="Script" uid="uid://b0350gi31rkk4" path="res://scripts/main.gd" id="res_1"]
+[ext_resource type="PackedScene" uid="uid://ddu6uylpn572k" path="res://scenes/lava.tscn" id="res_2"]
+[ext_resource type="AudioStream" uid="uid://bk6v4jqj7ot83" path="res://music/chosic/Loyalty_Freak_Music_-_04_-_Cant_Stop_My_Feet_(chosic.com).mp3" id="res_3"]
+[ext_resource type="PackedScene" uid="uid://dcvivenql8kgf" path="res://assets/floor_is_lava/furniture/tableCoffee.glb" id="res_4"]
+[ext_resource type="PackedScene" uid="uid://cq1i8ykwxf0ra" path="res://assets/floor_is_lava/furniture/loungeSofaLong.glb" id="res_5"]
+[ext_resource type="PackedScene" uid="uid://sh8y0na4p7l7" path="res://assets/floor_is_lava/furniture/loungeSofaCorner.glb" id="res_6"]
+[ext_resource type="PackedScene" uid="uid://dq88wbfjkmyd5" path="res://assets/floor_is_lava/furniture/loungeSofaOttoman.glb" id="res_7"]
+[ext_resource type="PackedScene" uid="uid://qmilycgd501g" path="res://assets/floor_is_lava/furniture/loungeChair.glb" id="res_8"]
+[ext_resource type="PackedScene" uid="uid://bo8rk4f0xvruo" path="res://assets/floor_is_lava/furniture/lampRoundFloor.glb" id="res_9"]
+[ext_resource type="PackedScene" uid="uid://r6pjrtox42ty" path="res://assets/floor_is_lava/furniture/cabinetTelevision.glb" id="res_10"]
+[ext_resource type="PackedScene" uid="uid://d4caum21m4ac4" path="res://assets/floor_is_lava/furniture/televisionModern.glb" id="res_11"]
+[ext_resource type="PackedScene" uid="uid://m6dhcrxm6upc" path="res://assets/floor_is_lava/furniture/speaker.glb" id="res_12"]
+[ext_resource type="PackedScene" uid="uid://bd3y3oskh6kqn" path="res://assets/floor_is_lava/furniture/bookcaseOpen.glb" id="res_13"]
+[ext_resource type="PackedScene" uid="uid://coue3tiqqnbqr" path="res://assets/floor_is_lava/furniture/bookcaseClosedWide.glb" id="res_14"]
+[ext_resource type="PackedScene" uid="uid://t8j62dw0gicj" path="res://assets/floor_is_lava/furniture/table.glb" id="res_15"]
+[ext_resource type="PackedScene" uid="uid://ci0ghptqslbpc" path="res://assets/floor_is_lava/furniture/chair.glb" id="res_16"]
+[ext_resource type="PackedScene" uid="uid://dihtitxq2t2u4" path="res://assets/floor_is_lava/furniture/kitchenBar.glb" id="res_17"]
+[ext_resource type="PackedScene" uid="uid://cxoig5fde56f2" path="res://assets/floor_is_lava/furniture/kitchenSink.glb" id="res_18"]
+[ext_resource type="PackedScene" uid="uid://cjh0q57uiavfh" path="res://assets/floor_is_lava/furniture/kitchenStove.glb" id="res_19"]
+[ext_resource type="PackedScene" uid="uid://dbkessh600yej" path="res://assets/floor_is_lava/furniture/kitchenCabinetUpper.glb" id="res_20"]
+[ext_resource type="PackedScene" uid="uid://y0a37cgdl0ja" path="res://assets/floor_is_lava/furniture/kitchenFridgeLarge.glb" id="res_21"]
+[ext_resource type="PackedScene" uid="uid://bci7iu5s4s0xv" path="res://assets/floor_is_lava/furniture/desk.glb" id="res_22"]
+[ext_resource type="PackedScene" uid="uid://bldwtjwsq5mod" path="res://assets/floor_is_lava/furniture/chairDesk.glb" id="res_23"]
+[ext_resource type="PackedScene" uid="uid://rraa5u0u888e" path="res://assets/floor_is_lava/furniture/cardboardBoxClosed.glb" id="res_24"]
+[ext_resource type="PackedScene" uid="uid://dw46bb10k3odu" path="res://assets/floor_is_lava/furniture/bedBunk.glb" id="res_25"]
+[ext_resource type="PackedScene" uid="uid://bn0ajtiqhk471" path="res://assets/floor_is_lava/furniture/ceilingFan.glb" id="res_26"]
+[ext_resource type="PackedScene" uid="uid://cxarmywcfy7kr" path="res://assets/floor_is_lava/playground_and_props/modern_rug.glb" id="res_27"]
+[ext_resource type="PackedScene" uid="uid://bx2mkkx0ckjps" path="res://assets/floor_is_lava/industrial_warehouse/pipe-large-long.glb" id="res_30"]
+[ext_resource type="PackedScene" uid="uid://bhcqcl61sytpa" path="res://assets/floor_is_lava/furniture/laptop.glb" id="res_32"]
+[ext_resource type="PackedScene" uid="uid://b6aja86lya46d" path="res://assets/floor_is_lava/furniture/pillow.glb" id="res_33"]
+[ext_resource type="PackedScene" uid="uid://cpy175dc638km" path="res://assets/floor_is_lava/furniture/pillowBlue.glb" id="res_34"]
+[ext_resource type="PackedScene" uid="uid://bff6fuh4agk75" path="res://assets/floor_is_lava/furniture/pottedPlant.glb" id="res_35"]
+[ext_resource type="PackedScene" uid="uid://c1iw8s3q0kcq3" path="res://assets/floor_is_lava/furniture/books.glb" id="res_36"]
+[ext_resource type="PackedScene" uid="uid://bqxoiqhlb4yiu" path="res://assets/floor_is_lava/furniture/toaster.glb" id="res_37"]
+[ext_resource type="PackedScene" uid="uid://05eeqpvlwjtj" path="res://assets/floor_is_lava/furniture/kitchenCoffeeMachine.glb" id="res_38"]
+[ext_resource type="PackedScene" uid="uid://b1hlg42efarr5" path="res://assets/floor_is_lava/furniture/computerScreen.glb" id="res_39"]
+[ext_resource type="PackedScene" uid="uid://lpo1u7hwa8ig" path="res://assets/floor_is_lava/furniture/computerKeyboard.glb" id="res_40"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sgp6g"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+sky_top_color = Color(0.24, 0.35, 0.52, 1)
+sky_horizon_color = Color(0.72, 0.52, 0.38, 1)
+ground_bottom_color = Color(0.18, 0.08, 0.04, 1)
+ground_horizon_color = Color(0.72, 0.52, 0.38, 1)
 
-[sub_resource type="Sky" id="Sky_o5qli"]
+[sub_resource type="Sky" id="Sky_y3076"]
 sky_material = SubResource("ProceduralSkyMaterial_sgp6g")
 
-[sub_resource type="Environment" id="Environment_0wfyh"]
+[sub_resource type="Environment" id="Environment_q3s3b"]
 background_mode = 2
-sky = SubResource("Sky_o5qli")
-volumetric_fog_density = 0.0308
+sky = SubResource("Sky_y3076")
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.45, 0.38, 1)
+ambient_light_energy = 0.95
+tonemap_mode = 2
+glow_enabled = true
+glow_bloom = 0.12
 
-[node name="Level1" type="Node3D" unique_id=1884375871]
-script = ExtResource("1_nllki")
+[sub_resource type="StandardMaterial3D" id="Mat_Wall"]
+albedo_color = Color(0.86, 0.83, 0.77, 1)
+roughness = 0.88
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2012963988]
-environment = SubResource("Environment_0wfyh")
+[sub_resource type="BoxMesh" id="Mesh_Wall_Z"]
+material = SubResource("Mat_Wall")
+size = Vector3(25, 14, 0.6)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1217690658]
-transform = Transform3D(-0.08521406, -0.5401807, -0.8372237, -0.86182284, -0.38171312, 0.33400095, -0.50000006, 0.75, -0.43301266, 0, 0.6212295, 0)
+[sub_resource type="BoxShape3D" id="Shape_Wall_Z"]
+size = Vector3(25, 14, 0.6)
+
+[sub_resource type="BoxMesh" id="Mesh_Wall_X"]
+material = SubResource("Mat_Wall")
+size = Vector3(0.6, 14, 25)
+
+[sub_resource type="BoxShape3D" id="Shape_Wall_X"]
+size = Vector3(0.6, 14, 25)
+
+[sub_resource type="StandardMaterial3D" id="Mat_LoftFloor"]
+albedo_color = Color(0.38, 0.24, 0.14, 1)
+roughness = 0.65
+
+[sub_resource type="BoxMesh" id="Mesh_Loft_East"]
+material = SubResource("Mat_LoftFloor")
+size = Vector3(4, 0.35, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_Loft_East"]
+size = Vector3(4, 0.35, 12)
+
+[sub_resource type="BoxMesh" id="Mesh_Loft_West"]
+material = SubResource("Mat_LoftFloor")
+size = Vector3(4, 0.35, 10)
+
+[sub_resource type="BoxShape3D" id="Shape_Loft_West"]
+size = Vector3(4, 0.35, 10)
+
+[sub_resource type="BoxMesh" id="Mesh_Loft_Bridge"]
+material = SubResource("Mat_LoftFloor")
+size = Vector3(16, 0.35, 1.8)
+
+[sub_resource type="BoxShape3D" id="Shape_Loft_Bridge"]
+size = Vector3(16, 0.35, 1.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_CeilingBeam"]
+albedo_color = Color(0.28, 0.17, 0.09, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_Rafter_NS"]
+material = SubResource("Mat_CeilingBeam")
+size = Vector3(0.9, 0.5, 24.6)
+
+[sub_resource type="BoxShape3D" id="Shape_Rafter_NS"]
+size = Vector3(0.9, 0.5, 24.6)
+
+[sub_resource type="BoxMesh" id="Mesh_Rafter_EW"]
+material = SubResource("Mat_CeilingBeam")
+size = Vector3(24.6, 0.5, 0.9)
+
+[sub_resource type="BoxShape3D" id="Shape_Rafter_EW"]
+size = Vector3(24.6, 0.5, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sdhn1"]
+size = Vector3(24.535095, 0.5327266, 25.322754)
+
+[node name="Level1" type="Node3D" unique_id=2081699914]
+script = ExtResource("res_1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1411516082]
+environment = SubResource("Environment_q3s3b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=621743603]
+transform = Transform3D(0.819152, -0.40558, 0.40558, 0, 0.707107, 0.707107, -0.573576, -0.579228, 0.579228, 8, 15, 8)
+light_color = Color(1, 0.94, 0.82, 1)
+light_energy = 1.35
 shadow_enabled = true
 
-[node name="Lava" parent="." unique_id=496558326 instance=ExtResource("4_lava")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.62865, -9.679713, 12.108612)
+[node name="Lava" parent="." unique_id=1384022830 instance=ExtResource("res_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0)
+rise_speed = 0.2
+start_height = -0.6
 
-[node name="env" type="Node" parent="." unique_id=746808923]
+[node name="env" type="Node3D" parent="." unique_id=907298652]
 
-[node name="WL_CROSS2" parent="env" unique_id=855150017 instance=ExtResource("2_op21l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.265734, 0, 5.8247423)
+[node name="Wall_North" type="StaticBody3D" parent="env" unique_id=1101]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -12.3)
 
-[node name="WL_CROSS3" parent="env" unique_id=1107288483 instance=ExtResource("2_op21l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.92021, 0, -3.5683975)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Wall_North" unique_id=1102]
+mesh = SubResource("Mesh_Wall_Z")
 
-[node name="WL_CROSS4" parent="env" unique_id=281595018 instance=ExtResource("2_op21l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.559684, 0, 7.053362)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Wall_North" unique_id=1103]
+shape = SubResource("Shape_Wall_Z")
 
-[node name="WL_CROSS5" parent="env" unique_id=333832926 instance=ExtResource("2_op21l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.851365, 0, -4.588993)
+[node name="Wall_South" type="StaticBody3D" parent="env" unique_id=1104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 12.3)
 
-[node name="WL_CROSS6" parent="env" unique_id=1912824363 instance=ExtResource("2_op21l")]
-transform = Transform3D(2.63, 0, 0, 0, 2.63, 0, 0, 0, 2.63, 2.6708283, 0, 11.338118)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Wall_South" unique_id=1105]
+mesh = SubResource("Mesh_Wall_Z")
 
-[node name="WL_WINDOW2" parent="env" unique_id=1612015397 instance=ExtResource("3_b3nqb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.08751, 0, -1.3004456)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Wall_South" unique_id=1106]
+shape = SubResource("Shape_Wall_Z")
 
-[node name="WL_WINDOW3" parent="env" unique_id=1153921192 instance=ExtResource("3_b3nqb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1991777, 0, -0.81898403)
+[node name="Wall_East" type="StaticBody3D" parent="env" unique_id=1107]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3, 6, 0)
 
-[node name="Mutliplayer temp menu" type="CanvasLayer" parent="." unique_id=1576663919]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Wall_East" unique_id=1108]
+mesh = SubResource("Mesh_Wall_X")
 
-[node name="tempMPMenu" type="PanelContainer" parent="Mutliplayer temp menu" unique_id=1535822173]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Wall_East" unique_id=1109]
+shape = SubResource("Shape_Wall_X")
+
+[node name="Wall_West" type="StaticBody3D" parent="env" unique_id=1110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.3, 6, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Wall_West" unique_id=1111]
+mesh = SubResource("Mesh_Wall_X")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Wall_West" unique_id=1112]
+shape = SubResource("Shape_Wall_X")
+
+[node name="Loft_East" type="StaticBody3D" parent="env" unique_id=1120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 5.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Loft_East" unique_id=1121]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07859087, 0)
+mesh = SubResource("Mesh_Loft_East")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Loft_East" unique_id=1122]
+shape = SubResource("Shape_Loft_East")
+
+[node name="Loft_West" type="StaticBody3D" parent="env" unique_id=1123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 5.5, 4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Loft_West" unique_id=1124]
+mesh = SubResource("Mesh_Loft_West")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Loft_West" unique_id=1125]
+shape = SubResource("Shape_Loft_West")
+
+[node name="Loft_Bridge_South" type="StaticBody3D" parent="env" unique_id=1126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 9.8)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Loft_Bridge_South" unique_id=1127]
+mesh = SubResource("Mesh_Loft_Bridge")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Loft_Bridge_South" unique_id=1128]
+shape = SubResource("Shape_Loft_Bridge")
+
+[node name="Rafter_NS_Center" type="StaticBody3D" parent="env" unique_id=1130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Rafter_NS_Center" unique_id=1131]
+mesh = SubResource("Mesh_Rafter_NS")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Rafter_NS_Center" unique_id=1132]
+shape = SubResource("Shape_Rafter_NS")
+
+[node name="Rafter_EW_Center" type="StaticBody3D" parent="env" unique_id=1133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.4, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Rafter_EW_Center" unique_id=1134]
+mesh = SubResource("Mesh_Rafter_EW")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Rafter_EW_Center" unique_id=1135]
+shape = SubResource("Shape_Rafter_EW")
+
+[node name="Rafter_EW_North" type="StaticBody3D" parent="env" unique_id=1136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.4, -6)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env/Rafter_EW_North" unique_id=1137]
+mesh = SubResource("Mesh_Rafter_EW")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="env/Rafter_EW_North" unique_id=1138]
+shape = SubResource("Shape_Rafter_EW")
+
+[node name="Living_Rug" parent="env" unique_id=2001 instance=ExtResource("res_27")]
+transform = Transform3D(2.2, 0, 0, 0, 0.8, 0, 0, 0, 2.2, 0, 0.05, 3.5)
+
+[node name="Coffee_Table" parent="env" unique_id=2002 instance=ExtResource("res_4")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 0, 0.1, 3.5)
+
+[node name="Table_Laptop" parent="env" unique_id=2003 instance=ExtResource("res_32")]
+transform = Transform3D(1.12763, 0, -0.410424, 0, 1.2, 0, 0.410424, 0, 1.12763, -0.036180064, 0.62, 3.4)
+
+[node name="Table_Plant" parent="env" unique_id=2004 instance=ExtResource("res_35")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -0.6402186, 0.62, 3.255446)
+
+[node name="Sofa_Long" parent="env" unique_id=2005 instance=ExtResource("res_5")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, -1.5, 0.1, 5.2)
+
+[node name="Pillow_Red" parent="env" unique_id=2006 instance=ExtResource("res_33")]
+transform = Transform3D(1.77265, 0, 0.312567, 0, 1.8, 0, -0.312567, 0, 1.77265, -2, 0.65, 5.2)
+
+[node name="Pillow_Blue" parent="env" unique_id=2007 instance=ExtResource("res_34")]
+transform = Transform3D(1.73867, 0, -0.465874, 0, 1.8, 0, 0.465874, 0, 1.73867, -0.8, 0.65, 5.2)
+
+[node name="Sofa_Corner" parent="env" unique_id=2008 instance=ExtResource("res_6")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 1.5, 0.1, 5.2)
+
+[node name="Armchair" parent="env" unique_id=2009 instance=ExtResource("res_8")]
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -3.2, 0.1, 3.5)
+
+[node name="Ottoman" parent="env" unique_id=2010 instance=ExtResource("res_7")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 0, 0.1, 1.2)
+
+[node name="Floor_Lamp" parent="env" unique_id=2011 instance=ExtResource("res_9")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, -3.2, 0.1, 5.6)
+
+[node name="Speaker_Front" parent="env" unique_id=2012 instance=ExtResource("res_12")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 5, 0.1, 4)
+
+[node name="TV_Cabinet" parent="env" unique_id=2013 instance=ExtResource("res_10")]
+transform = Transform3D(1.46958e-16, 0, -2.4, 0, 2.4, 0, 2.4, 0, 1.46958e-16, 8, 0.1, 3)
+
+[node name="Modern_TV" parent="env" unique_id=2014 instance=ExtResource("res_11")]
+transform = Transform3D(1.53081e-16, 0, -2.5, 0, 2.5, 0, 2.5, 0, 1.53081e-16, 8, 0.85, 3)
+
+[node name="Speaker_Side" parent="env" unique_id=2015 instance=ExtResource("res_12")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 8, 0.1, 1.2)
+
+[node name="Bookcase_Wide" parent="env" unique_id=2016 instance=ExtResource("res_14")]
+transform = Transform3D(1.34711e-16, 0, -2.2, 0, 2.2, 0, 2.2, 0, 1.34711e-16, 9, 0.1, -1)
+
+[node name="Bookcase_Tall_1" parent="env" unique_id=2017 instance=ExtResource("res_13")]
+transform = Transform3D(1.34711e-16, 0, -2.2, 0, 2.2, 0, 2.2, 0, 1.34711e-16, 9.2, 0.1, -3.5)
+
+[node name="Books_Shelf" parent="env" unique_id=2018 instance=ExtResource("res_36")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 9.2, 1, -3.5)
+
+[node name="Bookcase_Tall_2" parent="env" unique_id=2019 instance=ExtResource("res_13")]
+transform = Transform3D(1.34711e-16, 0, -2.2, 0, 2.2, 0, 2.2, 0, 1.34711e-16, 9.2, 2, -3.5)
+
+[node name="Bookcase_Tall_Top" parent="env" unique_id=2020 instance=ExtResource("res_13")]
+transform = Transform3D(1.34711e-16, 0, -2.2, 0, 2.2, 0, 2.2, 0, 1.34711e-16, 9.2, 3.8, -3.5)
+
+[node name="Dining_Chair_1" parent="env" unique_id=2021 instance=ExtResource("res_16")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, -1.2, 0.1, 0)
+
+[node name="Dining_Chair_2" parent="env" unique_id=2022 instance=ExtResource("res_16")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 1.2, 0.1, 0)
+
+[node name="Dining_Table" parent="env" unique_id=2023 instance=ExtResource("res_15")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 0, 0.1, -1.8)
+
+[node name="Dining_Chair_3" parent="env" unique_id=2024 instance=ExtResource("res_16")]
+transform = Transform3D(-2.2, 0, 2.69422e-16, 0, 2.2, 0, -2.69422e-16, 0, -2.2, -1.2, 0.1, -3.2)
+
+[node name="Dining_Chair_4" parent="env" unique_id=2025 instance=ExtResource("res_16")]
+transform = Transform3D(-2.2, 0, 2.69422e-16, 0, 2.2, 0, -2.69422e-16, 0, -2.2, 1.2, 0.1, -3.2)
+
+[node name="Kitchen_Bar_1" parent="env" unique_id=2026 instance=ExtResource("res_17")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -2, 0.1, -5.5)
+
+[node name="Counter_Toaster" parent="env" unique_id=2027 instance=ExtResource("res_37")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, -1.8, 1.1, -5.5)
+
+[node name="Kitchen_Sink" parent="env" unique_id=2028 instance=ExtResource("res_18")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 0.2, 0.1, -5.5)
+
+[node name="Kitchen_Stove" parent="env" unique_id=2029 instance=ExtResource("res_19")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 2.2, 0.1, -5.5)
+
+[node name="Coffee_Machine" parent="env" unique_id=2030 instance=ExtResource("res_38")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 2.2, 1.1, -5.5)
+
+[node name="Fridge_Large" parent="env" unique_id=2031 instance=ExtResource("res_21")]
+transform = Transform3D(-2.2, 0, 2.69422e-16, 0, 2.2, 0, -2.69422e-16, 0, -2.2, 4.5, 0.1, -10)
+
+[node name="Kitchen_Upper_1" parent="env" unique_id=2032 instance=ExtResource("res_20")]
+transform = Transform3D(-2.4, 0, -2.0981467e-07, 0, 2.4, 0, 2.0981467e-07, 0, -2.4, 1.5, 2.6, -10.2)
+
+[node name="Kitchen_Upper_2" parent="env" unique_id=2033 instance=ExtResource("res_20")]
+transform = Transform3D(-2.4, 0, 2.93915e-16, 0, 2.4, 0, -2.93915e-16, 0, -2.4, -1, 3.8, -10.2)
+
+[node name="Kitchen_Upper_3" parent="env" unique_id=2034 instance=ExtResource("res_20")]
+transform = Transform3D(-2.4, 0, 2.93915e-16, 0, 2.4, 0, -2.93915e-16, 0, -2.4, -3.5, 4.6, -10.2)
+
+[node name="Vent_Pipe_1" parent="env" unique_id=2035 instance=ExtResource("res_30")]
+transform = Transform3D(1.22465e-16, 0, 2.5, 0, 2, 0, -2, 0, 1.53081e-16, -1.5, 5.8, -9)
+
+[node name="Vent_Pipe_2" parent="env" unique_id=2036 instance=ExtResource("res_30")]
+transform = Transform3D(1.22465e-16, 0, 2.5, 0, 2, 0, -2, 0, 1.53081e-16, -5.5, 5.8, -9)
+
+[node name="Study_Desk" parent="env" unique_id=2037 instance=ExtResource("res_22")]
+transform = Transform3D(1.46958e-16, 0, 2.4, 0, 2.4, 0, -2.4, 0, 1.46958e-16, -6, 0.1, 1.5)
+visible = false
+
+[node name="Desk_Monitor" parent="env" unique_id=2038 instance=ExtResource("res_39")]
+transform = Transform3D(9.18485e-17, 0, 1.5, 0, 1.5, 0, -1.5, 0, 9.18485e-17, -6, 1.05, 1.5)
+
+[node name="Desk_Keyboard" parent="env" unique_id=2039 instance=ExtResource("res_40")]
+transform = Transform3D(8.57253e-17, 0, 1.4, 0, 1.4, 0, -1.4, 0, 8.57253e-17, -5.6, 1.03, 1.5)
+
+[node name="Desk_Chair" parent="env" unique_id=2040 instance=ExtResource("res_23")]
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -4.8, 0.1, 1.5)
+
+[node name="Moving_Boxes_1" parent="env" unique_id=2041 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -6.2, 0.1, -1.2)
+
+[node name="Moving_Boxes_2" parent="env" unique_id=2042 instance=ExtResource("res_24")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -6.2, 1, -1.2)
+
+[node name="Bunk_Bed" parent="env" unique_id=2043 instance=ExtResource("res_25")]
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -8.5, 0.1, 4.5)
+
+[node name="Ceiling_Fan" parent="env" unique_id=2047 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 8.762943, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="env" unique_id=664917468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26651, -0.23363674, 0.43237305)
+mesh = SubResource("BoxMesh_sdhn1")
+
+[node name="Mutliplayer temp menu" type="CanvasLayer" parent="." unique_id=1418870196]
+
+[node name="tempMPMenu" type="PanelContainer" parent="Mutliplayer temp menu" unique_id=314815309]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -99,8 +413,8 @@ spawn_path = NodePath("../PlattformSpawnerManager")
 [node name="PlattformSpawnerManager" type="Node" parent="." unique_id=841895833]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=419141648]
-stream = ExtResource("5_lrl65")
-volume_db = -30.0
+stream = ExtResource("res_3")
+volume_db = -18.0
 autoplay = true
 
 [connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Host" to="." method="_on_host_pressed"]

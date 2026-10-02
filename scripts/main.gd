@@ -1,5 +1,6 @@
 extends Node3D
 
+@onready var multiplayer_menu: Node = get_node_or_null("Mutliplayer temp menu")
 @onready var temp_mp_menu: PanelContainer = $"Mutliplayer temp menu/tempMPMenu"
 @onready var adress_entry: LineEdit = $"Mutliplayer temp menu/tempMPMenu/VBoxContainer/AdressEntry"
 
@@ -23,7 +24,7 @@ var vertical_moving_block = preload("res://scenes/vertical_moving_block.tscn")
 
 @export var number_of_plattforms_in_the_script = 6
 
-@onready var plattform_spawner_manager: Node = $PlattformSpawnerManager
+@onready var plattform_spawner_manager: Node = get_node_or_null("PlattformSpawnerManager")
 
 
 var plattform
@@ -35,25 +36,37 @@ var plattform
 @export var max_y = 50
 @export var max_z = 50
 
-@export var min_x = 0
-@export var min_y = -5
 @export var min_z = 0
+
+## Schaltet die prozeduralen Zufallsblöcke ein/aus (in Level 1 deaktiviert für handgebautes Level)
+@export var enable_procedural_platforms: bool = false
 
 
 func _ready() -> void:
+	setup_level_collisions(self)
 	await Noray.connect_to_host(NORAY_HOST, NORAY_PORT) # await heist "warte hier und geh erst weider wenn das nach dir fertig ist"
 	print ("connected to relay")
 
+func setup_level_collisions(node: Node) -> void:
+	if node is MeshInstance3D:
+		var has_col := false
+		for c in node.get_children():
+			if c is StaticBody3D:
+				has_col = true
+				break
+		if not has_col and node.mesh != null:
+			node.create_trimesh_collision()
+	for child in node.get_children():
+		# Do not add mesh collisions recursively inside the player itself
+		if child is CharacterBody3D or child.is_in_group("player"):
+			continue
+		setup_level_collisions(child)
 
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("quit"):
-		get_tree().quit()
-		add_player(multiplayer.get_unique_id()) #das unique id ding generiert dann eben diese peeer id und packt sie dann direkt mit rein, weil wir ja unten gesgat haben wir wollen die peer id haben könnte man das glaube ich nicht einfach so dahinschreiben
 
 
 func _on_host_pressed() -> void:
+	if multiplayer_menu:
+		multiplayer_menu.hide()
 	temp_mp_menu.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	#OLD NETWORKING CODE
@@ -79,19 +92,14 @@ func _on_host_pressed() -> void:
 	multiplayer.peer_connected.connect(add_player) #ich sags nochmal multiplayer.peer_connected ist nur ein signal (hier halt in code) und wenn das abefeuert connecten wir mit .connect halt 'add_player'
 	multiplayer.peer_disconnected.connect(remove_player)
 
-	makes_random_number_and_sends()
-
-	print("My seed is (host): ", rng.seed)
-
-	spawn_plattforms()
-	print("spawn_plattforms() is called")
-
 func _on_join_pressed() -> void:
 	var host_oid = adress_entry.text.strip_edges() # Holt die eingegebene Host-OID und entfernt versehentliche Leerzeichen vorne/hinten.
 	if host_oid.is_empty(): # Wenn gar nichts eingegeben wurde, soll Join nicht starten.
 		push_error("Please first insert ur OID") # Zeigt im Debugger eine klare Fehlermeldung statt später komisch zu crashen.
 		return # Bricht Join hier ab, weil ohne OID kein Host gefunden werden kann.
 
+	if multiplayer_menu:
+		multiplayer_menu.hide()
 	temp_mp_menu.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -108,6 +116,9 @@ func _on_join_pressed() -> void:
 	#multiplayer.multiplayer_peer = enet_peer
 
 func _on_back_pressed() -> void:
+	if multiplayer_menu:
+		multiplayer_menu.show()
+	temp_mp_menu.show()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
 
@@ -131,65 +142,11 @@ func relay_connect(address: String, port: int) -> void:
 func add_player(peer_id): #soll ne peer id mitnehmen, peer id brauch man zum einen für authority purposes
 	var player = tempPlayerScene.instantiate()
 	player.name = str(peer_id)
-	add_child(player) #verwirrend weil der var name hier temp player ist aber mit dem instanciaten laden wir das rein und die player node heist ja an sich player und das ist das was wir dareinpassenmüssen
+	add_child(player)
+	player.global_position = Vector3(0.0, 1.8, 3.0)
 
 
 func remove_player(peer_id):
 	var player = get_node_or_null(str(peer_id))
 	if player:
 		player.queue_free() #NICHT VERGESSEN
-
-
-
-func makes_random_number_and_sends():
-	if multiplayer.is_server():
-		rng.seed = randi() % 100 #makes a random number between 0-100
-		seed_value = rng.seed #nur für uns lopkal da wir ja beim @rpc darunter gesagt haben wir schicken uns nicht selber
-		receive_seed.rpc(seed_value) #SO, SCHNUCKIS/ALLE ANDEREN PEERS: IHR FÜHRT JETZT receive_seed(seed_value) AUS.
-
-
-@rpc("authority", "call_remote", "reliable") #authority = who may send this rpc, call_remote means im not sending that shi to myself if im the host and reliable means we using TCP so we dont get packet loss and the seed arrives with a 100% chance
-func receive_seed(seed_value):
-	rng.seed = seed_value
-	print("My seed is (joiner): ", rng.seed)
-
-func _on_peer_connected(peer_id: int):
-	if multiplayer.is_server(): 
-		receive_seed.rpc_id(peer_id, seed_value) #same as at the top just witht he rpc id between that so we only send it TO THAT RPC ID
-
-
-# == HILL GENERATING ==
-func generate_plattform():
-	var x = rng.randi_range(min_x, max_x)
-	var y = rng.randi_range(min_y, max_y)
-	var z = rng.randi_range(min_z, max_z)
-
-	var chosen_plattform = rng.randi_range(1, number_of_plattforms_in_the_script)
-
-	var plattform_scene
-	
-	if chosen_plattform == 1:
-		plattform_scene = spinning_block.instantiate()
-	elif chosen_plattform == 2:
-		plattform_scene = moving_block.instantiate()
-	elif chosen_plattform == 3:
-		plattform_scene = moving_spinning_block.instantiate()
-	elif chosen_plattform == 4:
-		plattform_scene = large_moving_block.instantiate()
-	elif chosen_plattform == 5:
-		plattform_scene = fast_spinning_block.instantiate()
-	elif chosen_plattform == 6:
-		plattform_scene = vertical_moving_block.instantiate()
-
-	plattform_scene.position = Vector3(x, y, z)
-	plattform_scene.name = "Platform_" + str(plattform_amount)
-	plattform_spawner_manager.add_child(plattform_scene)
-
-
-
-func spawn_plattforms():
-	if plattform_amount > 0:
-		generate_plattform()
-		plattform_amount -= 1
-		print("generate_plattform() called plattform_amount -1. Left: ", plattform_amount)
-		spawn_plattforms()
