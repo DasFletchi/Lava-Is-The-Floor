@@ -61,6 +61,7 @@ material_override = SubResource("ShaderMaterial_f10td")
 mesh = SubResource("PlaneMesh_3w25c")
 
 [node name="KillArea" type="Area3D" parent="." unique_id=80243035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="KillArea" unique_id=160617650]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8, 0)

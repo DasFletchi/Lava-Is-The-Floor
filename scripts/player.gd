@@ -7,6 +7,8 @@ extends CharacterBody3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var temp_player: CharacterBody3D = $"."
 @onready var gamertag: Label3D = $Gamertag
+@onready var dead_pop_up: RichTextLabel = $DeadPopUp
+@onready var won_pop_up: RichTextLabel = $WONPopUP
 
 const ragdoll_scene = preload("res://scenes/bean_ragdoll.tscn")
 signal player_eliminated(peer_id: int)
@@ -212,6 +214,9 @@ func die() -> void:
 		die_rpc.rpc()
 	else:
 		_handle_death()
+	dead_pop_up.show()
+	await get_tree().create_timer(3.0).timeout
+	dead_pop_up.hide()
 
 @rpc("any_peer", "call_local", "reliable")
 func die_rpc() -> void:

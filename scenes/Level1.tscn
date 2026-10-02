@@ -57,14 +57,14 @@ roughness = 0.88
 
 [sub_resource type="BoxMesh" id="Mesh_Wall_Z"]
 material = SubResource("Mat_Wall")
-size = Vector3(25, 14, 0.6)
+size = Vector3(25, 28.915222, 0.6)
 
 [sub_resource type="BoxShape3D" id="Shape_Wall_Z"]
 size = Vector3(25, 14, 0.6)
 
 [sub_resource type="BoxMesh" id="Mesh_Wall_X"]
 material = SubResource("Mat_Wall")
-size = Vector3(0.6, 14, 25)
+size = Vector3(0.6, 36.263916, 25)
 
 [sub_resource type="BoxShape3D" id="Shape_Wall_X"]
 size = Vector3(0.6, 14, 25)
@@ -100,17 +100,17 @@ roughness = 0.8
 
 [sub_resource type="BoxMesh" id="Mesh_Rafter_NS"]
 material = SubResource("Mat_CeilingBeam")
-size = Vector3(0.9, 0.5, 24.6)
+size = Vector3(0.9, 1.1538086, 29.861486)
 
 [sub_resource type="BoxShape3D" id="Shape_Rafter_NS"]
 size = Vector3(0.9, 0.5, 24.6)
 
 [sub_resource type="BoxMesh" id="Mesh_Rafter_EW"]
 material = SubResource("Mat_CeilingBeam")
-size = Vector3(24.6, 0.5, 0.9)
+size = Vector3(26.320507, 0.5, 0.9)
 
 [sub_resource type="BoxShape3D" id="Shape_Rafter_EW"]
-size = Vector3(24.6, 0.5, 0.9)
+size = Vector3(27.32722, 0.5, 0.9)
 
 [sub_resource type="BoxMesh" id="BoxMesh_sdhn1"]
 size = Vector3(24.535095, 0.5327266, 25.322754)
@@ -138,6 +138,7 @@ start_height = -0.6
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -12.3)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env/Wall_North" unique_id=1102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.457611, 0)
 mesh = SubResource("Mesh_Wall_Z")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Wall_North" unique_id=1103]
@@ -147,6 +148,7 @@ shape = SubResource("Shape_Wall_Z")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 12.3)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env/Wall_South" unique_id=1105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.9720726, 0)
 mesh = SubResource("Mesh_Wall_Z")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Wall_South" unique_id=1106]
@@ -156,7 +158,7 @@ shape = SubResource("Shape_Wall_Z")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3, 6, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env/Wall_East" unique_id=1108]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00058555603, 0.012399673, 0.012391329)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00058555603, 3.648508, 0.012391329)
 mesh = SubResource("Mesh_Wall_X")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Wall_East" unique_id=1109]
@@ -166,7 +168,7 @@ shape = SubResource("Shape_Wall_X")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.3, 6, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env/Wall_West" unique_id=1111]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00646019, 0.013924122, -0.018737078)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00646019, 7.5097733, -0.018737078)
 mesh = SubResource("Mesh_Wall_X")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Wall_West" unique_id=1112]
@@ -205,6 +207,11 @@ shape = SubResource("Shape_Loft_Bridge")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env/Rafter_NS_Center" unique_id=1131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.44429398)
+mesh = SubResource("Mesh_Rafter_NS")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="env/Rafter_NS_Center" unique_id=84003634]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4659567, -0.44429398)
 mesh = SubResource("Mesh_Rafter_NS")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Rafter_NS_Center" unique_id=1132]
@@ -214,6 +221,7 @@ shape = SubResource("Shape_Rafter_NS")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.4, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env/Rafter_EW_Center" unique_id=1134]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.86025333, 0, 0)
 mesh = SubResource("Mesh_Rafter_EW")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Rafter_EW_Center" unique_id=1135]
@@ -226,6 +234,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.4, -6)
 mesh = SubResource("Mesh_Rafter_EW")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Rafter_EW_North" unique_id=1138]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3636103, 0, 0)
 shape = SubResource("Shape_Rafter_EW")
 
 [node name="Living_Rug" parent="env" unique_id=2001 instance=ExtResource("res_27")]
@@ -365,10 +374,14 @@ transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -6.2, 0.028117396, -1.2
 transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -9.373747, 0.1, 11.958822)
 
 [node name="Ceiling_Fan" parent="env" unique_id=2047 instance=ExtResource("res_26")]
-transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 8.762943, 0)
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 8.351084, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env" unique_id=664917468]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25881195, -0.23363721, 0.43209028)
+mesh = SubResource("BoxMesh_sdhn1")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="env" unique_id=462515476]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25881195, 27.207315, 0.43209028)
 mesh = SubResource("BoxMesh_sdhn1")
 
 [node name="benchCushionLow" parent="env" unique_id=17653761 instance=ExtResource("29_qwon6")]
