@@ -106,6 +106,8 @@ text = "Leave Lobby"
 [node name="GameOverUI" type="CanvasLayer" parent="." unique_id=9901001]
 layer = 10
 visible = false
+offset = Vector2(0, 253.955)
+transform = Transform2D(1, 0, 0, 1, 0, 253.955)
 
 [node name="GameOverLabel" type="Label" parent="GameOverUI" unique_id=9901002]
 anchors_preset = 8
