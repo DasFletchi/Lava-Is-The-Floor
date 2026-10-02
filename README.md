@@ -75,5 +75,4 @@ LevelX (Node3D, script: main.gd)
 Now just hook em up to the title screen, like all the other levels :3 (automaticly arranged via PanelContainer)
 
 
-
-everything but grinding flux and devlogs fr 😔
+[itch io](https://dasfletchi.itch.io/lava-is-the-floor)everything but grinding flux and devlogs fr 😔
