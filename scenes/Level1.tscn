@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://b4phq2cwssapk" path="res://assets/floor_is_lava/furniture/benchCushionLow.glb" id="29_qwon6"]
 [ext_resource type="PackedScene" uid="uid://bti0a6q3m1xwr" path="res://assets/floor_is_lava/furniture/stairsOpen.glb" id="30_7k372"]
+[ext_resource type="PackedScene" uid="uid://bqndtmbe42vyi" path="res://scenes/moving_spinning_block.tscn" id="32_jrm5b"]
+[ext_resource type="PackedScene" uid="uid://bhduy1ibt1vcq" path="res://scenes/vertical_moving_block.tscn" id="33_rfxdd"]
 [ext_resource type="Script" uid="uid://b0350gi31rkk4" path="res://scripts/main.gd" id="res_1"]
 [ext_resource type="PackedScene" uid="uid://ddu6uylpn572k" path="res://scenes/lava.tscn" id="res_2"]
 [ext_resource type="AudioStream" uid="uid://bk6v4jqj7ot83" path="res://music/chosic/Loyalty_Freak_Music_-_04_-_Cant_Stop_My_Feet_(chosic.com).mp3" id="res_3"]
@@ -32,6 +34,7 @@
 [ext_resource type="PackedScene" uid="uid://bqxoiqhlb4yiu" path="res://assets/floor_is_lava/furniture/toaster.glb" id="res_37"]
 [ext_resource type="PackedScene" uid="uid://05eeqpvlwjtj" path="res://assets/floor_is_lava/furniture/kitchenCoffeeMachine.glb" id="res_38"]
 [ext_resource type="Script" uid="uid://cyeupllyllrya" path="res://scripts/ceiling_fan.gd" id="res_ceiling_fan"]
+[ext_resource type="PackedScene" uid="uid://b8mpmgrscene1" path="res://scenes/multiplayer_manager.tscn" id="res_mp_mgr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sgp6g"]
 sky_top_color = Color(0.24, 0.35, 0.52, 1)
@@ -108,7 +111,7 @@ size = Vector3(0.9, 0.5, 24.6)
 
 [sub_resource type="BoxMesh" id="Mesh_Rafter_EW"]
 material = SubResource("Mat_CeilingBeam")
-size = Vector3(26.320507, 0.5, 0.9)
+size = Vector3(44.83684, 0.5, 0.9)
 
 [sub_resource type="BoxShape3D" id="Shape_Rafter_EW"]
 size = Vector3(27.32722, 0.5, 0.9)
@@ -215,6 +218,14 @@ mesh = SubResource("Mesh_Rafter_NS")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4659567, -0.44429398)
 mesh = SubResource("Mesh_Rafter_NS")
 
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="env/Rafter_NS_Center" unique_id=1073189777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8641734, 5.259222, -0.44429398)
+mesh = SubResource("Mesh_Rafter_NS")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="env/Rafter_NS_Center" unique_id=112450866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.782608, 8.421267, -0.44429398)
+mesh = SubResource("Mesh_Rafter_NS")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Rafter_NS_Center" unique_id=1132]
 shape = SubResource("Shape_Rafter_NS")
 
@@ -223,6 +234,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.4, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env/Rafter_EW_Center" unique_id=1134]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.86025333, 0, 0)
+mesh = SubResource("Mesh_Rafter_EW")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="env/Rafter_EW_Center" unique_id=694611263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.86025333, 4.689478, 9.393908)
+mesh = SubResource("Mesh_Rafter_EW")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="env/Rafter_EW_Center" unique_id=1010023536]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.86025333, 4.689478, -9.029146)
+mesh = SubResource("Mesh_Rafter_EW")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="env/Rafter_EW_Center" unique_id=1047160574]
+transform = Transform3D(0.817137, 0, -0.5764435, 0, 1, 0, 0.5764435, 0, 0.817137, -1.7658775, 7.7266808, -4.371077)
+mesh = SubResource("Mesh_Rafter_EW")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="env/Rafter_EW_Center" unique_id=2073351897]
+transform = Transform3D(0.7408324, 0, 0.6716899, 0, 1, 0, -0.6716899, 0, 0.7408324, 2.711971, 9.729359, -4.074123)
 mesh = SubResource("Mesh_Rafter_EW")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="env/Rafter_EW_Center" unique_id=1135]
@@ -366,16 +393,151 @@ transform = Transform3D(1.46958e-16, 0, 2.4, 0, 2.4, 0, -2.4, 0, 1.46958e-16, -6
 visible = false
 
 [node name="Desk_Chair" parent="env" unique_id=2040 instance=ExtResource("res_23")]
-transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -4.8, 0.1, 1.5)
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -5.6296587, 0.1, 1.5)
 
 [node name="Moving_Boxes_1" parent="env" unique_id=2041 instance=ExtResource("res_24")]
 transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -6.2, 0.028117396, -1.2)
 
+[node name="Moving_Boxes_2" parent="env" unique_id=1096775792 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -6.2, 0.028117396, 4.5021267)
+
+[node name="Moving_Boxes_3" parent="env" unique_id=974040866 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -9.2, 0.028117396, 4.5021267)
+
+[node name="Moving_Boxes_4" parent="env" unique_id=1855400683 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -9.2, 0.028117396, 1.5609376)
+
+[node name="Moving_Boxes_5" parent="env" unique_id=1567478733 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -4.4648695, 0.028117396, 6.7245407)
+
+[node name="Moving_Boxes_6" parent="env" unique_id=19979811 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -7.502039, 0.028117396, 6.7245407)
+
+[node name="Moving_Boxes_7" parent="env" unique_id=8930780 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -7.502039, 0.028117396, 9.947138)
+
+[node name="Moving_Boxes_8" parent="env" unique_id=1516865991 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -2.502039, 0.028117396, 9.947138)
+
+[node name="Moving_Boxes_9" parent="env" unique_id=2072690954 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 0.49796104, 0.028117396, 9.947138)
+
+[node name="Moving_Boxes_10" parent="env" unique_id=1136200862 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 0.49796104, 0.028117396, 6.2178483)
+
+[node name="Moving_Boxes_11" parent="env" unique_id=320411261 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 3.1968522, 0.028117396, 6.2178483)
+
+[node name="Moving_Boxes_12" parent="env" unique_id=1772427307 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 3.1968522, 0.028117396, 10.805969)
+
+[node name="Moving_Boxes_13" parent="env" unique_id=1045992484 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 8.69652, 0.028117396, 10.805969)
+
+[node name="Moving_Boxes_14" parent="env" unique_id=1969563485 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 8.69652, 0.028117396, 6.805969)
+
+[node name="Moving_Boxes_15" parent="env" unique_id=531305470 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 6.1489286, 0.028117396, 6.805969)
+
+[node name="Moving_Boxes_16" parent="env" unique_id=1123309879 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 6.1489286, 0.028117396, 8.842816)
+
+[node name="Moving_Boxes_17" parent="env" unique_id=302742094 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -1.7485571, 0.028117396, 6.8428164)
+
+[node name="Moving_Boxes_18" parent="env" unique_id=1513101395 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 5.4805474, 0.028117396, -6.8812523)
+
+[node name="Moving_Boxes_19" parent="env" unique_id=184085649 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 8.188316, 0.028117396, -6.8812523)
+
+[node name="Moving_Boxes_20" parent="env" unique_id=778025370 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 8.188316, 0.028117396, 0.04472351)
+
+[node name="Moving_Boxes_21" parent="env" unique_id=940597731 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 5.9464436, 0.028117396, -2.74046)
+
+[node name="Moving_Boxes_22" parent="env" unique_id=1846688407 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 7.437681, 0.028117396, 4.2208323)
+
+[node name="Moving_Boxes_23" parent="env" unique_id=582305305 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 4.2970347, 0.028117396, 4.2208323)
+
+[node name="Moving_Boxes_24" parent="env" unique_id=1518940323 instance=ExtResource("res_24")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 4.2970347, 0.028117396, 4.2208323)
+
 [node name="Bunk_Bed" parent="env" unique_id=2043 instance=ExtResource("res_25")]
 transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -9.373747, 0.1, 11.958822)
 
+[node name="Bunk_Bed2" parent="env" unique_id=868825225 instance=ExtResource("res_25")]
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -6.9463816, 0.1, 11.958822)
+
+[node name="Bunk_Bed3" parent="env" unique_id=638594520 instance=ExtResource("res_25")]
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -4.508814, 0.1, 11.958822)
+
+[node name="Bunk_Bed4" parent="env" unique_id=935606228 instance=ExtResource("res_25")]
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -2.0985818, 0.1, 11.958822)
+
+[node name="Bunk_Bed5" parent="env" unique_id=253531066 instance=ExtResource("res_25")]
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -2.0985818, 1.3355609, 11.958822)
+
+[node name="Bunk_Bed6" parent="env" unique_id=1086162966 instance=ExtResource("res_25")]
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -4.497488, 1.3355609, 11.958822)
+
+[node name="Bunk_Bed7" parent="env" unique_id=2074280849 instance=ExtResource("res_25")]
+transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -6.9681015, 1.3355609, 11.958822)
+
 [node name="Ceiling_Fan" parent="env" unique_id=2047 instance=ExtResource("res_26")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 8.351084, 0)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan2" parent="env" unique_id=519924497 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 3.4904797, 10.476059, -1.9302075)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan3" parent="env" unique_id=301200357 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 6.3167152, 11.277698, 0.20754838)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan4" parent="env" unique_id=319535752 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 4.7164645, 11.277698, 2.5420382)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan5" parent="env" unique_id=1427835916 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 2.5065923, 12.37156, 2.5420382)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan6" parent="env" unique_id=1091090839 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -4.505973, 15.904063, 2.5420382)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan7" parent="env" unique_id=272080730 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -4.505973, 15.904063, 8.392679)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan8" parent="env" unique_id=385843274 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0.9937062, 15.904063, 8.392679)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan9" parent="env" unique_id=145990997 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0.9937062, 15.904063, -1.0093985)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan10" parent="env" unique_id=1162240681 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 3.9650216, 12.598691, -6.604871)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan11" parent="env" unique_id=876761599 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -5.9570765, 12.598691, -5.604871)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan12" parent="env" unique_id=2143133019 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -3.3593402, 9.790665, -3.060114)
+script = ExtResource("res_ceiling_fan")
+
+[node name="Ceiling_Fan13" parent="env" unique_id=664337989 instance=ExtResource("res_26")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 1.6156888, 14.104316, -8.3149395)
 script = ExtResource("res_ceiling_fan")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env" unique_id=664917468]
@@ -395,122 +557,75 @@ transform = Transform3D(4, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, -7.152913)
 [node name="benchCushionLow3" parent="env" unique_id=1187856648 instance=ExtResource("29_qwon6")]
 transform = Transform3D(-1.7484555e-07, 0, 2, 0, 2, 0, -4, 0, -8.742278e-08, -6.2582254, 0, -5.5906663)
 
+[node name="benchCushionLow5" parent="env" unique_id=1815276474 instance=ExtResource("29_qwon6")]
+transform = Transform3D(-3.9953206, 0, 0.096713305, 0, 2, 0, -0.19342661, 0, -1.9976603, -6.9199233, 0, -9.724359)
+
 [node name="benchCushionLow4" parent="env" unique_id=1402464325 instance=ExtResource("29_qwon6")]
 transform = Transform3D(-1.7484555e-07, 0, 2, 0, 2, 0, -4, 0, -8.742278e-08, -5.013795, 0, -5.6592293)
+
+[node name="benchCushionLow6" parent="env" unique_id=1987238431 instance=ExtResource("29_qwon6")]
+transform = Transform3D(-1.7484555e-07, 0, 2, 0, 2, 0, -4, 0, -8.742278e-08, -4.8688254, 0, 5.196915)
+
+[node name="benchCushionLow7" parent="env" unique_id=1060963089 instance=ExtResource("29_qwon6")]
+transform = Transform3D(-1.8397893, 0, 1.7758925, 0, 2, 0, -3.551785, 0, -0.91989464, -0.33613634, 0, 9.144514)
+
+[node name="benchCushionLow8" parent="env" unique_id=1782161384 instance=ExtResource("29_qwon6")]
+transform = Transform3D(3.7621064, 0, 0.6794404, 0, 2, 0, -1.3588808, 0, 1.8810532, 3.7738032, 0, 9.144514)
+
+[node name="benchCushionLow9" parent="env" unique_id=1803607493 instance=ExtResource("29_qwon6")]
+transform = Transform3D(-1.3684942, 0, -1.8793101, 0, 2, 0, 3.7586203, 0, -0.6842471, 6.162311, 0, 9.705464)
+
+[node name="benchCushionLow10" parent="env" unique_id=748468215 instance=ExtResource("29_qwon6")]
+transform = Transform3D(-1.3684942, 0, -1.8793101, 0, 2, 0, 3.7586203, 0, -0.6842471, 9.4560585, 0, 1.4551432)
+
+[node name="benchCushionLow11" parent="env" unique_id=1460384864 instance=ExtResource("29_qwon6")]
+transform = Transform3D(-1.3684942, 0, -1.8793101, 0, 2, 0, 3.7586203, 0, -0.6842471, 10.177481, 0, -4.865184)
+
+[node name="benchCushionLow12" parent="env" unique_id=79817274 instance=ExtResource("29_qwon6")]
+transform = Transform3D(-2.8451023, 0, 1.4058266, 0, 2, 0, -2.8116531, 0, -1.4225512, 7.854141, 0, -8.92782)
+
+[node name="benchCushionLow13" parent="env" unique_id=1494123727 instance=ExtResource("29_qwon6")]
+transform = Transform3D(-2.8451023, 0, 1.4058266, 0, 2, 0, -2.8116531, 0, -1.4225512, 7.854141, 0, -8.92782)
 
 [node name="stairsOpen" parent="env" unique_id=1428056405 instance=ExtResource("30_7k372")]
 transform = Transform3D(-1.7353422e-07, 0, -3.97, 0, 3.97, 0, 3.97, 0, -1.7353422e-07, -12.062988, 0, -8.751585)
 
-[node name="Mutliplayer temp menu" type="CanvasLayer" parent="." unique_id=1418870196]
+[node name="Moving thingy" parent="env" unique_id=2040750926 instance=ExtResource("32_jrm5b")]
+transform = Transform3D(1.17, 0, 0, 0, 1.17, 0, 0, 0, 1.17, -3.900472, 9.804403, 9.500002)
 
-[node name="tempMPMenu" type="PanelContainer" parent="Mutliplayer temp menu" unique_id=314815309]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Moving thingy2" parent="env" unique_id=356124042 instance=ExtResource("32_jrm5b")]
+transform = Transform3D(1.17, 0, 0, 0, 1.17, 0, 0, 0, 1.17, 11.267665, 9.804403, 9.500002)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Mutliplayer temp menu/tempMPMenu" unique_id=1737456149]
-layout_mode = 2
+[node name="Moving thingy3" parent="env" unique_id=625817740 instance=ExtResource("32_jrm5b")]
+transform = Transform3D(1.17, 0, 0, 0, 1.17, 0, 0, 0, 1.17, 11.267665, 9.804403, -2.7551727)
 
-[node name="Label" type="Label" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=690953676]
-layout_mode = 2
-text = "== LAVA IS THE FLOOR - MULTIPLAYER LOBBY =="
-horizontal_alignment = 1
+[node name="Moving thingy4" parent="env" unique_id=1015411683 instance=ExtResource("32_jrm5b")]
+transform = Transform3D(1.17, 0, 0, 0, 1.17, 0, 0, 0, 1.17, -3.1783686, 9.804403, -2.7551727)
 
-[node name="Host" type="Button" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=473521978]
-layout_mode = 2
-text = "Host"
+[node name="Moving thingy5" parent="env" unique_id=1210037387 instance=ExtResource("32_jrm5b")]
+transform = Transform3D(1.17, 0, 0, 0, 1.17, 0, 0, 0, 1.17, -3.1783686, 9.804403, -11.425729)
 
-[node name="Join" type="Button" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=984306378]
-layout_mode = 2
-text = "Join 	"
+[node name="Moving thingy6" parent="env" unique_id=1153538328 instance=ExtResource("32_jrm5b")]
+transform = Transform3D(1.17, 0, 0, 0, 1.17, 0, 0, 0, 1.17, -3.7773438, 11.421852, -7.8925266)
 
-[node name="AdressEntry" type="LineEdit" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=324528107]
-layout_mode = 2
-placeholder_text = "Enter Addres to join"
-alignment = 1
+[node name="Vertical moving thingy" parent="env" unique_id=1616192831 instance=ExtResource("33_rfxdd")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -7.863379, 4.382839, -3.1020484)
 
-[node name="Back" type="Button" parent="Mutliplayer temp menu/tempMPMenu/VBoxContainer" unique_id=987654321]
-layout_mode = 2
-text = "◀ Back to Title Screen"
+[node name="Vertical moving thingy2" parent="env" unique_id=465570328 instance=ExtResource("33_rfxdd")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -7.863379, 4.382839, -3.1020484)
 
-[node name="LobbyBox" type="VBoxContainer" parent="Mutliplayer temp menu/tempMPMenu" unique_id=238947239]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 12
+[node name="Vertical moving thingy3" parent="env" unique_id=98510596 instance=ExtResource("33_rfxdd")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -5.4496393, 4.382839, 4.8426805)
 
-[node name="LobbyTitle" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947240]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.6, 0.1, 1)
-theme_override_font_sizes/font_size = 22
-text = "== MULTIPLAYER LOBBY =="
-horizontal_alignment = 1
+[node name="Vertical moving thingy4" parent="env" unique_id=1437997340 instance=ExtResource("33_rfxdd")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 9.528855, 4.382839, 4.8426805)
 
-[node name="StatusLabel" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947241]
-layout_mode = 2
-text = "Warte auf Mitspieler..."
-horizontal_alignment = 1
+[node name="Vertical moving thingy5" parent="env" unique_id=1464546126 instance=ExtResource("33_rfxdd")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 9.528855, 4.382839, -6.8276916)
 
-[node name="CodeContainer" type="HBoxContainer" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947242]
-layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
-
-[node name="CodeTitle" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox/CodeContainer" unique_id=238947243]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.75, 0.2, 1)
-text = "🎮 RAUM-CODE:"
-
-[node name="CodeLabel" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox/CodeContainer" unique_id=238947244]
-layout_mode = 2
-text = "..."
-
-[node name="CopyButton" type="Button" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox/CodeContainer" unique_id=238947245]
-layout_mode = 2
-text = "📋 Kopieren"
-
-[node name="PlayerCountLabel" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947246]
-layout_mode = 2
-text = "👥 Verbundene Spieler: 1"
-horizontal_alignment = 1
-
-[node name="StartButton" type="Button" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947247]
-custom_minimum_size = Vector2(0, 42)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
-theme_override_font_sizes/font_size = 18
-text = "🚀 Runde starten"
-
-[node name="ClientWaitLabel" type="Label" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947248]
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.8, 0.3, 1)
-text = "⏳ Warte darauf, dass der Host die Runde startet..."
-horizontal_alignment = 1
-
-[node name="LeaveButton" type="Button" parent="Mutliplayer temp menu/tempMPMenu/LobbyBox" unique_id=238947249]
-layout_mode = 2
-text = "◀ Lobby verlassen"
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1430016727]
-_spawnable_scenes = PackedStringArray("uid://dranyd23io7tw")
-spawn_path = NodePath("..")
-
-[node name="MultiplayerPlattformSpawner" type="MultiplayerSpawner" parent="." unique_id=1052918489]
-_spawnable_scenes = PackedStringArray("uid://sit562i22d73", "uid://bqndtmbe42vyi", "uid://d133bcdxmyhx", "uid://hmk3pfxm0grh", "uid://c6afmbkuge0hf", "uid://bhduy1ibt1vcq")
-spawn_path = NodePath("../PlattformSpawnerManager")
-
-[node name="PlattformSpawnerManager" type="Node" parent="." unique_id=841895833]
+[node name="MultiplayerManager" parent="." unique_id=262423894 instance=ExtResource("res_mp_mgr")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=419141648]
 stream = ExtResource("res_3")
 volume_db = -18.0
 autoplay = true
-
-[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Join" to="." method="_on_join_pressed"]
-[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/VBoxContainer/Back" to="." method="_on_back_pressed"]
-[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/LobbyBox/CodeContainer/CopyButton" to="." method="_on_copy_code_pressed"]
-[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/LobbyBox/StartButton" to="." method="_on_start_round_pressed"]
-[connection signal="pressed" from="Mutliplayer temp menu/tempMPMenu/LobbyBox/LeaveButton" to="." method="_on_leave_lobby_pressed"]
