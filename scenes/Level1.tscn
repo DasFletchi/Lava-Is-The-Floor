@@ -31,6 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://bff6fuh4agk75" path="res://assets/floor_is_lava/furniture/pottedPlant.glb" id="res_35"]
 [ext_resource type="PackedScene" uid="uid://bqxoiqhlb4yiu" path="res://assets/floor_is_lava/furniture/toaster.glb" id="res_37"]
 [ext_resource type="PackedScene" uid="uid://05eeqpvlwjtj" path="res://assets/floor_is_lava/furniture/kitchenCoffeeMachine.glb" id="res_38"]
+[ext_resource type="Script" uid="uid://cyeupllyllrya" path="res://scripts/ceiling_fan.gd" id="res_ceiling_fan"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sgp6g"]
 sky_top_color = Color(0.24, 0.35, 0.52, 1)
@@ -375,6 +376,7 @@ transform = Transform3D(1.34711e-16, 0, 2.2, 0, 2.2, 0, -2.2, 0, 1.34711e-16, -9
 
 [node name="Ceiling_Fan" parent="env" unique_id=2047 instance=ExtResource("res_26")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 8.351084, 0)
+script = ExtResource("res_ceiling_fan")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="env" unique_id=664917468]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25881195, -0.23363721, 0.43209028)
