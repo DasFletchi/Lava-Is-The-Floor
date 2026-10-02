@@ -1,105 +1,105 @@
 [gd_scene format=3 uid="uid://b8mpmgrscene1"]
 
-[ext_resource type="Script" path="res://scripts/multiplayer_manager.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cgjjb2la7ayld" path="res://scripts/multiplayer_manager.gd" id="1_script"]
 
-[node name="MultiplayerManager" type="Node3D"]
+[node name="MultiplayerManager" type="Node3D" unique_id=1452643829]
 script = ExtResource("1_script")
 
-[node name="Players" type="Node3D" parent="."]
+[node name="Players" type="Node3D" parent="." unique_id=219359968]
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=2063042535]
 _spawnable_scenes = PackedStringArray("uid://dranyd23io7tw")
 spawn_path = NodePath("../Players")
 
-[node name="LobbyUI" type="CanvasLayer" parent="."]
+[node name="LobbyUI" type="CanvasLayer" parent="." unique_id=1429852863]
 
-[node name="tempMPMenu" type="PanelContainer" parent="LobbyUI"]
+[node name="tempMPMenu" type="PanelContainer" parent="LobbyUI" unique_id=899280713]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="LobbyUI/tempMPMenu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyUI/tempMPMenu" unique_id=1400739793]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+[node name="Label" type="Label" parent="LobbyUI/tempMPMenu/VBoxContainer" unique_id=1841482473]
 layout_mode = 2
 text = "== LAVA IS THE FLOOR - MULTIPLAYER LOBBY =="
 horizontal_alignment = 1
 
-[node name="Host" type="Button" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+[node name="Host" type="Button" parent="LobbyUI/tempMPMenu/VBoxContainer" unique_id=1508949188]
 layout_mode = 2
 text = "Host"
 
-[node name="Join" type="Button" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+[node name="Join" type="Button" parent="LobbyUI/tempMPMenu/VBoxContainer" unique_id=1177816331]
 layout_mode = 2
 text = "Join"
 
-[node name="AdressEntry" type="LineEdit" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+[node name="AdressEntry" type="LineEdit" parent="LobbyUI/tempMPMenu/VBoxContainer" unique_id=207182412]
 layout_mode = 2
 placeholder_text = "Enter Addres to join"
 alignment = 1
 
-[node name="Back" type="Button" parent="LobbyUI/tempMPMenu/VBoxContainer"]
+[node name="Back" type="Button" parent="LobbyUI/tempMPMenu/VBoxContainer" unique_id=1029898366]
 layout_mode = 2
 text = "◀ Back to Title Screen"
 
-[node name="LobbyBox" type="VBoxContainer" parent="LobbyUI/tempMPMenu"]
+[node name="LobbyBox" type="VBoxContainer" parent="LobbyUI/tempMPMenu" unique_id=1162802303]
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="LobbyTitle" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox"]
+[node name="LobbyTitle" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox" unique_id=1662523487]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.6, 0.1, 1)
 theme_override_font_sizes/font_size = 22
 text = "== MULTIPLAYER LOBBY =="
 horizontal_alignment = 1
 
-[node name="StatusLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox"]
+[node name="StatusLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox" unique_id=1154938456]
 layout_mode = 2
-text = "Warte auf Mitspieler..."
+text = "Waiting for other Players"
 horizontal_alignment = 1
 
-[node name="CodeContainer" type="HBoxContainer" parent="LobbyUI/tempMPMenu/LobbyBox"]
+[node name="CodeContainer" type="HBoxContainer" parent="LobbyUI/tempMPMenu/LobbyBox" unique_id=335509030]
 layout_mode = 2
-alignment = 1
 theme_override_constants/separation = 10
+alignment = 1
 
-[node name="CodeTitle" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox/CodeContainer"]
+[node name="CodeTitle" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox/CodeContainer" unique_id=459754501]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.75, 0.2, 1)
-text = "🎮 RAUM-CODE:"
+text = "ROOM CODE:"
 
-[node name="CodeLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox/CodeContainer"]
+[node name="CodeLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox/CodeContainer" unique_id=1902450620]
 layout_mode = 2
 text = "..."
 
-[node name="CopyButton" type="Button" parent="LobbyUI/tempMPMenu/LobbyBox/CodeContainer"]
+[node name="CopyButton" type="Button" parent="LobbyUI/tempMPMenu/LobbyBox/CodeContainer" unique_id=318958937]
 layout_mode = 2
-text = "📋 Kopieren"
+text = "📋 COPY"
 
-[node name="PlayerCountLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox"]
+[node name="PlayerCountLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox" unique_id=656992384]
 layout_mode = 2
-text = "👥 Verbundene Spieler: 1"
+text = "Connected Players: 1"
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="LobbyUI/tempMPMenu/LobbyBox"]
+[node name="StartButton" type="Button" parent="LobbyUI/tempMPMenu/LobbyBox" unique_id=1220734306]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 1, 0.4, 1)
 theme_override_font_sizes/font_size = 18
-text = "🚀 Runde starten"
+text = "Start Round"
 
-[node name="ClientWaitLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox"]
+[node name="ClientWaitLabel" type="Label" parent="LobbyUI/tempMPMenu/LobbyBox" unique_id=1976593884]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.8, 0.3, 1)
 text = "⏳ Warte darauf, dass der Host die Runde startet..."
 horizontal_alignment = 1
 
-[node name="LeaveButton" type="Button" parent="LobbyUI/tempMPMenu/LobbyBox"]
+[node name="LeaveButton" type="Button" parent="LobbyUI/tempMPMenu/LobbyBox" unique_id=1352697337]
 layout_mode = 2
 text = "◀ Lobby verlassen"
 

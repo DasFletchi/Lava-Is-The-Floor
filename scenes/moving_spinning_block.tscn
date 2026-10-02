@@ -4,7 +4,6 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_platform"]
 
-
 [sub_resource type="Animation" id="Animation_o3ep8"]
 length = 0.001
 tracks/0/type = "value"
@@ -34,7 +33,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_ttdag"]
 resource_name = "spin"
-length = 16.0
+length = 4.0
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -82,9 +81,9 @@ properties/2/replication_mode = 0
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 script = ExtResource("1_8s8hj")
 
-[node name="AnimatableBody3D" type="AnimatableBody3D" parent="."]
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=1751535843]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=85896664]
 shape = SubResource("BoxShape3D_platform")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="AnimatableBody3D" unique_id=569271759]
