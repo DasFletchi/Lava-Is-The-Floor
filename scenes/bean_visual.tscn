@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cvoej1wbldbd7"]
 
-[ext_resource type="Script" path="res://scripts/bean_visual.gd" id="1_bean"]
+[ext_resource type="Script" uid="uid://diyqqyd83nlfc" path="res://scripts/bean_visual.gd" id="1_bean"]
 
-[node name="BeanVisual" type="Node3D"]
+[node name="BeanVisual" type="Node3D" unique_id=562250127]
 script = ExtResource("1_bean")

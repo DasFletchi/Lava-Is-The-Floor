@@ -11,9 +11,17 @@ extends CharacterBody3D
 @onready var won_pop_up: RichTextLabel = $WONPopUP
 
 const ragdoll_scene = preload("res://scenes/bean_ragdoll.tscn")
+const buzzer_sound = preload("res://sfx/elimination_buzzer.wav")
+const victory_sound = preload("res://sfx/victory_sound.wav")
+
+@onready var win_particles_green: GPUParticles3D = get_node_or_null("WinParticlesGreen") as GPUParticles3D
+@onready var win_particles_blue: GPUParticles3D = get_node_or_null("WinParticlesBlue") as GPUParticles3D
+
 signal player_eliminated(peer_id: int)
+signal player_won(peer_id: int)
 
 var is_dead: bool = false
+var has_won: bool = false
 @export var is_spectator: bool = false
 @export var spectator_speed: float = 14.0
 
@@ -65,6 +73,10 @@ func _ready() -> void:
 	add_to_group("alive_players")
 	if spectator_hud:
 		spectator_hud.hide()
+	if won_pop_up:
+		won_pop_up.hide()
+	if dead_pop_up:
+		dead_pop_up.hide()
 
 	if is_multiplayer_authority():
 		bean_visual.hide()
@@ -285,7 +297,15 @@ func _handle_death() -> void:
 		if spectator_hud:
 			spectator_hud.show()
 
-	# 4. Eliminierungs-Signal feuern (Hook für Win-Condition / Runden-Logik)
+	# 4. Buzzer-Sound abspielen (The Finals Elimination Buzzer)
+	var sfx = AudioStreamPlayer.new()
+	sfx.stream = buzzer_sound
+	sfx.volume_db = 0.0 if is_multiplayer_authority() else -6.0
+	get_tree().root.add_child(sfx)
+	sfx.play()
+	sfx.finished.connect(sfx.queue_free)
+
+	# 5. Eliminierungs-Signal feuern (Hook für Win-Condition / Runden-Logik)
 	var peer_id = 1
 	if multiplayer != null and multiplayer.has_multiplayer_peer():
 		peer_id = multiplayer.get_unique_id()
@@ -320,3 +340,46 @@ func _apply_visuals() -> void:
 		bean_visual = get_node_or_null("BeanVisual") as BeanVisual
 	if is_instance_valid(bean_visual):
 		bean_visual.apply_customization(player_color, eye_style)
+
+## Gewonnen! Löst Partikel, Sieg-Jingle und Popup aus
+func win() -> void:
+	if has_won or is_dead: return
+	has_won = true
+	if multiplayer != null and multiplayer.has_multiplayer_peer() and is_multiplayer_authority():
+		win_rpc.rpc()
+	else:
+		_handle_win()
+	await get_tree().create_timer(5)
+	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
+
+@rpc("any_peer", "call_local", "reliable")
+func win_rpc() -> void:
+	_handle_win()
+
+func _handle_win() -> void:
+	has_won = true
+
+	# 1. Grüne und blaue Partikel abfeuern (Sieg-Feuerwerk)
+	if win_particles_green:
+		win_particles_green.restart()
+		win_particles_green.emitting = true
+	if win_particles_blue:
+		win_particles_blue.restart()
+		win_particles_blue.emitting = true
+
+	# 2. Sieg-Sound abspielen (triumphale Fanfare)
+	var sfx = AudioStreamPlayer.new()
+	sfx.stream = victory_sound
+	sfx.volume_db = 2.0 if is_multiplayer_authority() else -3.0
+	get_tree().root.add_child(sfx)
+	sfx.play()
+	sfx.finished.connect(sfx.queue_free)
+
+	# 3. WON Popup anzeigen
+	if is_multiplayer_authority() and won_pop_up:
+		won_pop_up.show()
+
+	var peer_id = 1
+	if multiplayer != null and multiplayer.has_multiplayer_peer():
+		peer_id = multiplayer.get_unique_id()
+	player_won.emit(peer_id)
