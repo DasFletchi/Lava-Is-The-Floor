@@ -49,6 +49,30 @@ For commercial usage, strict no.
 alr bye have fun :)
 
 
+### How to Add a Multiplayer to "Lava is the Floor" Level (3 Steps)
+
+1. **Create Scene & Attach Script:**
+   Create a new 3D Scene `LevelX.tscn` and attach `res://scripts/main.gd` to the root node (auto-generates mesh collisions).
+
+2. **Add Your Level Props & Lava:**
+   - Build your platforms / geometry.
+   - Drag [`res://scenes/lava.tscn`] into the level and name it **`Lava`**.
+
+3. **Drop in Multiplayer:**
+   - Drag `res://scenes/multiplayer_manager.tscn` into your level.
+   - **Done!** Lobbies, room codes, bean spawning, round start, and win detection work automatically.
+
+---
+
+**Scene Tree:**
+```text
+LevelX (Node3D, script: main.gd)
+├── Level Geometry / Props
+├── Lava (instance of lava.tscn)
+└── MultiplayerManager (instance of multiplayer_manager.tscn)
+```
+
+Now just hook em up to the title screen, like all the other levels :3 (automaticly arranged via PanelContainer)
 
 
 
