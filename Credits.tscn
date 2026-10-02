@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cm56vj6x8j5f3"]
+
+[ext_resource type="Script" uid="uid://ckvsxjqmja4l4" path="res://credits.gd" id="1_abc12"]
+
+[node name="Credits" type="Control" unique_id=2002028927]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abc12")
+
+[node name="Background" type="ColorRect" parent="." unique_id=116234127]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CreditsContainer" type="VBoxContainer" parent="." unique_id=46758742]
+layout_mode = 0
+offset_bottom = 44.0
+theme_override_constants/separation = 5
+
+[node name="InstructionLabel" type="Label" parent="." unique_id=1029131316]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -420.0
+offset_top = -40.0
+offset_right = -20.0
+offset_bottom = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Press ESC to Skip • Hold SPACE to Speed Up"
+horizontal_alignment = 2

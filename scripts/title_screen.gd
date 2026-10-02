@@ -2,10 +2,12 @@ extends Control
 
 # Menu buttons
 @onready var play_button: Button = %PlayButton
+@onready var credits_button: Button = %CreditsButton
 @onready var quit_button: Button = %QuitButton
 
 @onready var level_1_button: Button = $"UIOverlay/HBox/LeftColumn/LevelSelect Button/Level1Button"
 @onready var back_button: Button = $"UIOverlay/HBox/LeftColumn/LevelSelect Button/BackButton"
+
 
 
 # Customizer controls (Grapples Galore carousel style)
@@ -65,7 +67,19 @@ func _ready() -> void:
 
 	# Button signals
 	play_button.pressed.connect(_on_play_pressed)
+	credits_button.pressed.connect(_on_credits_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
+
+	# Allow clicking the author text at the bottom right to open credits too
+	if has_node("Label"):
+		var lbl = get_node("Label") as Label
+		if lbl:
+			lbl.mouse_filter = Control.MOUSE_FILTER_STOP
+			lbl.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			lbl.gui_input.connect(func(ev: InputEvent) -> void:
+				if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
+					_on_credits_pressed()
+			)
 
 	prev_color_button.pressed.connect(_on_prev_color_pressed)
 	next_color_button.pressed.connect(_on_next_color_pressed)
@@ -181,3 +195,7 @@ func _on_level_1_button_pressed() -> void:
 func _on_back_button_pressed() -> void:
 	level_select_buttons.hide()
 	menu_buttons.show()
+
+
+func _on_credits_pressed() -> void:
+	get_tree().change_scene_to_file("res://Credits.tscn")
