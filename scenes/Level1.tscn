@@ -756,7 +756,7 @@ transform = Transform3D(4.07, 0, 0, 0, 4.07, 0, 0, 0, 4.07, 2.6951694, 25.251783
 [node name="speaker8" parent="env" unique_id=1391093540 instance=ExtResource("35_ncr2o")]
 transform = Transform3D(4.07, 0, 0, 0, 4.07, 0, 0, 0, 4.07, 2.7908583, 23.967402, 3.8230453)
 
-[node name="Label3D" type="Label3D" parent="env" unique_id=1066803320]
+[node name="finished label" type="Label3D" parent="env" unique_id=1066803320]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8980932, 33.895573, -11.997015)
 text = "lol you actually did it have fun dying lol"
 
