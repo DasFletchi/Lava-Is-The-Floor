@@ -24,6 +24,10 @@ signal peer_left(peer_id: int)
 @onready var lobby_start_button: Button = $LobbyUI/tempMPMenu/LobbyBox/StartButton
 @onready var lobby_wait_label: Label = $LobbyUI/tempMPMenu/LobbyBox/ClientWaitLabel
 
+# GameOver-UI (CanvasLayer mit Countdown-Label)
+@onready var game_over_ui: CanvasLayer = get_node_or_null("GameOverUI")
+@onready var game_over_label: Label = get_node_or_null("GameOverUI/GameOverLabel")
+
 const tempPlayerScene = preload("res://scenes/player.tscn")
 const NORAY_HOST = "tomfol.io"
 const NORAY_PORT = 8890
@@ -32,6 +36,7 @@ var enet_peer = ENetMultiplayerPeer.new()
 var is_round_started: bool = false
 var is_host: bool = false
 var current_room_code: String = ""
+var is_game_over: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -226,22 +231,31 @@ func remove_player(peer_id: int) -> void:
 	_update_lobby_player_count()
 	check_win_condition()
 
-## Prüft, ob nur noch ein Spieler übrig ist (Battle-Royale Sieg)
+## Prüft die Runden-Endbedingungen (entweder alle tot oder letzter Überlebender)
 func check_win_condition() -> void:
-	if not is_round_started:
+	# Wenn die Runde gar nicht aktiv ist oder das Spiel schon beendet wird: nichts tun
+	if not is_round_started or is_game_over:
 		return
+
+	# Im Multiplayer entscheidet nur der Host/Server, um Konflikte zu vermeiden
 	if multiplayer.has_multiplayer_peer() and not multiplayer.is_server():
 		return
 
 	var alive = get_tree().get_nodes_in_group("alive_players")
 	var all_players = get_tree().get_nodes_in_group("player")
 
-	# Wenn es mehrere Spieler gab und nur noch 1 am Leben ist:
-	if all_players.size() > 1 and alive.size() == 1:
+	# Fall 1: Alle Spieler sind tot (z. B. alle in die Lava gefallen)
+	if alive.is_empty():
+		trigger_round_over()
+
+	# Fall 2: Battle Royale - Mehrere Spieler waren dabei und genau 1 lebt noch!
+	elif all_players.size() > 1 and alive.size() == 1:
 		_declare_winner(alive[0])
+		trigger_round_over()
 
 func _declare_winner(winner: Node) -> void:
 	print("[MultiplayerManager] Winner: ", winner.name)
+	# Löst Sieges-Effekte (Partikel & Sound) auf dem Sieger aus
 	if winner.has_method("win"):
 		if multiplayer.has_multiplayer_peer():
 			winner.win_rpc.rpc()
@@ -252,20 +266,38 @@ func _declare_winner(winner: Node) -> void:
 
 ## Manuelles Triggern des Sieges (z. B. für Solo-Tests oder Ziel-Erreichung)
 func trigger_win(target_player: Node = null) -> void:
+	if is_game_over:
+		return
 	if target_player == null:
 		var alive = get_tree().get_nodes_in_group("alive_players")
 		if alive.size() > 0:
 			target_player = alive[0]
 	if target_player:
 		_declare_winner(target_player)
+		trigger_round_over()
+
+## Leitet das Rundenende ein – synchronisiert mit allen Spielern
+func trigger_round_over() -> void:
+	if is_game_over:
+		return
+	is_game_over = true
+
+	# Wenn Multiplayer aktiv ist: Befehl an alle Spieler senden. Sonst lokal ausführen.
+	if multiplayer.has_multiplayer_peer():
+		start_round_over_countdown.rpc()
+	else:
+		start_round_over_countdown()
 
 
 @rpc("authority", "call_local", "reliable")
 func start_game_round() -> void:
 	is_round_started = true
+	is_game_over = false
 
 	if lobby_ui:
 		lobby_ui.hide()
+	if game_over_ui:
+		game_over_ui.hide()
 
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -309,3 +341,37 @@ func _find_lava() -> Node:
 	var lavas = get_tree().get_nodes_in_group("lava")
 	if lavas.size() > 0: return lavas[0]
 	return null
+
+
+## Zeigt das GameOver-UI an, zählt 5 Sekunden herunter und wechselt ins Hauptmenü
+@rpc("authority", "call_local", "reliable")
+func start_round_over_countdown() -> void:
+	is_game_over = true
+	stop_lava()
+	round_ended.emit()
+
+	# GameOver-UI einblenden
+	if game_over_ui:
+		game_over_ui.show()
+
+	# 5 Sekunden Countdown auf dem Bildschirm (nur Timer auf Englisch)
+	for i in range(5, 0, -1):
+		if game_over_label:
+			game_over_label.text = "Returning to main menu in %d..." % i
+		await get_tree().create_timer(1.0).timeout
+
+	# Nach Ablauf der 5 Sekunden: Hauptmenü aufrufen
+	_return_to_main_menu()
+
+## Schließt die Verbindung sauber, schaltet die Maus frei und lädt das Hauptmenü
+func _return_to_main_menu() -> void:
+	# 1. Netzwerk-Verbindung schließen (damit man nicht im alten Spiel hängen bleibt)
+	if multiplayer.has_multiplayer_peer():
+		multiplayer.multiplayer_peer.close()
+		multiplayer.multiplayer_peer = null
+
+	# 2. Mauszeiger wieder sichtbar machen (wichtig für die Buttons im Menü!)
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+	# 3. Hauptmenü laden
+	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")

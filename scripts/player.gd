@@ -349,8 +349,6 @@ func win() -> void:
 		win_rpc.rpc()
 	else:
 		_handle_win()
-	await get_tree().create_timer(5)
-	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
 
 @rpc("any_peer", "call_local", "reliable")
 func win_rpc() -> void:
