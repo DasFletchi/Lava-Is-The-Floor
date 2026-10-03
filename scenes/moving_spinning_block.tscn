@@ -67,15 +67,12 @@ _data = {
 }
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8s8hj"]
-properties/0/path = NodePath("AnimatableBody3D:position")
+properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath("AnimatableBody3D:rotation")
+properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath(".:position")
-properties/2/spawn = true
-properties/2/replication_mode = 0
 
 [node name="Moving thingy" type="Node3D" unique_id=2040750926]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
@@ -94,4 +91,5 @@ libraries/ = SubResource("AnimationLibrary_o3ep8")
 speed_scale = 0.25
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=591502567]
+root_path = NodePath("../AnimatableBody3D")
 replication_config = SubResource("SceneReplicationConfig_8s8hj")
