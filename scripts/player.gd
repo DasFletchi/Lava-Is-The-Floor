@@ -100,6 +100,7 @@ func _ready() -> void:
 	camera.make_current()
 
 
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority(): return
 	if not can_move: return
@@ -221,9 +222,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		animation_player.play("RESET")
 
-
-
-
 func ledge_boost():
 	if ledges_left > 0:
 		ledges_left -= 1
@@ -334,6 +332,7 @@ func respawn() -> void:
 	var particles = get_node_or_null("GPUParticles3D") as GPUParticles3D
 	if particles:
 		particles.emitting = false
+		can_move = false
 
 func _apply_visuals() -> void:
 	if bean_visual == null:

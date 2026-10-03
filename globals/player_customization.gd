@@ -3,7 +3,11 @@ class_name PlayerCustomizer
 
 signal customization_changed(color: Color, eye_style: int)
 
-const SAVE_PATH = "user://bean_customization.cfg"
+const SAVE_PATH_RELEASE = "user://bean_customization.cfg"
+const SAVE_PATH_EDITOR = "user://bean_customization_editor.cfg"
+
+static func get_save_path() -> String:
+	return SAVE_PATH_EDITOR if OS.has_feature("editor") else SAVE_PATH_RELEASE
 
 var player_name: String = "Player"
 
@@ -91,11 +95,11 @@ func save_data() -> void:
 	config.set_value("bean", "color", selected_color)
 	config.set_value("bean", "color_index", selected_color_index)
 	config.set_value("bean", "eye_style", selected_eye_style)
-	config.save(SAVE_PATH)
+	config.save(get_save_path())
 
 func load_data() -> void:
 	var config = ConfigFile.new()
-	var err = config.load(SAVE_PATH)
+	var err = config.load(get_save_path())
 	if err == OK:
 		player_name = config.get_value("bean", "player_name", "Player")
 		selected_color = config.get_value("bean", "color", Color("ff4500"))

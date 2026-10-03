@@ -38,12 +38,16 @@ var is_host: bool = false
 var current_room_code: String = ""
 var is_game_over: bool = false
 
+ 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	await Noray.connect_to_host(NORAY_HOST, NORAY_PORT)
 	print("[MultiplayerManager] Connected to Noray relay")
+	multiplayer.server_disconnected.connect(_server_disconnected)
 
 func _show_lobby_view(as_host: bool) -> void:
+	if lobby_ui:
+		lobby_ui.show()
 	if main_box:
 		main_box.hide()
 	if lobby_box:
@@ -357,21 +361,25 @@ func start_round_over_countdown() -> void:
 	# 5 Sekunden Countdown auf dem Bildschirm (nur Timer auf Englisch)
 	for i in range(5, 0, -1):
 		if game_over_label:
-			game_over_label.text = "Returning to main menu in %d..." % i
+			game_over_label.text = "Returning to lobby in %d..." % i
 		await get_tree().create_timer(1.0).timeout
 
 	# Nach Ablauf der 5 Sekunden: Hauptmenü aufrufen
 	_return_to_main_menu()
 
-## Schließt die Verbindung sauber, schaltet die Maus frei und lädt das Hauptmenü
 func _return_to_main_menu() -> void:
-	# 1. Netzwerk-Verbindung schließen (damit man nicht im alten Spiel hängen bleibt)
-	if multiplayer.has_multiplayer_peer():
-		multiplayer.multiplayer_peer.close()
-		multiplayer.multiplayer_peer = null
+	is_round_started = false
+	is_game_over = false
+	reset_lava()
+	if multiplayer.is_server():
+		_show_lobby_view(is_host)
+	else:
+		_show_lobby_view(is_host)
+		for player in get_tree().get_nodes_in_group("player"): #wie eine fernbedieunnug führt auf jedem player das da aus
+			player.respawn()
+			game_over_ui.hide()
 
-	# 2. Mauszeiger wieder sichtbar machen (wichtig für die Buttons im Menü!)
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-	# 3. Hauptmenü laden
-	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
+func _server_disconnected():
+	if multiplayer.server_disconnected:
+		get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
