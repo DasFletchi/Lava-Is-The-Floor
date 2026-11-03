@@ -440,6 +440,10 @@ text = ">"
 layout_mode = 2
 placeholder_text = "Gamertag:"
 
+[node name="CheckButton" type="CheckButton" parent="UIOverlay/HBox/RightColumn" unique_id=464634432]
+layout_mode = 2
+text = "Mobile Controls"
+
 [node name="TitleTrack1" type="AudioStreamPlayer2D" parent="." unique_id=1975685387]
 stream = ExtResource("5_e54dn")
 volume_db = -15.0
@@ -468,3 +472,4 @@ text = "WASD to move, left click to mantle on top of things in front of your hea
 
 [connection signal="pressed" from="UIOverlay/HBox/LeftColumn/LevelSelect Button/Level1Button" to="." method="_on_level_1_button_pressed"]
 [connection signal="pressed" from="UIOverlay/HBox/LeftColumn/LevelSelect Button/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="toggled" from="UIOverlay/HBox/RightColumn/CheckButton" to="." method="_on_check_button_toggled"]

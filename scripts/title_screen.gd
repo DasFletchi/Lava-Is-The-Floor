@@ -199,3 +199,8 @@ func _on_back_button_pressed() -> void:
 
 func _on_credits_pressed() -> void:
 	get_tree().change_scene_to_file("res://Credits.tscn")
+
+
+
+func _on_check_button_toggled(toggled_on: bool) -> void:
+	PlayerCustomization.show_touch_controls = toggled_on #toggled on ist schon ne bool muss man halt wissen i guess

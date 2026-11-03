@@ -11,6 +11,8 @@ static func get_save_path() -> String:
 
 var player_name: String = "Player"
 
+var show_touch_controls: bool = false
+
 const EYE_STYLES: Array[Dictionary] = [
 	{"id": 0, "name": "Classic", "icon": ""},
 	{"id": 1, "name": "Derp", "icon": ""},

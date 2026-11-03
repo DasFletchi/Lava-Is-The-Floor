@@ -10,6 +10,7 @@ extends CharacterBody3D
 @onready var dead_pop_up: RichTextLabel = $DeadPopUp
 @onready var won_pop_up: RichTextLabel = $WONPopUP
 @onready var jump_button: Button = $"Mobile Controls/JumpButton"
+@onready var mobile_controls: Control = $"Mobile Controls"
 
 const ragdoll_scene = preload("res://scenes/bean_ragdoll.tscn")
 const buzzer_sound = preload("res://sfx/elimination_buzzer.wav")
@@ -101,6 +102,10 @@ func _ready() -> void:
 	animation_player.play("RESET")
 	camera.make_current()
 
+	if PlayerCustomization.show_touch_controls == false: # wie oft noch GLEICH GLEICH NUR EIN GLEICH IST SETTEN
+		mobile_controls.hide()
+	else:
+		mobile_controls.show()
 
 
 func _unhandled_input(event: InputEvent) -> void:
