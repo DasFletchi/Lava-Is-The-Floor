@@ -42,4 +42,3 @@ func _on_connected_to_server() -> void:
 
 func _on_server_disconnected() -> void:
 	_update_role()
-

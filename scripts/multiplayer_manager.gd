@@ -43,8 +43,20 @@ var is_game_over: bool = false
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	reset_lava()
-	tube_client.create_session()
-	print("[MultiplayerManager] Connected to tube")
+
+	# Connect TubeClient signals
+	if not tube_client.session_created.is_connected(_on_tube_session_created):
+		tube_client.session_created.connect(_on_tube_session_created)
+	if not tube_client.session_joined.is_connected(_on_tube_session_joined):
+		tube_client.session_joined.connect(_on_tube_session_joined)
+	if not tube_client.error_raised.is_connected(_on_tube_error_raised):
+		tube_client.error_raised.connect(_on_tube_error_raised)
+
+	# Connect Multiplayer peer signals
+	if not multiplayer.peer_connected.is_connected(_on_peer_connected):
+		multiplayer.peer_connected.connect(_on_peer_connected)
+	if not multiplayer.peer_disconnected.is_connected(_on_peer_disconnected):
+		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	if not multiplayer.server_disconnected.is_connected(_server_disconnected):
 		multiplayer.server_disconnected.connect(_server_disconnected)
 
@@ -78,29 +90,30 @@ func _on_host_pressed() -> void:
 	is_game_over = false
 	stop_lava()
 	reset_lava()
-	enet_peer = ENetMultiplayerPeer.new()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 	_show_lobby_view(true)
 	if lobby_status_label:
-		lobby_status_label.text = "Creating Noray session..."
+		lobby_status_label.text = "Creating WebRTC session..."
 	if lobby_start_button:
 		lobby_start_button.disabled = true
 
-	print("[MultiplayerManager] MY SESSION ID:: ", tube_client.session_id)
+	tube_client.create_session()
 	current_room_code = tube_client.session_id
 
-	DisplayServer.clipboard_set(tube_client.session_id)
+	DisplayServer.clipboard_set(current_room_code)
 	if lobby_code_label:
 		lobby_code_label.text = current_room_code
 
-
 	add_player(multiplayer.get_unique_id())
-	if not multiplayer.peer_connected.is_connected(_on_peer_connected):
-		multiplayer.peer_connected.connect(_on_peer_connected)
-	if not multiplayer.peer_disconnected.is_connected(_on_peer_disconnected):
-		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	_update_lobby_player_count()
 
+func _on_tube_session_created() -> void:
+	print("[MultiplayerManager] WebRTC session created: ", tube_client.session_id)
+	current_room_code = tube_client.session_id
+	DisplayServer.clipboard_set(current_room_code)
+	if lobby_code_label:
+		lobby_code_label.text = current_room_code
 	if lobby_status_label:
 		lobby_status_label.text = "Lobby active! Code copied to clipboard."
 	if lobby_start_button:
@@ -108,9 +121,11 @@ func _on_host_pressed() -> void:
 	_update_lobby_player_count()
 
 func _on_join_pressed() -> void:
-	var host_oid = adress_entry.text.strip_edges()
-	if host_oid.is_empty():
-		push_error("Please first insert your OID")
+	var host_code = adress_entry.text.strip_edges()
+	if host_code.is_empty():
+		push_error("Please first insert a session ID")
+		if lobby_status_label:
+			lobby_status_label.text = "Please enter a session ID first!"
 		return
 
 	is_host = false
@@ -118,17 +133,29 @@ func _on_join_pressed() -> void:
 	is_game_over = false
 	stop_lava()
 	reset_lava()
-	enet_peer = ENetMultiplayerPeer.new()
-	current_room_code = host_oid
+	current_room_code = host_code
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 	_show_lobby_view(false)
 	if lobby_status_label:
 		lobby_status_label.text = "Connecting to host..."
 	if lobby_code_label:
-		lobby_code_label.text = host_oid
-	tube_client.join_session(adress_entry.text)
+		lobby_code_label.text = host_code
 
+	tube_client.join_session(host_code)
+
+func _on_tube_session_joined() -> void:
+	print("[MultiplayerManager] Successfully joined WebRTC session!")
+	if lobby_status_label:
+		lobby_status_label.text = "Connected to host! Waiting for start..."
+	_update_lobby_player_count()
+
+func _on_tube_error_raised(code: int, message: String) -> void:
+	printerr("[MultiplayerManager] Tube error (", code, "): ", message)
+	if lobby_status_label:
+		lobby_status_label.text = "Error: " + message
+	if lobby_start_button:
+		lobby_start_button.disabled = true
 
 func _on_copy_code_pressed() -> void:
 	if not current_room_code.is_empty():
@@ -150,10 +177,7 @@ func _on_start_round_pressed() -> void:
 		start_game_round()
 
 func _on_leave_lobby_pressed() -> void:
-	if multiplayer.has_multiplayer_peer():
-		multiplayer.multiplayer_peer.close()
-		multiplayer.multiplayer_peer = null
-	enet_peer = ENetMultiplayerPeer.new()
+	tube_client.leave_session()
 	is_round_started = false
 	is_game_over = false
 	is_host = false
@@ -176,10 +200,7 @@ func _on_leave_lobby_pressed() -> void:
 func _on_back_pressed() -> void:
 	stop_lava()
 	reset_lava()
-	if multiplayer.has_multiplayer_peer():
-		multiplayer.multiplayer_peer.close()
-		multiplayer.multiplayer_peer = null
-	enet_peer = ENetMultiplayerPeer.new()
+	tube_client.leave_session()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
 

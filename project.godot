@@ -22,7 +22,6 @@ config/icon="uid://c78dv6tbt4jlq"
 
 PlayerCustomization="*uid://cj5vm55hnayfm"
 UISound="*res://globals/ui_sound.gd"
-TubeInstance="*uid://cvqu4olbfvwc7"
 Noray="*uid://gu4bv4tgms3x"
 PacketHandshake="*uid://tt3j25a05n7c"
 
