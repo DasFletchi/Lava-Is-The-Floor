@@ -243,13 +243,15 @@ func is_alive() -> bool:
 	return not is_dead and not is_spectator
 
 func die() -> void:
-	if is_dead or is_spectator: return
+	if is_dead or is_spectator or has_won: return
 	is_dead = true
 	if multiplayer != null and multiplayer.has_multiplayer_peer() and is_multiplayer_authority():
 		die_rpc.rpc()
 	else:
 		_handle_death()
-	if dead_pop_up and is_instance_valid(dead_pop_up):
+	if is_multiplayer_authority() and dead_pop_up and is_instance_valid(dead_pop_up):
+		if won_pop_up:
+			won_pop_up.hide()
 		dead_pop_up.show()
 		await get_tree().create_timer(3.0).timeout
 		if is_instance_valid(dead_pop_up):
@@ -413,6 +415,8 @@ func _handle_win() -> void:
 
 	# 3. WON Popup anzeigen
 	if is_multiplayer_authority() and won_pop_up:
+		if dead_pop_up:
+			dead_pop_up.hide()
 		won_pop_up.show()
 
 	var peer_id = 1
