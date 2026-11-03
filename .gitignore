@@ -8,3 +8,6 @@
 
 # WakaTime / Hackatime
 addons/godot_super-wakatime/
+
+# Build artifacts
+build/
