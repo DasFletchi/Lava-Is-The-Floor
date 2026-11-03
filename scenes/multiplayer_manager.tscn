@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://b8mpmgrscene1"]
 
 [ext_resource type="Script" uid="uid://cgjjb2la7ayld" path="res://scripts/multiplayer_manager.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://cvqu4olbfvwc7" path="res://Tube_instance.tscn" id="2_0uysd"]
+[ext_resource type="Resource" uid="uid://djno3feaxdhvh" path="res://tube_context.tres" id="3_1wrlk"]
 
 [node name="MultiplayerManager" type="Node3D" unique_id=1452643829]
 script = ExtResource("1_script")
@@ -131,6 +133,9 @@ theme_override_font_sizes/font_size = 36
 text = "Returning to main menu in 5..."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="TubeClient" parent="." unique_id=598115219 instance=ExtResource("2_0uysd")]
+context = ExtResource("3_1wrlk")
 
 [connection signal="pressed" from="LobbyUI/tempMPMenu/VBoxContainer/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="LobbyUI/tempMPMenu/VBoxContainer/Join" to="." method="_on_join_pressed"]

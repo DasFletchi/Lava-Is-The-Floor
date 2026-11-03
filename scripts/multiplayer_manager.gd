@@ -23,6 +23,7 @@ signal peer_left(peer_id: int)
 @onready var lobby_players_label: Label = $LobbyUI/tempMPMenu/LobbyBox/PlayerCountLabel
 @onready var lobby_start_button: Button = $LobbyUI/tempMPMenu/LobbyBox/StartButton
 @onready var lobby_wait_label: Label = $LobbyUI/tempMPMenu/LobbyBox/ClientWaitLabel
+@onready var tube_client: TubeClient = $TubeClient
 
 # GameOver-UI (CanvasLayer mit Countdown-Label)
 @onready var game_over_ui: CanvasLayer = get_node_or_null("GameOverUI")
@@ -42,8 +43,8 @@ var is_game_over: bool = false
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	reset_lava()
-	await Noray.connect_to_host(NORAY_HOST, NORAY_PORT)
-	print("[MultiplayerManager] Connected to Noray relay")
+	tube_client.create_session()
+	print("[MultiplayerManager] Connected to tube")
 	if not multiplayer.server_disconnected.is_connected(_server_disconnected):
 		multiplayer.server_disconnected.connect(_server_disconnected)
 
@@ -86,25 +87,13 @@ func _on_host_pressed() -> void:
 	if lobby_start_button:
 		lobby_start_button.disabled = true
 
-	Noray.register_host()
-	await Noray.on_pid
-	print("[MultiplayerManager] MY OID: ", Noray.oid)
-	current_room_code = Noray.oid
+	print("[MultiplayerManager] MY SESSION ID:: ", tube_client.session_id)
+	current_room_code = tube_client.session_id
 
-	DisplayServer.clipboard_set(Noray.oid)
+	DisplayServer.clipboard_set(tube_client.session_id)
 	if lobby_code_label:
 		lobby_code_label.text = current_room_code
 
-	await Noray.register_remote()
-	print("[MultiplayerManager] MY OWN PORT: ", Noray.local_port)
-
-	enet_peer.create_server(Noray.local_port)
-	multiplayer.multiplayer_peer = enet_peer
-
-	if not Noray.on_connect_nat.is_connected(nat_connect):
-		Noray.on_connect_nat.connect(nat_connect)
-	if not Noray.on_connect_relay.is_connected(relay_connect):
-		Noray.on_connect_relay.connect(relay_connect)
 
 	add_player(multiplayer.get_unique_id())
 	if not multiplayer.peer_connected.is_connected(_on_peer_connected):
@@ -138,21 +127,8 @@ func _on_join_pressed() -> void:
 		lobby_status_label.text = "Connecting to host..."
 	if lobby_code_label:
 		lobby_code_label.text = host_oid
+	tube_client.join_session(adress_entry.text)
 
-	if not multiplayer.peer_connected.is_connected(_on_peer_connected):
-		multiplayer.peer_connected.connect(_on_peer_connected)
-	if not multiplayer.peer_disconnected.is_connected(_on_peer_disconnected):
-		multiplayer.peer_disconnected.connect(_on_peer_disconnected)
-
-	Noray.register_host()
-	await Noray.on_pid
-	await Noray.register_remote()
-
-	if not Noray.on_connect_nat.is_connected(join):
-		Noray.on_connect_nat.connect(join)
-	if not Noray.on_connect_relay.is_connected(join):
-		Noray.on_connect_relay.connect(join)
-	Noray.connect_nat(host_oid)
 
 func _on_copy_code_pressed() -> void:
 	if not current_room_code.is_empty():
@@ -206,21 +182,6 @@ func _on_back_pressed() -> void:
 	enet_peer = ENetMultiplayerPeer.new()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
-
-func join(address: String, port: int) -> void:
-	enet_peer.create_client(address, port, 0, 0, 0, Noray.local_port)
-	multiplayer.multiplayer_peer = enet_peer
-	if lobby_status_label:
-		lobby_status_label.text = "Connected to host! Waiting for start..."
-	_update_lobby_player_count()
-
-func nat_connect(address: String, port: int) -> void:
-	await PacketHandshake.over_enet_peer(enet_peer, address, port)
-	print("[MultiplayerManager] Direct connection (NAT) from: ", address, ":", port)
-
-func relay_connect(address: String, port: int) -> void:
-	await PacketHandshake.over_enet_peer(enet_peer, address, port)
-	print("[MultiplayerManager] Relay connection from: ", address, ":", port)
 
 func _on_peer_connected(peer_id: int) -> void:
 	print("[MultiplayerManager] Peer connected: ", peer_id)

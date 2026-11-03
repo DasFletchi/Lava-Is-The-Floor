@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cvqu4olbfvwc7"]
+
+[ext_resource type="Script" uid="uid://cy006uvidc4y" path="res://addons/tube/tube_client.gd" id="1_rp3m8"]
+
+[node name="TubeClient" type="Node" unique_id=598115219]
+script = ExtResource("1_rp3m8")
+metadata/_custom_type_script = "uid://cy006uvidc4y"
