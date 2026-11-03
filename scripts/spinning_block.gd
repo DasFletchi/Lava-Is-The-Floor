@@ -16,6 +16,8 @@ func _ready() -> void:
 func _setup_synchronizer() -> void:
 	if not synchronizer or not body:
 		return
+	if synchronizer.replication_config != null:
+		return
 	synchronizer.root_path = synchronizer.get_path_to(body)
 	var config := SceneReplicationConfig.new()
 	config.add_property(NodePath(".:position"))
@@ -25,6 +27,8 @@ func _setup_synchronizer() -> void:
 	synchronizer.replication_config = config
 
 func _update_role() -> void:
+	if not is_inside_tree():
+		return
 	var is_server := not multiplayer.has_multiplayer_peer() or multiplayer.is_server()
 	if is_server:
 		if body:
@@ -38,7 +42,16 @@ func _update_role() -> void:
 			animation_player.stop()
 
 func _on_connected_to_server() -> void:
-	_update_role()
+	if is_inside_tree():
+		_update_role()
 
 func _on_server_disconnected() -> void:
-	_update_role()
+	if is_inside_tree():
+		_update_role()
+
+func _exit_tree() -> void:
+	if multiplayer:
+		if multiplayer.connected_to_server.is_connected(_on_connected_to_server):
+			multiplayer.connected_to_server.disconnect(_on_connected_to_server)
+		if multiplayer.server_disconnected.is_connected(_on_server_disconnected):
+			multiplayer.server_disconnected.disconnect(_on_server_disconnected)

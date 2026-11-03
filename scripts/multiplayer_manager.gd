@@ -30,13 +30,11 @@ signal peer_left(peer_id: int)
 @onready var game_over_label: Label = get_node_or_null("GameOverUI/GameOverLabel")
 
 const tempPlayerScene = preload("res://scenes/player.tscn")
-const NORAY_HOST = "tomfol.io"
-const NORAY_PORT = 8890
 
-var enet_peer = ENetMultiplayerPeer.new()
 var is_round_started: bool = false
 var is_host: bool = false
 var current_room_code: String = ""
+var is_leaving: bool = false
 var is_game_over: bool = false
 
  
@@ -177,43 +175,21 @@ func _on_start_round_pressed() -> void:
 		start_game_round()
 
 func _on_leave_lobby_pressed() -> void:
-	tube_client.leave_session()
-	is_round_started = false
-	is_game_over = false
-	is_host = false
-	current_room_code = ""
-
-	stop_lava()
-	reset_lava()
-
-	for p in get_tree().get_nodes_in_group("player"):
-		p.queue_free()
-
-	if game_over_ui:
-		game_over_ui.hide()
-	if lobby_box:
-		lobby_box.hide()
-	if main_box:
-		main_box.show()
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	_disconnect_and_return_to_title()
 
 func _on_back_pressed() -> void:
-	stop_lava()
-	reset_lava()
-	tube_client.leave_session()
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
+	_disconnect_and_return_to_title()
 
 func _on_peer_connected(peer_id: int) -> void:
 	print("[MultiplayerManager] Peer connected: ", peer_id)
-	if multiplayer.is_server():
+	if multiplayer.has_multiplayer_peer() and multiplayer.is_server():
 		add_player(peer_id)
 	_update_lobby_player_count()
 	peer_joined.emit(peer_id)
 
 func _on_peer_disconnected(peer_id: int) -> void:
 	print("[MultiplayerManager] Peer disconnected: ", peer_id)
-	if multiplayer.is_server():
+	if multiplayer.has_multiplayer_peer() and multiplayer.is_server():
 		remove_player(peer_id)
 	_update_lobby_player_count()
 	peer_left.emit(peer_id)
@@ -356,7 +332,7 @@ func _execute_start_lava() -> void:
 
 func stop_lava() -> void:
 	_execute_stop_lava()
-	if multiplayer.has_multiplayer_peer() and multiplayer.is_server():
+	if is_inside_tree() and multiplayer.has_multiplayer_peer() and multiplayer.is_server():
 		_sync_stop_lava.rpc()
 
 @rpc("authority", "call_remote", "reliable")
@@ -370,7 +346,7 @@ func _execute_stop_lava() -> void:
 
 func reset_lava() -> void:
 	_execute_reset_lava()
-	if multiplayer.has_multiplayer_peer() and multiplayer.is_server():
+	if is_inside_tree() and multiplayer.has_multiplayer_peer() and multiplayer.is_server():
 		_sync_reset_lava.rpc()
 
 @rpc("authority", "call_remote", "reliable")
@@ -439,6 +415,39 @@ func _return_to_main_menu() -> void:
 		player.respawn(get_spawn_pos(i, total))
 		player.can_move = false
 
-func _server_disconnected():
-	if multiplayer.server_disconnected:
-		get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
+func _disconnect_and_return_to_title() -> void:
+	if is_leaving:
+		return
+	is_leaving = true
+
+	# 1. Lokal aufräumen solange der Baum intakt ist
+	_execute_stop_lava()
+	_execute_reset_lava()
+
+	for p in get_tree().get_nodes_in_group("player"):
+		if is_instance_valid(p):
+			p.queue_free()
+
+	is_round_started = false
+	is_game_over = false
+	is_host = false
+	current_room_code = ""
+
+	# 2. Tube-Session beenden (falls aktiv)
+	if tube_client and is_instance_valid(tube_client) and tube_client.state != tube_client.State.IDLE:
+		tube_client.leave_session()
+
+	# 3. Multiplayer-Peer sauber abkoppeln, damit Godot nicht auf geschlossenem Peer weitersynchronisiert
+	if multiplayer and multiplayer.has_multiplayer_peer():
+		multiplayer.multiplayer_peer = null
+
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	var err = get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
+	if err != OK:
+		print("[MultiplayerManager] change_scene_to_file error: ", err)
+
+func _server_disconnected() -> void:
+	_disconnect_and_return_to_title()
+
+func _on_tube_client_session_left() -> void:
+	_disconnect_and_return_to_title()

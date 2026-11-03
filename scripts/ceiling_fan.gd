@@ -20,8 +20,8 @@ func _setup_synchronizer() -> void:
 		add_child(synchronizer)
 
 func _physics_process(delta: float) -> void:
-	# Nur der Host/Server bzw. im Einzelspieler rotiert den Ventilator.
-	# Verbundene Clients empfangen die Rotation kontinuierlich über den MultiplayerSynchronizer.
+	if not is_inside_tree() or multiplayer == null:
+		return
 	var is_server := not multiplayer.has_multiplayer_peer() or multiplayer.is_server()
 	if is_server:
 		rotate_y(spin_speed * delta)

@@ -143,3 +143,4 @@ context = ExtResource("3_1wrlk")
 [connection signal="pressed" from="LobbyUI/tempMPMenu/LobbyBox/CodeContainer/CopyButton" to="." method="_on_copy_code_pressed"]
 [connection signal="pressed" from="LobbyUI/tempMPMenu/LobbyBox/StartButton" to="." method="_on_start_round_pressed"]
 [connection signal="pressed" from="LobbyUI/tempMPMenu/LobbyBox/LeaveButton" to="." method="_on_leave_lobby_pressed"]
+[connection signal="session_left" from="TubeClient" to="." method="_on_tube_client_session_left"]
