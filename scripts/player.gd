@@ -79,6 +79,8 @@ func _ready() -> void:
 		won_pop_up.hide()
 	if dead_pop_up:
 		dead_pop_up.hide()
+	if mobile_controls:
+		mobile_controls.hide()
 
 	if is_multiplayer_authority():
 		bean_visual.hide()
