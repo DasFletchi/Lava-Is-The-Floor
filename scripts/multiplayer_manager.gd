@@ -218,20 +218,28 @@ func _on_peer_disconnected(peer_id: int) -> void:
 	_update_lobby_player_count()
 	peer_left.emit(peer_id)
 
-func get_spawn_pos() -> Vector3:
+func get_spawn_pos(index: int = 0, total_players: int = 1) -> Vector3:
+	var base_pos = default_spawn_position
 	if spawn_marker and is_instance_valid(spawn_marker):
-		return spawn_marker.global_position
-	return default_spawn_position
+		base_pos = spawn_marker.global_position
+
+	if total_players <= 1:
+		return base_pos
+
+	var spacing = 1.6
+	var x_offset = (float(index) - float(total_players - 1) * 0.5) * spacing
+	return base_pos + Vector3(x_offset, 0.0, 0.0)
 
 func add_player(peer_id: int) -> void:
 	var player = tempPlayerScene.instantiate()
 	player.name = str(peer_id)
 	player.can_move = is_round_started
+	var current_idx = players_container.get_child_count() if players_container else 0
 	if players_container:
 		players_container.add_child(player)
 	else:
 		add_child(player)
-	player.global_position = get_spawn_pos()
+	player.global_position = get_spawn_pos(current_idx, current_idx + 1)
 	
 	# Win-Condition Hook
 	if player.has_signal("player_eliminated"):
@@ -321,9 +329,12 @@ func start_game_round() -> void:
 	if auto_start_lava:
 		start_lava()
 
-	var spawn_pos = get_spawn_pos()
-	for p in get_tree().get_nodes_in_group("player"):
-		p.respawn(spawn_pos)
+	var players = get_tree().get_nodes_in_group("player")
+	players.sort_custom(func(a, b): return str(a.name) < str(b.name))
+	var total = players.size()
+	for i in range(total):
+		var p = players[i]
+		p.respawn(get_spawn_pos(i, total))
 		p.can_move = true
 
 	round_started.emit()
@@ -420,9 +431,12 @@ func _return_to_main_menu() -> void:
 		game_over_ui.hide()
 	_show_lobby_view(is_host)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	var spawn_pos = get_spawn_pos()
-	for player in get_tree().get_nodes_in_group("player"):
-		player.respawn(spawn_pos)
+	var players = get_tree().get_nodes_in_group("player")
+	players.sort_custom(func(a, b): return str(a.name) < str(b.name))
+	var total = players.size()
+	for i in range(total):
+		var player = players[i]
+		player.respawn(get_spawn_pos(i, total))
 		player.can_move = false
 
 func _server_disconnected():

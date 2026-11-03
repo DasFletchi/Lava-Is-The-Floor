@@ -22,6 +22,7 @@ signal player_won(peer_id: int)
 
 var is_dead: bool = false
 var has_won: bool = false
+var death_handled: bool = false
 @export var is_spectator: bool = false
 @export var spectator_speed: float = 14.0
 
@@ -262,6 +263,9 @@ func die_rpc() -> void:
 	_handle_death()
 
 func _handle_death() -> void:
+	if death_handled:
+		return
+	death_handled = true
 	is_dead = true
 	is_spectator = true
 	velocity = Vector3.ZERO
@@ -323,15 +327,18 @@ func respawn_rpc(spawn_pos: Vector3 = Vector3(0.0, 1.8, 3.0)) -> void:
 	_handle_respawn(spawn_pos)
 
 func _handle_respawn(spawn_pos: Vector3) -> void:
+	death_handled = false
 	is_dead = false
 	is_spectator = false
 	has_won = false
-	global_position = spawn_pos
 	velocity = Vector3.ZERO
+	global_position = spawn_pos
 	coyote_timer = 0.0
 	jump_buffer_timer = 0.0
 	ledges_left = 1
 	legding_rn = false
+	if has_method("reset_physics_interpolation"):
+		reset_physics_interpolation()
 
 	if collision_shape_3d:
 		collision_shape_3d.set_deferred("disabled", false)

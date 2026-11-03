@@ -39,12 +39,12 @@ func _physics_process(delta: float) -> void:
 	rise_speed += 0.0002
 
 func _on_kill_area_body_entered(body: Node3D) -> void:
-	# Prüft, ob der Körper der Spieler ist (oder die die()-Methode hat)
+	# Nur die lokale Instanz (Authority) soll ihren eigenen Tod triggern,
+	# damit das Event nicht auf mehreren Rechnern parallel doppelt ausgelöst wird.
+	if body.has_method("is_multiplayer_authority") and not body.is_multiplayer_authority():
+		return
 	if body.has_method("die"):
 		body.die()
-	elif body.is_in_group("player"):
-		if body.has_method("die"):
-			body.die()
 
 func start_rising(reset_delay: bool = true) -> void:
 	if reset_delay or delay_timer <= 0.0:
