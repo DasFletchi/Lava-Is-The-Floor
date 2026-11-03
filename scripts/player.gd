@@ -9,6 +9,7 @@ extends CharacterBody3D
 @onready var gamertag: Label3D = $Gamertag
 @onready var dead_pop_up: RichTextLabel = $DeadPopUp
 @onready var won_pop_up: RichTextLabel = $WONPopUP
+@onready var jump_button: Button = $"Mobile Controls/JumpButton"
 
 const ragdoll_scene = preload("res://scenes/bean_ragdoll.tscn")
 const buzzer_sound = preload("res://sfx/elimination_buzzer.wav")

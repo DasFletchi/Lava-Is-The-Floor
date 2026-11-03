@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Simple flat translucent circle -->
+  <circle cx="64" cy="64" r="56" fill="#000000" fill-opacity="0.35" stroke="#ffffff" stroke-opacity="0.5" stroke-width="4" />
+  
+  <!-- Minimalist bold upward jump arrow -->
+  <path d="M 64 36 
+           L 88 62 
+           L 73 62 
+           L 73 88 
+           L 55 88 
+           L 55 62 
+           L 40 62 
+           Z" 
+        fill="#ffffff" 
+        stroke="#ffffff" 
+        stroke-width="4" 
+        stroke-linejoin="round" />
+</svg>
