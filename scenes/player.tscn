@@ -225,26 +225,40 @@ script = ExtResource("1_3vyb7")
 spectator_speed = 8.0
 SPEED = 4.0
 
-[node name="Mobile Controls" type="Control" parent="." unique_id=800184381]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 128.0
-offset_top = 501.0
-offset_right = 168.0
-offset_bottom = 541.0
+[node name="Mobile Controls" type="CanvasLayer" parent="." unique_id=800184381]
+visible = false
 
 [node name="VirtualJoystick" type="VirtualJoystick" parent="Mobile Controls" unique_id=1853311531]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-mouse_filter = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = -50.0
+grow_vertical = 0
+joystick_size = 120.0
 action_left = &"a"
 action_right = &"d"
 action_up = &"w"
 action_down = &"s"
 
-[node name="TouchScreenButton" type="TouchScreenButton" parent="Mobile Controls" unique_id=211075701]
-position = Vector2(796, -57)
+[node name="JumpContainer" type="Control" parent="Mobile Controls" unique_id=1298471234]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -180.0
+offset_right = -52.0
+offset_bottom = -52.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Mobile Controls/JumpContainer" unique_id=211075701]
 texture_normal = ExtResource("5_tuyoq")
 texture_pressed = ExtResource("6_fjrip")
 action = "space"

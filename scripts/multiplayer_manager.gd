@@ -298,8 +298,13 @@ func start_game_round() -> void:
 		lobby_ui.hide()
 	if game_over_ui:
 		game_over_ui.hide()
-
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	var touch_enabled: bool = false
+	if has_node("/root/PlayerCustomization"):
+		touch_enabled = get_node("/root/PlayerCustomization").show_touch_controls
+	if touch_enabled:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 	reset_lava()
 	if auto_start_lava:

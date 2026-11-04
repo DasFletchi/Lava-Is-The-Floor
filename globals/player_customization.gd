@@ -11,7 +11,7 @@ static func get_save_path() -> String:
 
 var player_name: String = "Player"
 
-var show_touch_controls: bool = false
+var show_touch_controls: bool = OS.has_feature("mobile") or DisplayServer.is_touchscreen_available()
 
 const EYE_STYLES: Array[Dictionary] = [
 	{"id": 0, "name": "Classic", "icon": ""},
@@ -97,6 +97,7 @@ func save_data() -> void:
 	config.set_value("bean", "color", selected_color)
 	config.set_value("bean", "color_index", selected_color_index)
 	config.set_value("bean", "eye_style", selected_eye_style)
+	config.set_value("bean", "show_touch_controls", show_touch_controls)
 	config.save(get_save_path())
 
 func load_data() -> void:
@@ -107,6 +108,7 @@ func load_data() -> void:
 		selected_color = config.get_value("bean", "color", Color("ff4500"))
 		selected_color_index = config.get_value("bean", "color_index", 0)
 		selected_eye_style = config.get_value("bean", "eye_style", 0)
+		show_touch_controls = config.get_value("bean", "show_touch_controls", OS.has_feature("mobile") or DisplayServer.is_touchscreen_available())
 		# Safety check index bounds
 		selected_color_index = clamp(selected_color_index, 0, COLOR_PALETTE.size() - 1)
 		selected_eye_style = clamp(selected_eye_style, 0, EYE_STYLES.size() - 1)

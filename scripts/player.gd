@@ -9,7 +9,7 @@ extends CharacterBody3D
 @onready var gamertag: Label3D = $Gamertag
 @onready var dead_pop_up: RichTextLabel = $DeadPopUp
 @onready var won_pop_up: RichTextLabel = $WONPopUP
-@onready var mobile_controls: Control = $"Mobile Controls"
+@onready var mobile_controls: CanvasLayer = $"Mobile Controls" as CanvasLayer
 
 const ragdoll_scene = preload("res://scenes/bean_ragdoll.tscn")
 const buzzer_sound = preload("res://sfx/elimination_buzzer.wav")
@@ -60,13 +60,21 @@ var jump_buffer_timer := 0.0
 var ledges_left := 1
 var legding_rn = false
 
+func _is_touch_enabled() -> bool:
+	if has_node("/root/PlayerCustomization"):
+		return get_node("/root/PlayerCustomization").show_touch_controls
+	return false
+
 ## Steuert, ob sich der Spieler bewegen und umsehen kann (wird bei Rundenstart aktiviert)
 @export var can_move: bool = false:
 	set(val):
 		can_move = val
 		if is_inside_tree() and is_multiplayer_authority():
 			if can_move:
-				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+				if _is_touch_enabled():
+					Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+				else:
+					Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			else:
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
@@ -95,44 +103,64 @@ func _ready() -> void:
 		_apply_visuals()
 
 	if not is_multiplayer_authority(): return
+
+	var touch_enabled = _is_touch_enabled()
 	if can_move:
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		if touch_enabled:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
 	animation_player.animation_finished.connect(_on_animation_finished)
 	animation_player.play("RESET")
 	camera.make_current()
 
-	if PlayerCustomization.show_touch_controls == false: # wie oft noch GLEICH GLEICH NUR EIN GLEICH IST SETTEN
-		mobile_controls.hide()
-	else:
-		mobile_controls.show()
+	if mobile_controls:
+		if touch_enabled:
+			mobile_controls.show()
+		else:
+			mobile_controls.hide()
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_multiplayer_authority(): return
 	if not can_move: return
 
+	var touch_enabled = _is_touch_enabled()
+
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		if not touch_enabled:
+			if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 	if event.is_action_pressed("quit"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		else:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			if not touch_enabled:
+				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		get_viewport().set_input_as_handled()
 		return
 
-	if event is InputEventMouseMotion:
-		if DisplayServer.get_name() != "headless" and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
-			return
+	if event is InputEventScreenDrag:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		camera.rotate_x(-event.relative.y * mouse_sensitivity)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+
+	if event is InputEventMouseMotion:
+		if DisplayServer.get_name() != "headless":
+			if not touch_enabled and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+				return
+			if touch_enabled and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+				return
+		rotate_y(-event.relative.x * mouse_sensitivity)
+		camera.rotate_x(-event.relative.y * mouse_sensitivity)
+		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+
 	if not is_dead and not is_spectator:
-		if Input.is_action_just_pressed("left_click") and ray_cast_3d.is_colliding():
+		if (Input.is_action_just_pressed("left_click") or (event is InputEventScreenTouch and event.pressed)) and ray_cast_3d.is_colliding():
 			ledge_boost()
 
 

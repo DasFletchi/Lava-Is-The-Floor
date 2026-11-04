@@ -99,6 +99,11 @@ func _ready() -> void:
 	
 	if gamertag != null and cust != null:
 		gamertag.text = cust.player_name
+
+	if has_node("UIOverlay/HBox/RightColumn/CheckButton") and cust != null:
+		var cb = get_node("UIOverlay/HBox/RightColumn/CheckButton") as CheckButton
+		if cb:
+			cb.button_pressed = cust.show_touch_controls
 		gamertag.text_changed.connect(_on_gamertag_changed)
 
 
@@ -203,4 +208,7 @@ func _on_credits_pressed() -> void:
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
-	PlayerCustomization.show_touch_controls = toggled_on #toggled on ist schon ne bool muss man halt wissen i guess
+	var cust = _get_customizer()
+	if cust != null:
+		cust.show_touch_controls = toggled_on
+		cust.save_data()
