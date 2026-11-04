@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://csb5stb5xmkrl"]
-
-[ext_resource type="Script" path="res://scripts/global.gd" id="1_mqaw6"]
-
-[node name="Global" type="Node2D" unique_id=244528911]
-position = Vector2(0, -1)
-script = ExtResource("1_mqaw6")

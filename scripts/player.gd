@@ -1,12 +1,9 @@
 extends CharacterBody3D
 @export var mouse_sensitivity: float = 0.005
 @export var touch_sensitivity: float = 0.004
-@export var anim_transition_time: float = 0.5
 @onready var camera: Camera3D = $Camera3D
-@onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
 @onready var ray_cast_3d: RayCast3D = $RayCast3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var temp_player: CharacterBody3D = $"."
 @onready var gamertag: Label3D = $Gamertag
 @onready var dead_pop_up: RichTextLabel = $DeadPopUp
 @onready var won_pop_up: RichTextLabel = $WONPopUP
@@ -20,7 +17,6 @@ const victory_sound = preload("res://sfx/victory_sound.wav")
 @onready var win_particles_blue: GPUParticles3D = get_node_or_null("WinParticlesBlue") as GPUParticles3D
 
 signal player_eliminated(peer_id: int)
-signal player_won(peer_id: int)
 
 var is_dead: bool = false
 var has_won: bool = false
@@ -328,9 +324,6 @@ func _enter_tree() -> void:
 	if id != 0:
 		set_multiplayer_authority(id)
 
-func is_alive() -> bool:
-	return not is_dead and not is_spectator
-
 func die() -> void:
 	if is_dead or is_spectator or has_won: return
 	is_dead = true
@@ -410,10 +403,6 @@ func _handle_death() -> void:
 func respawn(spawn_pos: Vector3 = Vector3.ZERO) -> void:
 	if spawn_pos == Vector3.ZERO:
 		spawn_pos = Vector3(0.0, 1.8, 3.0)
-	_handle_respawn(spawn_pos)
-
-@rpc("any_peer", "call_local", "reliable")
-func respawn_rpc(spawn_pos: Vector3 = Vector3(0.0, 1.8, 3.0)) -> void:
 	_handle_respawn(spawn_pos)
 
 func _handle_respawn(spawn_pos: Vector3) -> void:
@@ -517,8 +506,3 @@ func _handle_win() -> void:
 		if dead_pop_up:
 			dead_pop_up.hide()
 		won_pop_up.show()
-
-	var peer_id = 1
-	if multiplayer != null and multiplayer.has_multiplayer_peer():
-		peer_id = multiplayer.get_unique_id()
-	player_won.emit(peer_id)

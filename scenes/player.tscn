@@ -9,8 +9,6 @@
 [ext_resource type="Texture2D" path="res://assets/ui/mantle_button_normal.svg" id="7_mantle_normal"]
 [ext_resource type="Texture2D" path="res://assets/ui/mantle_button_pressed.svg" id="8_mantle_pressed"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_k7hc8"]
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_k7hc8"]
 
 [sub_resource type="Animation" id="Animation_dqkch"]
@@ -295,11 +293,6 @@ mouse_filter = 0
 [node name="TouchScreenButton" type="TouchScreenButton" parent="Mobile Controls/MantleContainer" unique_id=1540873246]
 texture_normal = ExtResource("7_mantle_normal")
 texture_pressed = ExtResource("8_mantle_pressed")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1654876221]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
-mesh = SubResource("CapsuleMesh_k7hc8")
 
 [node name="BeanVisual" parent="." unique_id=1285689791 instance=ExtResource("4_bean")]
 

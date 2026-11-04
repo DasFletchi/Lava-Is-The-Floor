@@ -5,11 +5,6 @@ extends Control
 @onready var credits_button: Button = %CreditsButton
 @onready var quit_button: Button = %QuitButton
 
-@onready var level_1_button: Button = $"UIOverlay/HBox/LeftColumn/LevelSelect Button/Level1Button"
-@onready var back_button: Button = $"UIOverlay/HBox/LeftColumn/LevelSelect Button/BackButton"
-
-
-
 # Customizer controls (Grapples Galore carousel style)
 @onready var prev_color_button: Button = %PrevColorButton
 @onready var next_color_button: Button = %NextColorButton

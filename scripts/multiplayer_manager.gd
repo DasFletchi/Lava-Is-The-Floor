@@ -1,18 +1,12 @@
 extends Node3D
 class_name MultiplayerManager
 
-signal round_started
-signal round_ended
-signal peer_joined(peer_id: int)
-signal peer_left(peer_id: int)
-
 @export var default_spawn_position: Vector3 = Vector3(0.0, 1.8, 3.0)
 @export var spawn_marker: Marker3D = null
 @export var auto_start_lava: bool = true
 
 @onready var players_container: Node3D = $Players
 @onready var lobby_ui: CanvasLayer = $LobbyUI
-@onready var temp_mp_menu: PanelContainer = $LobbyUI/tempMPMenu
 @onready var main_box: VBoxContainer = $LobbyUI/tempMPMenu/VBoxContainer
 @onready var adress_entry: LineEdit = $LobbyUI/tempMPMenu/VBoxContainer/AdressEntry
 
@@ -185,14 +179,12 @@ func _on_peer_connected(peer_id: int) -> void:
 	if multiplayer.has_multiplayer_peer() and multiplayer.is_server():
 		add_player(peer_id)
 	_update_lobby_player_count()
-	peer_joined.emit(peer_id)
 
 func _on_peer_disconnected(peer_id: int) -> void:
 	print("[MultiplayerManager] Peer disconnected: ", peer_id)
 	if multiplayer.has_multiplayer_peer() and multiplayer.is_server():
 		remove_player(peer_id)
 	_update_lobby_player_count()
-	peer_left.emit(peer_id)
 
 func get_spawn_pos(index: int = 0, total_players: int = 1) -> Vector3:
 	var base_pos = default_spawn_position
@@ -262,19 +254,6 @@ func _declare_winner(winner: Node) -> void:
 		else:
 			winner.win()
 	stop_lava()
-	round_ended.emit()
-
-## Manuelles Triggern des Sieges (z. B. für Solo-Tests oder Ziel-Erreichung)
-func trigger_win(target_player: Node = null) -> void:
-	if is_game_over:
-		return
-	if target_player == null:
-		var alive = get_tree().get_nodes_in_group("alive_players")
-		if alive.size() > 0:
-			target_player = alive[0]
-	if target_player:
-		_declare_winner(target_player)
-		trigger_round_over()
 
 ## Leitet das Rundenende ein – synchronisiert mit allen Spielern
 func trigger_round_over() -> void:
@@ -318,7 +297,6 @@ func start_game_round() -> void:
 		p.respawn(get_spawn_pos(i, total))
 		p.can_move = true
 
-	round_started.emit()
 	print("[MultiplayerManager] Round started! All players unlocked and respawned.")
 
 func start_lava() -> void:
@@ -383,7 +361,6 @@ func _find_lava() -> Node:
 func start_round_over_countdown() -> void:
 	is_game_over = true
 	stop_lava()
-	round_ended.emit()
 
 	# GameOver-UI einblenden
 	if game_over_ui:
