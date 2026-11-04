@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://cvoej1wbldbd7" path="res://scenes/bean_visual.tscn" id="4_bean"]
 [ext_resource type="Texture2D" uid="uid://cchv1dpmns7vf" path="res://assets/ui/jump_button_normal.svg" id="5_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://cgodt6of1s0w6" path="res://assets/ui/jump_button_pressed.svg" id="6_fjrip"]
+[ext_resource type="Texture2D" path="res://assets/ui/mantle_button_normal.svg" id="7_mantle_normal"]
+[ext_resource type="Texture2D" path="res://assets/ui/mantle_button_pressed.svg" id="8_mantle_pressed"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_k7hc8"]
 
@@ -228,6 +230,18 @@ SPEED = 4.0
 [node name="Mobile Controls" type="CanvasLayer" parent="." unique_id=800184381]
 visible = false
 
+[node name="TouchLookArea" type="Control" parent="Mobile Controls" unique_id=1992347501]
+layout_mode = 3
+anchor_left = 0.35
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 0
+
 [node name="VirtualJoystick" type="VirtualJoystick" parent="Mobile Controls" unique_id=1853311531]
 anchors_preset = 2
 anchor_top = 1.0
@@ -256,12 +270,31 @@ offset_right = -52.0
 offset_bottom = -52.0
 grow_horizontal = 0
 grow_vertical = 0
-mouse_filter = 2
+mouse_filter = 0
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="Mobile Controls/JumpContainer" unique_id=211075701]
 texture_normal = ExtResource("5_tuyoq")
 texture_pressed = ExtResource("6_fjrip")
 action = "space"
+
+[node name="MantleContainer" type="Control" parent="Mobile Controls" unique_id=1843823714]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -180.0
+offset_right = -202.0
+offset_bottom = -52.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 0
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Mobile Controls/MantleContainer" unique_id=1540873246]
+texture_normal = ExtResource("7_mantle_normal")
+texture_pressed = ExtResource("8_mantle_pressed")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1654876221]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -395,3 +428,8 @@ theme_override_font_sizes/bold_italics_font_size = 100
 theme_override_font_sizes/italics_font_size = 100
 theme_override_font_sizes/mono_font_size = 100
 text = "WON"
+
+[connection signal="gui_input" from="Mobile Controls/TouchLookArea" to="." method="_on_touch_look_area_gui_input"]
+[connection signal="gui_input" from="Mobile Controls/JumpContainer" to="." method="_on_jump_container_gui_input"]
+[connection signal="gui_input" from="Mobile Controls/MantleContainer" to="." method="_on_mantle_container_gui_input"]
+[connection signal="pressed" from="Mobile Controls/MantleContainer/TouchScreenButton" to="." method="_on_mantle_button_pressed"]

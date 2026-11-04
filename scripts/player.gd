@@ -1,6 +1,6 @@
 extends CharacterBody3D
 @export var mouse_sensitivity: float = 0.005
-@export var touch_sensitivity: float = 0.003
+@export var touch_sensitivity: float = 0.004
 @export var anim_transition_time: float = 0.5
 @onready var camera: Camera3D = $Camera3D
 @onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
@@ -25,9 +25,8 @@ signal player_won(peer_id: int)
 var is_dead: bool = false
 var has_won: bool = false
 var death_handled: bool = false
-var joystick_touch_index: int = -1
-var jump_touch_index: int = -1
 var look_touch_index: int = -1
+var last_touch_pos: Vector2 = Vector2.ZERO
 @export var is_spectator: bool = false
 @export var spectator_speed: float = 14.0
 
@@ -67,31 +66,6 @@ var legding_rn = false
 func _is_touch_enabled() -> bool:
 	if has_node("/root/PlayerCustomization"):
 		return get_node("/root/PlayerCustomization").show_touch_controls
-	return false
-
-func _is_event_on_jump_button(event: InputEvent) -> bool:
-	if not mobile_controls or not mobile_controls.visible:
-		return false
-	var tsb = mobile_controls.get_node_or_null("JumpContainer/TouchScreenButton")
-	if tsb and tsb.is_visible_in_tree():
-		var local_ev = tsb.make_input_local(event)
-		var size = tsb.texture_normal.get_size() if tsb.texture_normal else Vector2(128, 128)
-		return Rect2(Vector2.ZERO, size).grow(35.0).has_point(local_ev.position)
-	return false
-
-func _is_event_on_joystick(event: InputEvent) -> bool:
-	if not mobile_controls or not mobile_controls.visible:
-		return false
-	var vj = mobile_controls.get_node_or_null("VirtualJoystick")
-	if vj and vj.is_visible_in_tree():
-		var local_ev = vj.make_input_local(event)
-		return Rect2(Vector2.ZERO, vj.size).grow(50.0).has_point(local_ev.position)
-	return false
-
-func _is_event_on_left_side(event: InputEvent) -> bool:
-	if event is InputEventScreenTouch or event is InputEventScreenDrag:
-		var screen_width = get_viewport().get_visible_rect().size.x
-		return event.position.x < screen_width * 0.45
 	return false
 
 ## Steuert, ob sich der Spieler bewegen und umsehen kann (wird bei Rundenstart aktiviert)
@@ -185,61 +159,62 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 		return
 
+	if not is_dead and not is_spectator:
+		if not touch_enabled and Input.is_action_just_pressed("left_click") and ray_cast_3d.is_colliding():
+			ledge_boost()
+
+
+func _on_touch_look_area_gui_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
-		if event.pressed:
-			if _is_event_on_jump_button(event):
-				jump_touch_index = event.index
-				if look_touch_index == event.index:
-					look_touch_index = -1
-			elif _is_event_on_joystick(event) or _is_event_on_left_side(event):
-				joystick_touch_index = event.index
-				if look_touch_index == event.index:
-					look_touch_index = -1
-			else:
-				# Right side touch outside jump button -> Camera Look
-				if look_touch_index == -1 and event.index != joystick_touch_index and event.index != jump_touch_index:
-					look_touch_index = event.index
-		else:
-			if event.index == jump_touch_index:
-				jump_touch_index = -1
-			if event.index == joystick_touch_index:
-				joystick_touch_index = -1
+		if not event.pressed:
 			if event.index == look_touch_index:
 				look_touch_index = -1
-
-	if event is InputEventScreenDrag:
-		# If this drag belongs to Jump or Joystick, it must NEVER rotate the camera
-		if event.index == jump_touch_index or event.index == joystick_touch_index:
+				last_touch_pos = Vector2.ZERO
 			return
 
-		# Extra check: if this drag is on jump or joystick, claim the role and discard camera rotation
-		if _is_event_on_jump_button(event):
-			jump_touch_index = event.index
-			if look_touch_index == event.index:
-				look_touch_index = -1
+		if not is_multiplayer_authority() or not can_move or not _is_touch_enabled():
+			return
+		if is_dead or is_spectator or look_touch_index != -1:
 			return
 
-		if _is_event_on_joystick(event) or _is_event_on_left_side(event):
-			joystick_touch_index = event.index
-			if look_touch_index == event.index:
-				look_touch_index = -1
+		# A new look finger starts with no delta; the first drag starts from this point.
+		look_touch_index = event.index
+		last_touch_pos = event.position
+		return
+
+	if event is InputEventScreenDrag and event.index == look_touch_index:
+		if not is_multiplayer_authority() or not can_move or not _is_touch_enabled() or is_dead or is_spectator:
+			look_touch_index = -1
+			last_touch_pos = Vector2.ZERO
 			return
 
-		# If no look finger is tracked yet, claim it
-		if look_touch_index == -1:
-			look_touch_index = event.index
+		var delta: Vector2 = event.position - last_touch_pos
+		last_touch_pos = event.position
+		var dx := clampf(delta.x, -80.0, 80.0)
+		var dy := clampf(delta.y, -80.0, 80.0)
+		rotate_y(-dx * touch_sensitivity)
+		camera.rotate_x(-dy * touch_sensitivity)
+		camera.rotation.x = clamp(camera.rotation.x, -PI / 2, PI / 2)
 
-		if event.index == look_touch_index:
-			var dx = clampf(event.relative.x, -80.0, 80.0)
-			var dy = clampf(event.relative.y, -80.0, 80.0)
-			rotate_y(-dx * touch_sensitivity)
-			camera.rotate_x(-dy * touch_sensitivity)
-			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
-	if not is_dead and not is_spectator:
-		var is_touch_ledge = (event is InputEventScreenTouch and event.pressed and event.index == look_touch_index)
-		if (Input.is_action_just_pressed("left_click") or is_touch_ledge) and ray_cast_3d.is_colliding():
-			ledge_boost()
+func _on_jump_container_gui_input(_event: InputEvent) -> void:
+	var jump_container := mobile_controls.get_node_or_null("JumpContainer") as Control
+	if jump_container:
+		jump_container.accept_event()
+
+
+func _on_mantle_container_gui_input(_event: InputEvent) -> void:
+	var mantle_container := mobile_controls.get_node_or_null("MantleContainer") as Control
+	if mantle_container:
+		mantle_container.accept_event()
+
+
+func _on_mantle_button_pressed() -> void:
+	if not is_multiplayer_authority() or not can_move or not _is_touch_enabled():
+		return
+	if is_dead or is_spectator or not ray_cast_3d.is_colliding():
+		return
+	ledge_boost()
 
 
 func _physics_process(delta: float) -> void:
@@ -379,9 +354,8 @@ func _handle_death() -> void:
 	if death_handled:
 		return
 	death_handled = true
-	joystick_touch_index = -1
-	jump_touch_index = -1
 	look_touch_index = -1
+	last_touch_pos = Vector2.ZERO
 	is_dead = true
 	is_spectator = true
 	velocity = Vector3.ZERO
@@ -444,9 +418,8 @@ func respawn_rpc(spawn_pos: Vector3 = Vector3(0.0, 1.8, 3.0)) -> void:
 
 func _handle_respawn(spawn_pos: Vector3) -> void:
 	death_handled = false
-	joystick_touch_index = -1
-	jump_touch_index = -1
 	look_touch_index = -1
+	last_touch_pos = Vector2.ZERO
 	is_dead = false
 	is_spectator = false
 	has_won = false
