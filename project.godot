@@ -31,11 +31,6 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=2
 
-[input_devices]
-
-pointing/emulate_touch_from_mouse=true
-pointing/emulate_mouse_from_touch=true
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/go_placer/plugin.cfg", "res://addons/netfox.internals/plugin.cfg", "res://addons/netfox.noray/plugin.cfg", "res://addons/tube/plugin.cfg")
@@ -93,6 +88,11 @@ left_click={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
