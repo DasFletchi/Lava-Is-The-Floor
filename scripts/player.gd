@@ -24,6 +24,7 @@ signal player_won(peer_id: int)
 var is_dead: bool = false
 var has_won: bool = false
 var death_handled: bool = false
+var look_touch_index: int = -1
 @export var is_spectator: bool = false
 @export var spectator_speed: float = 14.0
 
@@ -144,17 +145,28 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
+	if event is InputEventScreenTouch:
+		if event.pressed:
+			var screen_width = get_viewport().get_visible_rect().size.x
+			if event.position.x >= screen_width * 0.4 and look_touch_index == -1:
+				look_touch_index = event.index
+		else:
+			if event.index == look_touch_index:
+				look_touch_index = -1
+
 	if event is InputEventScreenDrag:
-		rotate_y(-event.relative.x * mouse_sensitivity)
-		camera.rotate_x(-event.relative.y * mouse_sensitivity)
-		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+		if event.index == look_touch_index:
+			rotate_y(-event.relative.x * mouse_sensitivity)
+			camera.rotate_x(-event.relative.y * mouse_sensitivity)
+			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
 	if event is InputEventMouseMotion:
 		if DisplayServer.get_name() != "headless":
 			if not touch_enabled and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 				return
-			if touch_enabled and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-				return
+			if touch_enabled:
+				if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or look_touch_index != -1:
+					return
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		camera.rotate_x(-event.relative.y * mouse_sensitivity)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
@@ -301,6 +313,7 @@ func _handle_death() -> void:
 	if death_handled:
 		return
 	death_handled = true
+	look_touch_index = -1
 	is_dead = true
 	is_spectator = true
 	velocity = Vector3.ZERO
@@ -363,6 +376,7 @@ func respawn_rpc(spawn_pos: Vector3 = Vector3(0.0, 1.8, 3.0)) -> void:
 
 func _handle_respawn(spawn_pos: Vector3) -> void:
 	death_handled = false
+	look_touch_index = -1
 	is_dead = false
 	is_spectator = false
 	has_won = false
