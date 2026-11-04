@@ -1,5 +1,6 @@
 extends CharacterBody3D
 @export var mouse_sensitivity: float = 0.005
+@export var touch_sensitivity: float = 0.003
 @export var anim_transition_time: float = 0.5
 @onready var camera: Camera3D = $Camera3D
 @onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
@@ -64,6 +65,15 @@ var legding_rn = false
 func _is_touch_enabled() -> bool:
 	if has_node("/root/PlayerCustomization"):
 		return get_node("/root/PlayerCustomization").show_touch_controls
+	return false
+
+func _is_touch_on_jump_button(touch_pos: Vector2) -> bool:
+	if not mobile_controls or not mobile_controls.visible:
+		return false
+	var jump_container = mobile_controls.get_node_or_null("JumpContainer")
+	if jump_container and jump_container.is_visible_in_tree():
+		var rect = jump_container.get_global_rect()
+		return rect.grow(20.0).has_point(touch_pos)
 	return false
 
 ## Steuert, ob sich der Spieler bewegen und umsehen kann (wird bei Rundenstart aktiviert)
@@ -145,34 +155,46 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
+	# In touch mode, ignore mouse motion completely so synthetic browser mouse events never tweak the camera
+	if event is InputEventMouseMotion:
+		if touch_enabled:
+			return
+		if DisplayServer.get_name() != "headless":
+			if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+				return
+		rotate_y(-event.relative.x * mouse_sensitivity)
+		camera.rotate_x(-event.relative.y * mouse_sensitivity)
+		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
+		return
+
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			var screen_width = get_viewport().get_visible_rect().size.x
-			if event.position.x >= screen_width * 0.4 and look_touch_index == -1:
-				look_touch_index = event.index
+			# Touch must start on the right half (>= 40% of screen) and NOT on the jump button
+			if event.position.x >= screen_width * 0.4 and not _is_touch_on_jump_button(event.position):
+				if look_touch_index == -1:
+					look_touch_index = event.index
 		else:
 			if event.index == look_touch_index:
 				look_touch_index = -1
 
 	if event is InputEventScreenDrag:
+		# If no look finger is tracked yet, claim it if dragging in the look zone
+		if look_touch_index == -1:
+			var screen_width = get_viewport().get_visible_rect().size.x
+			if event.position.x >= screen_width * 0.4 and not _is_touch_on_jump_button(event.position):
+				look_touch_index = event.index
+
 		if event.index == look_touch_index:
-			rotate_y(-event.relative.x * mouse_sensitivity)
-			camera.rotate_x(-event.relative.y * mouse_sensitivity)
+			var dx = clampf(event.relative.x, -120.0, 120.0)
+			var dy = clampf(event.relative.y, -120.0, 120.0)
+			rotate_y(-dx * touch_sensitivity)
+			camera.rotate_x(-dy * touch_sensitivity)
 			camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 
-	if event is InputEventMouseMotion:
-		if DisplayServer.get_name() != "headless":
-			if not touch_enabled and Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
-				return
-			if touch_enabled:
-				if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or look_touch_index != -1:
-					return
-		rotate_y(-event.relative.x * mouse_sensitivity)
-		camera.rotate_x(-event.relative.y * mouse_sensitivity)
-		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
-
 	if not is_dead and not is_spectator:
-		if (Input.is_action_just_pressed("left_click") or (event is InputEventScreenTouch and event.pressed)) and ray_cast_3d.is_colliding():
+		var is_touch_ledge = (event is InputEventScreenTouch and event.pressed and (event.index == look_touch_index or look_touch_index == -1) and not _is_touch_on_jump_button(event.position))
+		if (Input.is_action_just_pressed("left_click") or is_touch_ledge) and ray_cast_3d.is_colliding():
 			ledge_boost()
 
 
